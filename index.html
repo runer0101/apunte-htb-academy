@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intro to Network Traffic Analysis — Apunte HTB Academy (Secciones 1-3)</title>
+
+<!-- SEO / redes sociales -->
+<meta name="description" content="Apunte en español del módulo Intro to Network Traffic Analysis de HTB Academy. Secciones 1 a 3 con las 17 preguntas del quiz, respuesta en inglés, traducción al español y explicación de por qué cada respuesta es correcta.">
+<meta name="author" content="apunte-htb-academy">
+<meta name="keywords" content="HTB Academy, network traffic analysis, NTA, BPF, OSI, TCP/IP, Wireshark, tcpdump, TShark, examen HTB, apunte, networking">
+<meta name="theme-color" content="#fafafa">
+<link rel="canonical" href="https://runer0101.github.io/apunte-htb-academy/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="apunte-htb-academy">
+<meta property="og:url" content="https://runer0101.github.io/apunte-htb-academy/">
+<meta property="og:title" content="Intro to Network Traffic Analysis — Apunte HTB Academy">
+<meta property="og:description" content="Secciones 1 a 3 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Intro to Network Traffic Analysis — Apunte HTB Academy">
+<meta name="twitter:description" content="Secciones 1 a 3 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+<a href="#contenido" class="sr-only">Saltar al contenido</a>
+
+<!-- ============ Barra superior ============ -->
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy <span class="bs">NTA</span>
+    </span>
+
+    <nav class="navlinks" aria-label="Secciones">
+      <a href="#sec1">Sección 1</a>
+      <a href="#sec2">Sección 2</a>
+      <a href="#sec3">Sección 3</a>
+      <a href="#respuestas">Respuestas</a>
+    </nav>
+
+    <div class="tools">
+      <button class="iconbtn" data-theme-toggle title="Cambiar entre tema claro y oscuro" aria-label="Cambiar tema">
+        <svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="contenido">
+
+  <!-- ============ Portada ============ -->
+  <div class="hero">
+    <div class="eyebrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy · Intro to Network Traffic Analysis
+    </div>
+    <h1>Análisis de Tráfico de Red</h1>
+    <p class="lede">La idea que atraviesa todo el módulo: <b>para detectar algo raro necesitas primero saber qué es lo normal.</b> Por eso todo empieza estableciendo una línea base.</p>
+
+    <div class="hero-meta">
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 9v11"/></svg>
+        Módulo de <b>15 secciones</b>
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <b>3</b> secciones documentadas
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        <b>17</b> preguntas con explicación
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+        Respuestas en <b>inglés</b>, explicación en español
+      </span>
+    </div>
+
+    <div class="track">
+      <div class="track-h">
+        <span class="tt">Progreso del módulo</span>
+        <span class="tn">3 / 15 secciones · 20 %</span>
+      </div>
+      <div class="track-bar" role="img" aria-label="3 de 15 secciones completadas">
+        <i style="width:6.67%"></i><i class="todo" style="width:93.33%"></i>
+      </div>
+      <div class="track-legend">Cada bloque verde es una sección ya documentada. Las 12 restantes se irán añadiendo a medida que se publiquen en HTB Academy.</div>
+    </div>
+  </div>
+
+  <!-- ============ Índice ============ -->
+  <section id="indice">
+    <h2>Índice</h2>
+    <p class="sub">Todo lo que hay en esta página, en orden de lectura.</p>
+    <div class="toc">
+      <a class="toc-item" href="#sec1">
+        <span class="tn">Sección 1</span>
+        <span class="tt">Fundamentos de NTA</span>
+        <span class="ts">Qué es NTA, la línea base, herramientas, visibilidad y el flujo de trabajo de 5 pasos.</span>
+        <span class="tc">6 apartados · sin preguntas</span>
+      </a>
+      <a class="toc-item" href="#sec2">
+        <span class="tn">Sección 2</span>
+        <span class="tt">Manual básico: capas 1-4</span>
+        <span class="ts">Modelos OSI y TCP/IP, encapsulación, direccionamiento MAC/IP y TCP frente a UDP.</span>
+        <span class="tc">6 apartados · 9 preguntas</span>
+      </a>
+      <a class="toc-item" href="#sec3">
+        <span class="tn">Sección 3</span>
+        <span class="tt">Manual básico: capas 5-7</span>
+        <span class="ts">HTTP y sus métodos, HTTPS con TLS, FTP en modo activo y pasivo, y SMB.</span>
+        <span class="tc">4 apartados · 8 preguntas</span>
+      </a>
+      <a class="toc-item" href="#respuestas">
+        <span class="tn">Quiz</span>
+        <span class="tt">Las 17 preguntas y respuestas</span>
+        <span class="ts">Pregunta en inglés, traducción, respuesta y el porqué de cada respuesta.</span>
+        <span class="tc">9 + 8 preguntas</span>
+      </a>
+    </div>
+
+    <div class="legend">
+      <div class="lg">
+        <span class="lgn">2 / 15</span>
+        <span class="lgt">Eso es <b>sección 2 de 15 secciones</b>, no la pregunta 2 de 15. Cada sección tiene su propio bloque de preguntas y su propio contador: la 2 tiene 9, la 3 tiene 8. Dentro de la sección 2, la pregunta 2 es la del número de capas del modelo TCP/IP.</span>
+      </div>
+      <div class="lg en">
+        <span class="lgn">EN</span>
+        <span class="lgt">Las respuestas van <b>en inglés</b> aunque el módulo esté en español, y sin tildes. Los números van solos, sin palabras ni unidades.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN 1
+       ============================================================ -->
+  <div class="part" id="sec1">Sección 1 <span>Fundamentos de NTA</span></div>
+
+  <!-- ---------- 1.1 Qué es NTA ---------- -->
+  <section>
+    <h2>Qué es NTA</h2>
+    <p class="sub">Examinar el tráfico de red para <b>caracterizar los puertos y protocolos comunes</b>, establecer una <b>línea base</b>, monitorear y responder a amenazas, y asegurar la mayor visibilidad posible de tu red.</p>
+    <p class="sub">El problema: los atacantes usan herramientas y credenciales legítimas que la mayoría de las empresas ya permiten en su red. Si algo ya está permitido, filtrarlo por política no sirve. <b>NTA lo detecta por comportamiento, no por permiso.</b></p>
+
+    <div class="uses">
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+        <p><b>Recolectar tráfico</b> en tiempo real dentro de la red para analizar amenazas futuras.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 9 4-18 3 9h4"/></svg></span>
+        <p><b>Establecer una línea base</b> para las comunicaciones de red diarias.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <p><b>Identificar puertos no estándar</b>, hosts sospechosos y problemas de protocolo: errores HTTP, problemas de TCP, configuraciones incorrectas.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg></span>
+        <p><b>Detectar malware</b>: ransomware, exploits e interacciones no estándar.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v3l2 2"/></svg></span>
+        <p><b>Investigar incidentes pasados</b> y durante la caza de amenazas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.2 Línea base ---------- -->
+  <section>
+    <h2>La línea base, y por qué es la clave de todo</h2>
+    <p class="sub">Para detectar tráfico malicioso necesitas conocer el tráfico típico de tu enclave. Sin esa referencia, un SYN en el puerto 3306 no significa nada. Con ella, significa todo.</p>
+    <p class="sub">El ejemplo del módulo: si ves <b>muchos paquetes SYN en puertos que nunca usáis</b>, lo más probable es que alguien esté intentando determinar qué puertos están abiertos en vuestros hosts. Eso es un <b>portscan</b>.</p>
+
+    <div class="cmp">
+      <div class="pane">
+        <div class="pane-h"><span class="t">Línea base normal</span><span class="s">80 % del tráfico</span></div>
+        <div class="strip">
+          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:70%"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:55%"></div></div>
+          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:40%"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:22</span><div class="bar" style="width:24%"></div></div>
+          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:18%"></div></div>
+        </div>
+        <div class="verdict">Pocos puertos, muy repetidos. Es lo que tu red hace siempre.</div>
+      </div>
+      <div class="pane bad">
+        <div class="pane-h"><span class="t">Posible portscan</span><span class="s">mismo origen · 30 s</span></div>
+        <div class="strip">
+          <div class="pk"><span class="f">SYN</span><span class="p">:21</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:23</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:25</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:445</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:3306</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:3389</span><div class="bar"></div></div>
+        </div>
+        <div class="verdict"><b>Muchos puertos distintos, casi ninguno habitual.</b> Nadie necesita 6 conexiones en 30 segundos. Un humano no abre eso.</div>
+      </div>
+    </div>
+
+    <div class="trap">
+      <b>La pregunta que guía todo el módulo:</b> ¿había <b>muchos paquetes SYN</b> (con y sin respuesta ACK) en puertos que nunca o rara vez usáis? Si sí, hay alguien mapeando la red. Requiere conocimiento concreto: no basta con tener la teoría, hay que saber <b>qué buscar</b>.
+    </div>
+  </section>
+
+  <!-- ---------- 1.3 Herramientas ---------- -->
+  <section>
+    <h2>Herramientas de análisis</h2>
+    <p class="sub">Cada una aporta una forma distinta de capturar o disecar tráfico. Ojo a la nota del módulo: <b>no son solo para administradores</b> — muchas se pueden usar con fines maliciosos.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-h"><span class="n">1</span><span class="t">Analizadores de paquetes — leen y decodifican</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">tcpdump</td><td>Utilidad de línea de comandos. Con ayuda de <b>LibPcap</b> captura e interpreta tráfico desde una interfaz de red o desde un archivo de captura.</td></tr>
+            <tr><td class="tool">TShark</td><td>Muy parecido a tcpdump. Captura en vivo o lee y decodifica desde un archivo. Es la <b>variante de línea de comandos de Wireshark</b>.</td></tr>
+            <tr><td class="tool">Wireshark</td><td>Analizador <b>gráfico</b>. Ejecuta muchos disectores contra el tráfico para caracterizar protocolos y aplicaciones. Es el que verás en el módulo.</td></tr>
+            <tr><td class="tool">NGrep</td><td>Como <b>grep</b> pero sobre paquetes de red. Entiende PCAP y regex + sintaxis BPF. Brilla depurando tráfico en claro de HTTP y FTP.</td></tr>
+            <tr><td class="tool">tcpick</td><td>Sniffer que se especializa en <b>rastrear y reensamblar flujos TCP</b>. Excelente para leer un flujo y reensamblarlo en un archivo.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tier">
+        <div class="tier-h"><span class="n">2</span><span class="t">Infraestructura de captura — obtienen copias del tráfico</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">Network Taps</td><td>Dispositivos que toman <b>copias</b> del tráfico y las envían a otro sitio para análisis. En línea o fuera de banda. Activos (analizan) o pasivos (devuelven el paquete original como si nada).</td></tr>
+            <tr><td class="tool">Span Ports</td><td>Copia tramas de dispositivos de <b>capa 2 o 3</b> durante el egreso o ingreso y las envía a un punto de recolección. Un puerto espejado a un servidor de logs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tier">
+        <div class="tier-h"><span class="n">3</span><span class="t">Agregación y análisis — muchos datos, un solo lugar</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">Elastic Stack</td><td>Conjunto de herramientas que toman datos de <b>muchas fuentes</b>, los ingieren y los visualizan para permitir búsqueda y análisis.</td></tr>
+            <tr><td class="tool">SIEM</td><td>Punto central donde los datos se analizan y visualizan (como Splunk). Alertas, forense y comprobaciones diarias.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.4 Visibilidad ---------- -->
+  <section>
+    <h2>Dónde te conectas importa más que qué usas</h2>
+    <p class="sub">Para escuchar pasivamente necesitas estar conectado al segmento que quieres escuchar. En un entorno conmutado esto es crítico, porque las VLAN y los puertos del switch <b>no reenvían tráfico fuera de su dominio de difusión</b>.</p>
+    <div class="card vis">
+      <div class="visrow">
+        <span class="lbl"><b>Enlace troncal</b>trunk link</span>
+        <span class="val">Ves <b>todo</b> el tráfico de todas las VLANs mezclado. Mucho más volumen, y muy diferente a lo habitual.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>Puerto de switch</b>de oficina</span>
+        <span class="val">Solo ves el tráfico de <b>esa</b> VLAN. Es lo normal, y por eso es más difícil detectar lo anómalo.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>Consecuencia</b>de no pensarlo</span>
+        <span class="val">Si quieres capturar una VLAN concreta, <b>tu dispositivo debe estar en esa misma red</b>. Si no, no verás nada — no es que no pase, es que no llega a tu interfaz.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>La solución</b>taps y span ports</span>
+        <span class="val">Permiten obtener copia de todo el tráfico que atraviesa un enlace concreto, <b>independientemente del segmento o destino</b>. Eso rompe la limitación del dominio de difusión.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.5 Flujo de trabajo ---------- -->
+  <section>
+    <h2>El flujo de trabajo de NTA</h2>
+    <p class="sub">No es ciencia exacta ni un bucle directo. Está muy influenciado por lo que buscas (¿errores de red o acciones maliciosas?) y por dónde tienes visibilidad. Se reduce a cinco principios. Púlsalos en orden.</p>
+    <div class="card wf">
+      <div class="wsteps" id="wsteps"></div>
+      <div class="wbody" id="wbody"></div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.6 BPF ---------- -->
+  <section>
+    <h2>Sintaxis BPF</h2>
+    <p class="sub">Casi todas las herramientas anteriores comparten un lenguaje de filtros: el <b>Berkeley Packet Filter</b>. Es el método principal del módulo. BPF permite que una interfaz <i>raw</i> lea y escriba desde la capa de Enlace de Datos.</p>
+
+    <div class="card bpf">
+      <p class="mono filt"><span class="t-proto">tcp</span> <span class="t-dir">dst</span> <span class="t-type">port</span> <span class="t-val">443</span> <span class="t-op">and</span> <span class="t-dir">src</span> <span class="t-type">host</span> <span class="t-val">10.0.0.5</span> <span class="t-op">and</span> <span class="t-op">not</span> <span class="t-type">port</span> <span class="t-val">22</span></p>
+
+      <div class="annot">
+        <div class="an"><b>Protocolo</b><p><code>tcp, udp, ip, ip6, arp, icmp, ether</code> — restringe a ese protocolo. Es el primer calificador.</p></div>
+        <div class="an"><b>Dirección</b><p><code>src, dst, src or dst</code> — si lo omites, coincide en ambos sentidos.</p></div>
+        <div class="an"><b>Tipo</b><p><code>host, net, port, portrange</code> — es el último calificador. Sin tipo, se asume <code>host</code>.</p></div>
+        <div class="an"><b>Operadores</b><p><code>and / or / not</code> — también <code>&amp;&amp; || !</code>. Agrupan con paréntesis.</p></div>
+      </div>
+
+      <div class="trap">
+        <b>La trampa que muerde a los expertos:</b> en BPF <code>and</code> y <code>or</code> tienen <b>la misma precedencia</b> y se leen de izquierda a derecha. Así que <code>host X and port 80 or port 443</code> significa <i>(X y 80) o (443 de cualquiera)</i>. Pon siempre paréntesis: <code>host X and (port 80 or port 443)</code>.
+      </div>
+
+      <div class="annot" style="margin-top:24px">
+        <div class="an"><b>Solo escaneos</b><p><code>'tcp[tcpflags] &amp; tcp-syn != 0 and tcp[tcpflags] &amp; tcp-ack == 0'</code> — intentos de conexión sin respuesta. Es así como ves un portscan en marcha.</p></div>
+        <div class="an"><b>Todo el tráfico de una subred</b><p><code>'net 10.0.0.0/24'</code> — o con <code>src net</code> / <code>dst net</code> para separar salida de entrada.</p></div>
+        <div class="an"><b>Quitar el ruido</b><p><code>'not arp'</code> o <code>'not broadcast'</code> — es el paso 2 del flujo de trabajo.</p></div>
+        <div class="an"><b>Rango de puertos</b><p><code>'portrange 8000-8100'</code> — útil para buscar puertos no estándar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN 2
+       ============================================================ -->
+  <div class="part" id="sec2">Sección 2 <span>Manual básico: Capas 1-4</span></div>
+
+  <!-- ---------- 2.1 Modelos ---------- -->
+  <section>
+    <h2>Modelos OSI / TCP-IP</h2>
+    <p class="sub">OSI es <b>la teoría</b> detrás de cómo funciona todo. TCP/IP está más alineado con la <b>funcionalidad real</b> de las redes: más combinado, con reglas flexibles.</p>
+
+    <div class="card" style="margin-bottom:20px">
+      <table>
+        <thead><tr><th>Característica</th><th>OSI</th><th>TCP/IP</th></tr></thead>
+        <tbody>
+          <tr><td>Capas</td><td><b>Siete</b></td><td><b>Cuatro</b></td></tr>
+          <tr><td>Flexibilidad</td><td>Estricto</td><td>Flexible</td></tr>
+          <tr><td>Dependencia</td><td>Independiente del protocolo y genérico</td><td>Basado en protocolos de comunicación comunes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sub" style="margin-top:22px;margin-bottom:12px"><b>Anclas de memoria.</b> Todos los números que te preguntan en esta sección salen de aquí. Si retienes esta tarjeta, retienes las preguntas:</p>
+    <div class="anchors">
+      <div class="an2"><div class="av">7</div><div class="al">capas del modelo OSI</div></div>
+      <div class="an2"><div class="av">4</div><div class="al">capas del modelo TCP/IP</div></div>
+      <div class="an2"><div class="av">3</div><div class="al">capa donde un PDU se vuelve paquete</div></div>
+      <div class="an2"><div class="av">48</div><div class="al">bits de una MAC (6 oct, hex)</div></div>
+      <div class="an2"><div class="av">32</div><div class="al">bits de una IPv4 (4 oct, dec)</div></div>
+      <div class="an2"><div class="av">128</div><div class="al">bits de una IPv6 (16 oct, hex)</div></div>
+      <div class="an2"><div class="av" style="color:var(--l3)">False</div><div class="al">routers en la capa 2 → capa 3</div></div>
+      <div class="an2"><div class="av" style="color:var(--l2)">UDP</div><div class="al">transporte no fiable</div></div>
+    </div>
+    <p class="sub" style="margin-top:0"><b>La única que exige formato exacto:</b> la del mecanismo de direccionamiento en la capa Link se escribe <code>MAC-addressing</code>, con guion. Sin guion la marca como incorrecta aunque el concepto sea exacto.</p>
+
+    <div class="card stack2">
+      <div class="grid2">
+        <div class="l" style="grid-column:1;grid-row:1"><span class="n">7</span><span class="nm">Aplicación</span><span class="pdu">Datos</span></div>
+        <div class="l" style="grid-column:1;grid-row:2"><span class="n">6</span><span class="nm">Presentación</span><span class="pdu">Datos</span></div>
+        <div class="l" style="grid-column:1;grid-row:3"><span class="n">5</span><span class="nm">Sesión</span><span class="pdu">Datos</span></div>
+        <div class="l hot" style="grid-column:1;grid-row:4"><span class="n">4</span><span class="nm">Transporte</span><span class="pdu">Segmento</span></div>
+        <div class="l hot" style="grid-column:1;grid-row:5"><span class="n">3</span><span class="nm">Red</span><span class="pdu">Paquete</span></div>
+        <div class="l" style="grid-column:1;grid-row:6"><span class="n">2</span><span class="nm">Enlace de Datos</span><span class="pdu">Trama</span></div>
+        <div class="l" style="grid-column:1;grid-row:7"><span class="n">1</span><span class="nm">Física</span><span class="pdu">Bits</span></div>
+
+        <div class="brace" style="grid-column:2;grid-row:1/span 3"></div>
+        <div class="t" style="grid-column:3;grid-row:1/span 3"><span class="nm">Aplicación</span><span class="a">4 · HTTP, DNS, TLS</span></div>
+        <div class="brace" style="grid-column:2;grid-row:4"></div>
+        <div class="t" style="grid-column:3;grid-row:4"><span class="nm">Transporte</span><span class="a">3 · TCP, UDP, puertos</span></div>
+        <div class="brace" style="grid-column:2;grid-row:5"></div>
+        <div class="t" style="grid-column:3;grid-row:5"><span class="nm">Internet</span><span class="a">2 · IPv4, IPv6, ICMP</span></div>
+        <div class="brace" style="grid-column:2;grid-row:6/span 2"></div>
+        <div class="t" style="grid-column:3;grid-row:6/span 2"><span class="nm">Enlace</span><span class="a">1 · MAC, ARP, Ethernet</span></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:18px">Las capas 1 a 4 del OSI controlan el <b>transporte de datos entre hosts</b>: desde el medio físico hasta el protocolo que gestiona la conversación, o la ausencia de ella. Las capas 5 a 7 se encargan de la <b>interpretación, gestión y presentación</b> de los datos ya encapsulados.</p>
+  </section>
+
+  <!-- ---------- 2.2 Encapsulación ---------- -->
+  <section>
+    <h2>Encapsulación y PDU</h2>
+    <p class="sub">Una PDU es una unidad de datos con información de control y datos encapsulados de cada capa. A medida que los datos <b>descienden</b> por la pila, cada capa envuelve los de la anterior en una burbuja nueva y pega su información en la cabecera. Pulsa <b>Bajar</b> — también funciona con las flechas del teclado.</p>
+    <div class="card enc">
+      <div class="wire" id="wire"></div>
+      <div class="bar" id="bar"></div>
+      <div class="stepbox" id="stepbox"></div>
+      <div class="ctrls">
+        <button id="prev" type="button">Subir</button>
+        <button id="next" type="button" class="pri">Bajar</button>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="hsnote" style="border-top:1px solid var(--line)"><b>Detalle de Wireshark:</b> el panel de detalles te muestra la PDU en orden <b>inverso</b>, porque ese es el orden en que fue desencapsulada al llegar al host.</div>
+    </div>
+  </section>
+
+  <!-- ---------- 2.3 Direccionamiento ---------- -->
+  <section>
+    <h2>Mecanismos de direccionamiento</h2>
+    <p class="sub">MAC en capa 2 para moverse dentro de tu LAN. IP en capa 3 para cruzar redes. Son dos preguntas distintas y por eso hay dos direcciones.</p>
+
+    <div class="card bits" style="margin-bottom:20px">
+      <div class="bit"><span class="bn">MAC</span><div class="bt"><div class="bf" style="width:37.5%"></div></div><span class="bv">48 bits · 6 oct · hex</span></div>
+      <div class="bit"><span class="bn">IPv4</span><div class="bt"><div class="bf" style="width:25%"></div></div><span class="bv">32 bits · 4 oct · dec</span></div>
+      <div class="bit"><span class="bn">IPv6</span><div class="bt"><div class="bf" style="width:100%"></div></div><span class="bv">128 bits · 16 oct · hex</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:0"><b>MAC.</b> Cada interfaz lógica o física de un host tiene una. El direccionamiento MAC se usa en comunicaciones de <b>capa 2</b>, host a host dentro de un <b>dominio de difusión</b>. Si el tráfico necesita cruzar una interfaz de capa 3, la PDU se envía a la interfaz de egreso del router: en capa 2 parece dirigida al router, y <b>él quita esa encapsulación y la reemplaza con la siguiente dirección física de la ruta</b>.</p>
+    <p class="sub" style="margin-top:0"><b>IP.</b> Se desarrolló para entregar datos de un host a otro <b>a través de las fronteras de la red</b>. IP es responsable del enrutamiento, la encapsulación, y la fragmentación y reensamblaje de datagramas. <b>Por naturaleza es sin conexión y no garantiza nada</b> — para la fiabilidad delega en TCP.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Tipo de dirección IPv6</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td class="tool">Unicast</td><td>Direcciones para una única interfaz. Host a host.</td></tr>
+          <tr><td class="tool">Anycast</td><td>Múltiples interfaces donde <b>solo una</b> recibe el paquete. Piensa en balanceo de carga.</td></tr>
+          <tr><td class="tool">Multicast</td><td>Múltiples interfaces donde <b>todas</b> reciben el mismo paquete. Uno a muchos.</td></tr>
+          <tr><td class="tool">Broadcast</td><td><b>No existe</b> en IPv6. Se realiza con direcciones multicast.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:18px">IPv6 trae un espacio de direcciones mucho mayor, mejor soporte de multicast, direccionamiento global por dispositivo, seguridad en forma de IPSec, y cabeceras simplificadas que permiten pasar de una conexión a otra sin reasignar dirección. Aun así, la adopción global rondaba el <b>40 %</b> cuando se escribió el módulo.</p>
+  </section>
+
+  <!-- ---------- 2.4 TCP vs UDP ---------- -->
+  <section>
+    <h2>TCP / UDP, mecanismos de transporte</h2>
+    <p class="sub">Piensa en la capa de transporte como un <b>centro de control</b>: dirige cómo se encapsula el tráfico hacia IP y MAC, y de vuelta reensambla los datos en el orden correcto.</p>
+    <div class="card">
+      <table>
+        <thead><tr><th>Característica</th><th>TCP</th><th>UDP</th></tr></thead>
+        <tbody>
+          <tr><td>Transmisión</td><td>Orientado a conexión</td><td>Sin conexión. Dispara y olvida.</td></tr>
+          <tr><td>Establecimiento</td><td>Usa un <b>handshake de tres vías</b> para asegurar que se establece conexión.</td><td>No asegura que el destino esté escuchando.</td></tr>
+          <tr><td>Entrega de datos</td><td>Conversaciones basadas en flujos</td><td>Paquete por paquete; al origen no le importa si el destino está activo.</td></tr>
+          <tr><td>Recepción</td><td>Números de secuencia y de acuse de recibo.</td><td>A UDP no le importa.</td></tr>
+          <tr><td>Velocidad</td><td>Más sobrecarga, más lento.</td><td>Rápido pero no fiable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cmp" style="margin-top:18px">
+      <div class="pane">
+        <div class="pane-h"><span class="t">Usa TCP</span><span class="s">integridad &gt; velocidad</span></div>
+        <div class="strip" style="gap:9px">
+          <div class="pk"><span class="p" style="width:70px">SSH</span><span style="font-size:13.5px;color:var(--muted)">Sesión que no se interrumpe mientras escribes comandos</span></div>
+          <div class="pk"><span class="p" style="width:70px">HTTP/S</span><span style="font-size:13.5px;color:var(--muted)">Una página a medio cargar no sirve de nada</span></div>
+          <div class="pk"><span class="p" style="width:70px">passwd</span><span style="font-size:13.5px;color:var(--muted)">Si pierdes parte del comando, corrompes la contraseña</span></div>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-h"><span class="t">Usa UDP</span><span class="s">velocidad &gt; integridad</span></div>
+        <div class="strip" style="gap:9px">
+          <div class="pk"><span class="p" style="width:70px">Vídeo</span><span style="font-size:13.5px;color:var(--muted)">Nadie nota un píxel perdido, sí los parones de buffer</span></div>
+          <div class="pk"><span class="p" style="width:70px">DNS</span><span style="font-size:13.5px;color:var(--muted)">Si se pierde, se vuelve a emitir. Sin daño</span></div>
+          <div class="pk"><span class="p" style="width:70px">DHCP</span><span style="font-size:13.5px;color:var(--muted)">Respuesta rápida o no arranca nada</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 2.5 Handshake ---------- -->
+  <section>
+    <h2>Handshake de tres vías</h2>
+    <p class="sub">Usa las banderas <b>SYN</b> (sincronización) y <b>ACK</b> (acuse de recibo) de la cabecera TCP. El cliente siempre empieza.</p>
+    <div class="card hs">
+      <div class="hsrow"><span class="side">Cliente</span><span class="fl"><span class="flag">SYN</span></span><span class="exp">Sincroniza el número de secuencia. Aquí se negocian <b>window size</b>, <b>MSS</b> y acuses selectivos.</span></div>
+      <div class="hsrow"><span class="side">Servidor</span><span class="fl"><span class="flag">SYN</span><span class="flag">ACK</span></span><span class="exp">Negocia la secuencia y acusa recibo del SYN del cliente.</span></div>
+      <div class="hsrow"><span class="side">Cliente</span><span class="fl"><span class="flag">ACK</span></span><span class="exp">Acepta la negociación. <b>Fin del handshake: conexión establecida.</b></span></div>
+      <div class="hsrow"><span class="side">Datos</span><span class="fl"><span class="flag dim">HTTP</span></span><span class="exp">Ya fluye la sesión, con un ACK por cada trozo recibido.</span></div>
+    </div>
+    <p class="sub" style="margin-top:18px">En la captura del módulo: el handshake empieza en la <b>línea 1</b>. Los puertos <b>57678</b> y <b>80</b> — el primero es un puerto alto aleatorio del cliente, el segundo el puerto bien conocido de HTTP del servidor. Línea 2 es el SYN/ACK, línea 3 el ACK del cliente.</p>
+  </section>
+
+  <!-- ---------- 2.6 Teardown ---------- -->
+  <section>
+    <h2>Cierre de sesión TCP — el flag FIN</h2>
+    <p class="sub">Una sesión bien terminada se ve tan ordenada como empieza. El flag <b>FIN</b> señala que la transferencia de datos terminó y que el emisor pide cerrar la conexión.</p>
+    <div class="card hs">
+      <div class="hsrow"><span class="side">Cliente</span><span class="fl"><span class="flag fin">FIN</span><span class="flag fin">ACK</span></span><span class="exp">Acusa recibo de los datos y pide terminar la sesión.</span></div>
+      <div class="hsrow"><span class="side">Servidor</span><span class="fl"><span class="flag fin">FIN</span><span class="flag fin">ACK</span></span><span class="exp">Acusa el FIN del cliente y envía su propio FIN para cerrar su lado.</span></div>
+      <div class="hsrow"><span class="side">Cliente</span><span class="fl"><span class="flag">ACK</span></span><span class="exp">Acusa recibo de que la sesión está completa y cierra.</span></div>
+    </div>
+    <div class="hsnote" style="border:1px solid var(--line);border-radius:0 0 16px 16px;margin-top:-1px">
+      <b>Patrón esperado antes de la terminación: FIN, ACK → FIN, ACK → ACK.</b> En la forma rigurosa son cuatro paquetes (el ACK del servidor y su FIN viajan separados), pero en la práctica el servidor los fusiona en uno solo, y por eso ves <b>tres</b>. El módulo lo confirma: una salida con este patrón se considera una conexión terminada adecuadamente.<br><br>
+      <b>Para tu análisis:</b> un FIN sin el ACK correspondiente, o una sesión que termina a mitad de transferencia, es un indicador. Un RST abrupto (sin FIN) es aún más sospechoso.
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN 3
+       ============================================================ -->
+  <div class="part" id="sec3">Sección 3 <span>Manual básico: Capas 5-7</span></div>
+
+  <!-- ---------- 3.1 HTTP ---------- -->
+  <section>
+    <h2>HTTP</h2>
+    <p class="sub">Protocolo de capa de aplicación <b>sin estado (stateless)</b> en uso desde 1990. Permite transferir datos <b>en texto plano</b> entre cliente y servidor a través de TCP. El cliente pide un recurso, se establece la sesión, y el servidor responde con HTML, imágenes, hipervínculos o vídeo.</p>
+    <p class="sub">Usa los puertos <b>80</b> o <b>8000</b> sobre TCP en operaciones normales. En circunstancias excepcionales puede usar puertos alternativos o, incluso, UDP.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Método</th><th>Estado</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">HEAD</td><td><span class="req r">Requerido</span></td><td>Método <b>seguro</b>: pide una respuesta similar a GET pero <b>sin el cuerpo del mensaje</b>. Excelente para averiguar información y estado del servidor.</td></tr>
+          <tr><td class="m">GET</td><td><span class="req r">Requerido</span></td><td>El más utilizado. Solicita información y contenido. <code>GET http://10.1.1.1/Webserver/index.html</code> pide esa página concreta.</td></tr>
+          <tr><td class="m">POST</td><td><span class="req o">Opcional</span></td><td>Envía información basándose en los campos de la solicitud: publicar en un foro, enviar un mensaje a una red social. Ojo a los <b>códigos de respuesta</b> para validar la acción.</td></tr>
+          <tr><td class="m">PUT</td><td><span class="req o">Opcional</span></td><td>Coloca los datos adjuntos bajo la URI solicitada: <b>crea o actualiza</b>. Si el objeto existe, lo sobrescribe.</td></tr>
+          <tr><td class="m">DELETE</td><td><span class="req o">Opcional</span></td><td>Elimina el objeto en la URI dada.</td></tr>
+          <tr><td class="m">TRACE</td><td><span class="req o">Opcional</span></td><td>Diagnóstico remoto: el servidor hace <b>eco</b> de la misma solicitud en su respuesta.</td></tr>
+          <tr><td class="m">OPTIONS</td><td><span class="req o">Opcional</span></td><td>Recopila qué métodos HTTP soporta el servidor, <b>sin pedir datos ni objetos</b>.</td></tr>
+          <tr><td class="m">CONNECT</td><td><span class="req o">Opcional</span></td><td>Reservado para proxies y firewalls. Permite la <b>tunelización</b> sobre HTTP (túneles SSL).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="trap">
+      <b>Requerido u opcional no es decoración:</b> por requisito del estándar, <b>GET y HEAD siempre deben existir y funcionar</b>. TRACE, OPTIONS, DELETE, PUT y POST son funcionalidades opcionales que pueden estar permitidas o no. Ejemplo: una web de solo lectura como un blog — el cliente puede pedir recursos, pero no modificarlos ni borrarlos.
+    </div>
+  </section>
+
+  <!-- ---------- 3.2 HTTPS ---------- -->
+  <section>
+    <h2>HTTPS</h2>
+    <p class="sub">HTTP modificado para usar <b>TLS</b> (o SSL en aplicaciones antiguas) para la seguridad de los datos. TLS cifra la comunicación entre cliente y servidor. Lo importante: <b>TLS encapsula el tráfico HTTP normal dentro de sí</b>, así que cifra toda la conversación, no solo los datos.</p>
+    <p class="sub">Antes de TLS éramos vulnerables a ataques de intermediario (man-in-the-middle) y secuestro de sesión: <b>cualquiera en la misma LAN podía ver el tráfico web si estaba escuchando en el cable.</b></p>
+
+    <div class="ports">
+      <div class="pcard">
+        <div class="pn">80</div>
+        <div class="pt">HTTP — texto plano</div>
+        <div class="pd">Todo lo que envías es legible: usuario, contraseña, sesión, búsqueda. Cualquiera en el camino lo ve.</div>
+        <div class="alt">alternativo: 8000</div>
+      </div>
+      <div class="pcard safe">
+        <div class="pn">443</div>
+        <div class="pt">HTTPS — cifrado</div>
+        <div class="pd">Todo lo que envías es ilegible sin las claves. Hábitos de navegación, transacciones bancarias, sesiones.</div>
+        <div class="alt">alternativo: 8443</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Qué se ve en el tráfico HTTPS</h2>
+    <p class="sub">Primero el cliente establece sesión TCP con el <b>puerto 443</b> — eso le dice al servidor que quiere usar HTTPS. Luego empieza el handshake de TLS. Cuando la sesión está establecida, los datos viajan dentro de TLS.</p>
+    <div class="card nest">
+      <div class="nbox n-tls">TLS Application Data<small>El HTTP real: el GET, el POST, el contenido. Aquí ya no puedes leer nada.</small></div>
+      <div class="nbox n-hs">Handshake de TLS — ClientHello, certificados x.509, master secret<small>Antes de cifrar datos, ambos acuerdan parámetros y se autentican. El master secret son 48 bytes compartidos.</small></div>
+      <div class="nbox n-tcp">Segmento TCP con sus números de secuencia y ACK<small>TLS sigue usando TCP como transporte. Por eso <b>todavía verás los ACK del flujo por el puerto 443</b> — el cifrado no oculta el handshake TCP.</small></div>
+      <div class="nbox n-mac">Trama Ethernet con MACs<small>La capa 2 sigue igual: el cifrado de TLS no cambia nada por debajo.</small></div>
+    </div>
+
+    <div class="sub" style="margin-top:22px"><b>El handshake de TLS resumido:</b> (1) se intercambian saludos para acordar parámetros; (2) se intercambian los parámetros criptográficos para establecer el <b>secreto pre-maestro</b>; (3) se intercambian <b>certificados x.509</b> que permiten la autenticación; (4) se genera un <b>secreto maestro</b> a partir del pre-maestro y los valores aleatorios; (5) ambos emiten los parámetros de seguridad a la capa de registro; (6) <b>verifican que el otro calculó los mismos parámetros</b> y que nadie manipuló el handshake.</div>
+    <p class="sub">Los parámetros que se acuerdan incluyen: identificador de sesión, certificado x509 del par, algoritmo de compresión, cipher spec, si la sesión es reanudable, y el <b>master secret de 48 bytes</b>.</p>
+  </section>
+
+  <!-- ---------- 3.3 FTP ---------- -->
+  <section>
+    <h2>FTP</h2>
+    <p class="sub">Permite transferir datos rápido entre dispositivos. Se usa desde la línea de comandos, el navegador web, o un cliente gráfico como FileZilla. <b>Se considera un protocolo inseguro</b> — la mayoría ha migrado a SFTP. Los navegadores modernos fueron retirando su soporte a partir de 2020.</p>
+    <p class="sub"><b>FTP es único en esto:</b> cuando pensamos en comunicación entre hosts, normalmente imaginamos un cliente y un servidor hablando por <b>un único socket</b>, con comandos y datos por el mismo enlace. FTP usa <b>varios puertos a la vez</b>.</p>
+
+    <div class="card" style="padding:0 22px">
+      <div class="chan">
+        <span class="cp">21</span>
+        <span class="cd"><b>Canal de comandos</b>El cliente emite comandos aquí y el servidor responde. Es donde verás USER, PASS, LIST y RETR en texto plano.</span>
+      </div>
+      <div class="chan">
+        <span class="cp">20</span>
+        <span class="cd"><b>Canal de datos</b>Por aquí viajan los archivos y los listados de directorios. Es el que se rompe detrás de un firewall.</span>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Activo vs pasivo — la diferencia que importa</h2>
+    <p class="sub">FTP admite autenticación de usuario y también <b>acceso anónimo</b> si está configurado. Los dos modos no cambian los puertos, cambian <b>quién inicia la conexión de datos</b>.</p>
+    <div class="modes">
+      <div class="mode">
+        <div class="mode-h"><span class="t">Activo</span><span class="def">Por defecto</span></div>
+        <div class="mbody">
+          El servidor escucha un comando <code>PORT</code> del cliente, que indica qué puerto usar para los datos. Luego <b>el servidor se conecta hacia el cliente</b>.
+          <div class="flow">C --&gt; PORT 5000 --&gt; S<br>S --&gt; 5000 --&gt; C  &nbsp;· el servidor va hacia ti</div>
+          <div class="ft"><b>Problema:</b> detrás de un NAT o un firewall el servidor no puede alcanzarte. Así que el modo pasivo existe justamente para eso.</div>
+        </div>
+      </div>
+      <div class="mode">
+        <div class="mode-h"><span class="t">Pasivo</span><span class="s">con <code>PASV</code></span></div>
+        <div class="mbody">
+          El cliente envía <code>PASV</code> y espera que el servidor le informe qué IP y puerto usar para el canal de datos.
+          <div class="flow">C --&gt; PASV --&gt; S<br>S --&gt; 227 (IP, puerto) --&gt; C<br>C --&gt; puerto --&gt; S  &nbsp;· tú vas hacia él</div>
+          <div class="ft"><b>Ventaja:</b> permite acceder a servidores FTP detrás de firewalls o enlaces con NAT, donde las conexiones TCP directas son imposibles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">USER</td><td>Especifica el usuario con el que iniciar sesión.</td></tr>
+          <tr><td class="m">PASS</td><td>Envía la contraseña del usuario que intenta iniciar sesión.</td></tr>
+          <tr><td class="m">PORT</td><td>En <b>modo activo</b>, cambia el puerto de datos que se utilizará.</td></tr>
+          <tr><td class="m">PASV</td><td>Cambia la conexión de <b>activo a pasivo</b>.</td></tr>
+          <tr><td class="m">LIST</td><td>Muestra la lista de archivos del directorio actual.</td></tr>
+          <tr><td class="m">CWD</td><td>Cambia el directorio de trabajo al especificado.</td></tr>
+          <tr><td class="m">PWD</td><td>Imprime el directorio en el que estás trabajando.</td></tr>
+          <tr><td class="m">SIZE</td><td>Devuelve el tamaño de un archivo especificado.</td></tr>
+          <tr><td class="m">RETR</td><td>Recupera el archivo del servidor FTP.</td></tr>
+          <tr><td class="m">QUIT</td><td>Finaliza la sesión.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:16px">No es una lista exhaustiva: pueden variar según la aplicación o el shell de FTP en uso.</p>
+  </section>
+
+  <!-- ---------- 3.4 SMB ---------- -->
+  <section>
+    <h2>SMB</h2>
+    <p class="sub">Se ve sobre todo en entornos empresariales de Windows. Permite <b>compartir recursos entre hosts</b>: impresoras, unidades compartidas, servidores de autenticación. Es <b>orientado a conexión</b> y <b>requiere autenticación del usuario</b> para garantizar permisos correctos sobre el recurso.</p>
+
+    <div class="card" style="padding:20px 22px">
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Antes</b>NetBIOS</span><span class="val">Mecanismo de transporte vía <b>UDP 137 y 138</b>.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Moderno</b>TCP directo</span><span class="val"><b>Puerto 445</b> — transporte directo sobre TCP.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>También</b>NetBIOS/TCP</span><span class="val"><b>Puerto 139</b> — NetBIOS sobre TCP.</span></div>
+      <div class="visrow"><span class="lbl"><b>E incluso</b>QUIC</span><span class="val">También soporta el protocolo <b>QUIC</b>.</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:22px">Como cualquier otra aplicación que usa TCP, hace su <b>handshake de tres vías</b> y acusa los paquetes recibidos. En la captura del módulo se ven los handshakes TCP en cada sesión y el <b>puerto 445</b> en origen y destino, indicativo de SMB sobre TCP.</p>
+
+    <div class="trap">
+      <b>La lectura de seguridad, que es lo que te van a preguntar:</b> uno o dos fallos de autenticación son relativamente comunes. <b>Un gran grupo de ellos repetidos puede indicar que alguien no autorizado intenta acceder a una cuenta o usar credenciales robadas para moverse lateralmente.</b> Es la táctica clásica: tomar un usuario autenticado, robar sus credenciales y usarlas para moverse o acceder a recursos donde normalmente sería denegado. Y ojo: ver que un host accede a archivos compartidos en <b>otros</b> hosts no es común — fíjate en quién pide las conexiones, a dónde va y qué hace.
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RESPUESTAS
+       ============================================================ -->
+  <div class="part" id="respuestas">Respuestas <span>Secciones 2 y 3 · 17 preguntas</span></div>
+
+  <div class="reviewbar">
+    <span class="rb-info">Dominadas <span class="rb-track"><i id="rbfill"></i></span><b id="rbcount">0 / 17</b></span>
+    <button id="btnQuiz" type="button" class="pri">Ocultar respuestas</button>
+    <button id="btnReset" type="button">Reiniciar progreso</button>
+  </div>
+
+  <section>
+    <div class="qempty">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span><b>Sección 1 — Fundamentos de NTA: sin preguntas.</b> El módulo no incluye un quiz para esta sección, así que aquí no hay nada que responder. Todo su contenido teórico está desarrollado arriba, del apartado «Qué es NTA» al de «Sintaxis BPF». En cuanto HTB añada preguntas, se incorporan aquí con el mismo formato.</span>
+    </div>
+
+    <h2 style="margin-top:44px">Sección 2 — Capas 1-4 (9 preguntas)</h2>
+    <p class="sub">Cada tarjeta sigue el mismo orden: <b>pregunta en inglés</b> → <b>su traducción</b> → <b>respuesta</b> → <b>por qué es esa respuesta</b>. HTB pide responder <b>en inglés</b> aunque el módulo esté en español. Tres piden números y una exige un formato exacto de guion.</p>
+
+    <div class="qblock">
+
+      <!-- Q1 -->
+      <div class="qb" id="q2-1">
+        <div class="qtop">
+          <span class="qnum">Q1</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">How many layers does the OSI model have?</p>
+        <p class="qes">¿Cuántas capas tiene el modelo OSI?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">7</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">OSI corta el problema de la comunicación en siete bloques. De abajo arriba son: <b>1</b> Física, <b>2</b> Enlace de Datos, <b>3</b> Red, <b>4</b> Transporte, <b>5</b> Sesión, <b>6</b> Presentación, <b>7</b> Aplicación.<br><br>Un truco para no liarte: el nombre del PDU baja en ese mismo orden — <em>Bits → Trama → Paquete → Segmento → Datos</em>. Si te sabes los PDU de cada capa, el número de capas sale solo.</div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qb" id="q2-2">
+        <div class="qtop">
+          <span class="qnum">Q2</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">How many layers are there in the TCP/IP model?</p>
+        <p class="qes">¿Cuántas capas hay en el modelo TCP/IP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">4</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">TCP/IP no tiene siete capas: <b>agrupa</b> lo que OSI separa en piezas pequeñas.<br><br>OSI 5+6+7 → TCP/IP <b>4</b> (Aplicación) · OSI 4 → TCP/IP <b>3</b> (Transporte) · OSI 3 → TCP/IP <b>2</b> (Internet) · OSI 2+1 → TCP/IP <b>1</b> (Enlace).<br><br>En el día a día casi siempre se habla de TCP/IP; OSI aparece como referencia teórica y en las certificaciones. Si alguien te dice «la capa 3», con TCP/IP se refiere a Internet (IP), no a Red.</div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qb" id="q2-3">
+        <div class="qtop">
+          <span class="qnum">Q3</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">True or False: Routers operate at layer 2 of the OSI model?</p>
+        <p class="qes">Verdadero o Falso: ¿Los routers operan en la capa 2 del modelo OSI?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">False</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">Un router decide mirando la cabecera <b>IP</b>, y la IP vive en la <b>capa 3</b> (Red). Un switch decide mirando la <b>MAC</b>, que vive en la capa 2 (Enlace).<br><br>Si el enunciado hubiera dicho <em>switch</em>, la respuesta sería True. Con <em>router</em> es False. La regla para no equivocarse nunca: <b>capa 2 = switch = MAC · capa 3 = router = IP</b>.</div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qb" id="q2-4">
+        <div class="qtop">
+          <span class="qnum">Q4</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What addressing mechanism is used at the Link Layer of the TCP/IP model?</p>
+        <p class="qes">¿Qué mecanismo de direccionamiento se usa en la capa Link del modelo TCP/IP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">MAC-addressing</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">La capa Link del modelo TCP/IP (que absorbe las capas 1 y 2 de OSI) solo mueve datos <b>dentro del dominio de difusión</b>, así que direcciona con la <b>MAC</b>: 48 bits, 6 octetos en hexadecimal. El salto de red usa IP; dentro de la LAN se resuelve con MAC.<br><br><b>Ojo con el formato:</b> la plataforma espera el guion — <code>MAC-addressing</code>. Concepto exacto, formato exacto. Si te lo marca mal, prueba <code>MAC-address</code>.</div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qb" id="q2-5">
+        <div class="qtop">
+          <span class="qnum">Q5</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">At what layer of the OSI model is a PDU encapsulated into a packet? ( the number)</p>
+        <p class="qes">¿En qué capa del modelo OSI se encapsula una PDU en un paquete? (el número)</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">3</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El PDU cambia de nombre en cada capa, y se llama <b>paquete</b> en la capa 3 (Red). El motivo es concreto: la capa 3 es la que añade la <b>cabecera IP</b>, y esa cabecera es lo que permite cruzar redes.<br><br>Antes de la 3 el PDU era un segmento (con TCP) o un datagrama (con UDP). Al bajar de la 3, el siguiente salto lo convierte en trama. Recuerda la cadena: Datos (7-5) → Segmento (4) → <b>Paquete (3)</b> → Trama (2) → Bits (1).</div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="qb" id="q2-6">
+        <div class="qtop">
+          <span class="qnum">Q6</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What addressing mechanism utilizes a 32-bit address?</p>
+        <p class="qes">¿Qué mecanismo de direccionamiento utiliza una dirección de 32 bits?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">IPv4</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">IPv4 usa <b>32 bits</b> repartidos en 4 octetos escritos en decimal, con valores de 0 a 255 en cada octeto. Un ejemplo del módulo: <code>192.168.86.243</code>.<br><br>Para comparar de un vistazo: <b>MAC = 48 bits</b> (6 octetos, hexadecimal) e <b>IPv6 = 128 bits</b> (16 octetos, hexadecimal). Cuando leas «dirección de 32 bits», piensa IPv4 sin dudarlo.</div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="qb" id="q2-7">
+        <div class="qtop">
+          <span class="qnum">Q7</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What Transport layer protocol is connection oriented?</p>
+        <p class="qes">¿Qué protocolo de la capa Transporte está orientado a conexión?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">TCP</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why"><b>Orientado a conexión</b> significa que antes de mandar datos se abre una sesión: el <b>handshake de tres vías</b> (SYN → SYN/ACK → ACK). Durante la sesión, TCP lleva números de secuencia y acusa cada trozo recibido.<br><br>Eso es justo lo que hace falta cuando un dato a medias arruina el resultado: un comando SSH, la descarga de un archivo, o un <code>passwd</code> en remoto. Si pierdes parte del comando a mitad de camino, TCP la recupera; con UDP la perderías para siempre.</div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="qb" id="q2-8">
+        <div class="qtop">
+          <span class="qnum">Q8</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What Transport Layer protocol is considered unreliable?</p>
+        <p class="qes">¿Qué protocolo de la capa Transporte se considera no fiable?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">UDP</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">UDP es «dispara y olvida»: <b>no hace handshake, no acusa recibo, no reintenta y no comprueba que el destino esté escuchando</b>. Envía y sigue. Eso es exactamente lo que significa «no fiable».<br><br>Se usa justo donde perder un paquete es aceptable y el retraso no lo es: streaming de vídeo, consultas DNS, DHCP.<br><br><b>Si el formulario marca UDP como incorrecto, el fallo no es tuyo:</b> el propio módulo dice literalmente <em>«UDP is fast but unreliable»</em>. Es un fallo conocido del corrector, y lo hareportedo mucha gente. Si aun así insiste, prueba en minúscula <code>udp</code>, y si tampoco, cierra sesión y vuelve a entrar.</div>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="qb" id="q2-9">
+        <div class="qtop">
+          <span class="qnum">Q9</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">TCP's three-way handshake consists of 3 packets: 1. Syn, 2. Syn &amp; ACK, 3. _?</p>
+        <p class="qes">El handshake de tres vías de TCP consiste en 3 paquetes: 1. SYN, 2. SYN &amp; ACK, 3. ¿?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">ACK</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El tercero es el <b>ACK del cliente</b>: acusa recibo del SYN/ACK del servidor y con eso la conexión queda establecida. El orden completo es <b>SYN</b> (cliente) → <b>SYN + ACK</b> (servidor) → <b>ACK</b> (cliente).<br><br>Detalle del enunciado: en la plataforma la pregunta se corta en «3. _?». El texto completo termina con <em>«What is the final packet of the handshake?»</em>. Da igual dónde se lea: la respuesta sigue siendo <code>ACK</code>.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <h2 style="margin-top:48px">Sección 3 — Capas 5-7 (8 preguntas)</h2>
+    <p class="sub">HTTP, HTTPS, FTP y SMB. Fíjate en que la 2 y la 5 piden números exactos, y la 2 exige un espacio entre ellos.</p>
+
+    <div class="qblock">
+
+      <!-- Q1 -->
+      <div class="qb" id="q3-1">
+        <div class="qtop">
+          <span class="qnum">Q1</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What is the default operational mode method used by FTP?</p>
+        <p class="qes">¿Cuál es el método del modo operativo por defecto utilizado por FTP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">Active</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>modo activo es el método por defecto</b>. Funciona así: el cliente manda el comando <code>PORT</code> diciendo qué puerto usar para los datos, y es el <b>servidor</b> el que se conecta de vuelta hacia el cliente.<br><br>El modo pasivo (<code>PASV</code>) es la alternativa: ahí es el cliente quien se conecta al servidor. Existe justo para funcionar detrás de NAT y firewalls, donde el servidor no puede alcanzarte.<br><br>Si <code>Active</code> te lo marca mal, prueba <code>active mode</code>.</div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qb" id="q3-2">
+        <div class="qtop">
+          <span class="qnum">Q2</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">FTP utilizes what two ports for command and data transfer? (separate the two numbers with a space)</p>
+        <p class="qes">¿Qué dos puertos utiliza FTP para la transferencia de comandos y datos? (separa los dos números con un espacio)</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">20 21</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>21</b> es el canal de <b>comandos</b> (USER, PASS, LIST, RETR…) y el <b>20</b> el canal de <b>datos</b>, por donde viajan archivos y listados. Por eso FTP es el único protocolo del capítulo que usa dos puertos a la vez.<br><br>La plataforma los pide separados por un espacio y en ese orden: <code>20 21</code>. Si escribes <code>2021</code> sin espacio, lo marca como incorrecto aunque el número sea el correcto.</div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qb" id="q3-3">
+        <div class="qtop">
+          <span class="qnum">Q3</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">Does SMB utilize TCP or UDP as its transport layer protocol?</p>
+        <p class="qes">¿SMB utiliza TCP o UDP como protocolo de capa de transporte?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">TCP</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El SMB moderno se mueve <b>directamente sobre TCP</b>. NetBIOS por UDP 137/138 es el mecanismo <b>antiguo</b>; hoy también existe NetBIOS sobre TCP en el 139 e incluso SMB sobre QUIC.<br><br>En una captura actual verás el <b>puerto 445</b> y un handshake de tres vías normal de TCP. SMB está orientado a conexión y además exige autenticación del usuario antes de dejarle tocar el recurso.</div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qb" id="q3-4">
+        <div class="qtop">
+          <span class="qnum">Q4</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">SMB has moved to using what TCP port?</p>
+        <p class="qes">¿SMB ha pasado a usar qué puerto TCP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">445</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>445</b> es SMB directo sobre TCP. Antes SMB depended de NetBIOS: UDP 137 y 138, y 139 por TCP. Con el 445 el tráfico ya no necesita NetBIOS.<br><br>No los confundas: <b>137, 138 y 139 son NetBIOS</b>; el 445 es SMB moderno. Si en una captura ves 139, es SMB legacy.</div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qb" id="q3-5">
+        <div class="qtop">
+          <span class="qnum">Q5</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">Hypertext Transfer Protocol uses what well known TCP port number?</p>
+        <p class="qes">¿Qué número de puerto TCP bien conocido usa el Protocolo de Transferencia de Hipertexto?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">80</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">HTTP usa el puerto <b>80</b>, y el <b>8000</b> como puerto alternativo no estándar.<br><br>El puerto que más verás en el mundo es el <b>443</b>, pero ese es de HTTPS, no de HTTP. Es la confusión más frecuente del capítulo: si te piden el puerto de HTTP y respondes 443, en realidad estás respondiendo la pregunta de HTTPS.</div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="qb" id="q3-6">
+        <div class="qtop">
+          <span class="qnum">Q6</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What HTTP method is used to request information and content from the webserver?</p>
+        <p class="qes">¿Qué método HTTP se usa para solicitar información y contenido del servidor web?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">GET</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">GET es el método más utilizado: <b>solicita información y contenido</b> y devuelve el cuerpo del mensaje.<br><br>HEAD es el parecido: mismo tipo de petición pero <b>sin el cuerpo</b> — por eso se considera «seguro» y sirve para averiguar información y estado del servidor sin descargar nada.<br><br>Y para separar los otros dos: <b>POST</b> crea entidades secundarias en la URI (un comentario, un mensaje), mientras que <b>PUT</b> crea o actualiza el objeto en esa misma URI.</div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="qb" id="q3-7">
+        <div class="qtop">
+          <span class="qnum">Q7</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">What web based protocol uses TLS as a security measure?</p>
+        <p class="qes">¿Qué protocolo basado en web usa TLS como medida de seguridad?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">HTTPS</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">HTTPS es HTTP con <b>TLS</b> alrededor (o SSL en sistemas antiguos). TLS cifra <b>toda</b> la conversación, no solo los datos: el GET, el POST, la sesión y las cookies.<br><br>Sus puertos son el <b>443</b> y el alternativo <b>8443</b>. Antes de que existiera TLS, cualquiera en la misma LAN podía leer el tráfico web si estaba escuchando en el cable: ese era el ataque de intermediario.</div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="qb" id="q3-8">
+        <div class="qtop">
+          <span class="qnum">Q8</span>
+          <span class="qlab l-en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen">True or False: when utilizing HTTPS, all data sent across the session will appear as TLS Application data?</p>
+        <p class="qes">Verdadero o Falso: al utilizar HTTPS, ¿todos los datos enviados a través de la sesión aparecerán como datos de aplicación TLS?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">True</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El módulo lo dice literal: una vez establecida la sesión, <b>todos los datos y métodos se envían a través de la conexión TLS y aparecen como TLS Application Data</b>. Por eso en Wireshark, dentro de HTTPS solo ves bytes cifrados.<br><br><b>Matiz para tu análisis:</b> los mensajes del handshake (ClientHello, certificados x.509) aparecen como <em>Handshake de TLS</em>, no como Application Data — pero los datos de la aplicación, sí. Y por debajo sigue viéndose el TCP con sus ACK por el 443: el cifrado de TLS no oculta el handshake TCP.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="warn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span><b>Resumen de trampas de formato:</b> las preguntas de número piden solo el número (<code>7</code>, <code>4</code>, <code>3</code>, <code>80</code>, <code>445</code>). La de FTP exige <b>espacio</b> entre los dos puertos: <code>20 21</code>. Y la de MAC exige el <b>guion</b>: <code>MAC-addressing</code>.</span>
+    </div>
+
+    <div class="fix">
+      <div class="fixh">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+        Si una respuesta correcta te sale como incorrecta
+      </div>
+      <p class="sub" style="margin:0 0 16px">El formulario de HTB Academy tiene bugs conocidos: rechaza respuestas que son correctas. No cambies de respuesta, cambia cómo la envías.</p>
+      <ol class="fixol">
+        <li><b>Escríbela a mano, no la pegues.</b> Es la causa nº1. Al pegar se cuelan espacios invisibles, saltos de línea o caracteres raros que el corrector no tolera. Selecciona todo el campo, bórralo del todo y teclea la respuesta.</li>
+        <li><b>Sin espacios ni punto final.</b> Ni un espacio delante ni detrás, y nada de punto al final. Un espacio suelto ya cuenta como incorrecto.</li>
+        <li><b>Prueba en minúscula.</b> Algunas respuestas de HTB distinguen mayúsculas. Si <code>UDP</code> falla, prueba <code>udp</code>.</li>
+        <li><b>Cierra sesión y vuelve a entrar.</b> Es el arreglo que más se repite en el foro de HTB: la respuesta idéntica, rechazada ayer, se acepta después de re-loguearte. La sesión caducada es el motivo más común.</li>
+        <li><b>Recarga fuerte y limpia el campo.</b> Ctrl+Shift+R, borra el contenido del campo con Supr y reenvía. Desactiva bloqueadores de anuncios y gestores de contraseñas: algunos inyectan scripts en la página.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ Footer ============ -->
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <p class="foot-note">Fuente: secciones 1, 2 y 3 de <em>Intro to Network Traffic Analysis</em> (HTB Academy), más la referencia oficial <a href="https://www.tcpdump.org/manpages/pcap-filter.7.html" target="_blank" rel="noopener">pcap-filter(7)</a> para la sintaxis BPF y las RFC <a href="https://www.rfc-editor.org/rfc/rfc2616" target="_blank" rel="noopener">2616</a> (HTTP), <a href="https://www.rfc-editor.org/rfc/rfc2246" target="_blank" rel="noopener">2246</a> (TLS) y <a href="https://www.rfc-editor.org/rfc/rfc959" target="_blank" rel="noopener">959</a> (FTP).</p>
+        <p class="foot-note" style="margin-top:14px"><b>Cómo usar esta página:</b> el botón <b>Ocultar respuestas</b> entra en modo repaso — las respuestas se ocultan y se revelan una a una al pulsar cada tarjeta. El botón <b>copiar</b> pone la respuesta en el portapapeles. El progreso de «dominadas» se guarda en tu navegador, en este dispositivo.</p>
+        <div class="foot-meta">
+          <span class="foot-badge">3 de 15 secciones</span>
+          <span class="foot-badge">17 preguntas</span>
+          <span class="foot-badge">Vanilla HTML + CSS + JS</span>
+        </div>
+      </div>
+      <div>
+        <span class="foot-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+          apunte-htb-academy
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<button class="totop" id="totop" type="button" title="Volver arriba" aria-label="Volver arriba">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+</button>
+
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>

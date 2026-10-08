@@ -1,0 +1,37 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node / herramientas (aunque el proyecto no tenga build, por si se añaden)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Builds y artefactos
+dist/
+build/
+*.min.css
+*.min.js
+
+# Capturas de paquetes — nunca deben subirse al repo
+*.pcap
+*.pcapng
+*.cap
+
+# Sistema
+*.log
+.DS_Store

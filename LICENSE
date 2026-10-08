@@ -1,0 +1,33 @@
+MIT License
+
+Copyright (c) 2026 apunte-htb-academy contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+AVISO
+
+El contenido de este repositorio es material de estudio no oficial derivado del
+material público del módulo "Intro to Network Traffic Analysis" de Hack The Box
+Academy, y de las especificaciones públicas citadas en cada sección (RFC 2616,
+RFC 2246, RFC 959 y pcap-filter(7)).
+
+Este proyecto no está afiliado, asociado, autorizado ni respaldado por Hack The
+Box. "Hack The Box" y "HTB Academy" son marcas de sus respectivos titulares.

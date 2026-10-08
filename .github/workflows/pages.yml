@@ -1,0 +1,43 @@
+# Despliega el sitio estático en GitHub Pages.
+# No hay build: el sitio es HTML + CSS + JS planos.
+# Trigger: cada push a main, o manual desde la pestaña Actions.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Permite relanzar el despliegue desde la interfaz de GitHub.
+  workflow_dispatch:
+
+permissions:
+  contents: read   # hace falta para clonar el repo
+  pages: write     # publica en Pages
+  id-token: write  # autentica el despliegue
+
+# Si hay dos pushes seguidos, cancela el anterior: solo se publica el último.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir el sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
