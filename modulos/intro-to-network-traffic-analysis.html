@@ -580,166 +580,11 @@
     </div>
   </section>
 
-  <div id="quiz-sec2-slot"></div>
-
-  <!-- ============================================================
-       SECCIÓN 3
-       ============================================================ -->
-  <div class="part" id="sec3">Sección 3 <span>Manual básico: Capas 5-7</span></div>
-
-  <!-- ---------- 3.1 HTTP ---------- -->
-  <section>
-    <h2>HTTP</h2>
-    <p class="sub">Protocolo de capa de aplicación <b>sin estado (stateless)</b> en uso desde 1990. Permite transferir datos <b>en texto plano</b> entre cliente y servidor a través de TCP. El cliente pide un recurso, se establece la sesión, y el servidor responde con HTML, imágenes, hipervínculos o vídeo.</p>
-    <p class="sub">Usa los puertos <b>80</b> o <b>8000</b> sobre TCP en operaciones normales. En circunstancias excepcionales puede usar puertos alternativos o, incluso, UDP.</p>
-
-    <div class="card">
-      <table>
-        <thead><tr><th>Método</th><th>Estado</th><th>Qué hace</th></tr></thead>
-        <tbody>
-          <tr><td class="m">HEAD</td><td><span class="req r">Requerido</span></td><td>Método <b>seguro</b>: pide una respuesta similar a GET pero <b>sin el cuerpo del mensaje</b>. Excelente para averiguar información y estado del servidor.</td></tr>
-          <tr><td class="m">GET</td><td><span class="req r">Requerido</span></td><td>El más utilizado. Solicita información y contenido. <code>GET http://10.1.1.1/Webserver/index.html</code> pide esa página concreta.</td></tr>
-          <tr><td class="m">POST</td><td><span class="req o">Opcional</span></td><td>Envía información basándose en los campos de la solicitud: publicar en un foro, enviar un mensaje a una red social. Ojo a los <b>códigos de respuesta</b> para validar la acción.</td></tr>
-          <tr><td class="m">PUT</td><td><span class="req o">Opcional</span></td><td>Coloca los datos adjuntos bajo la URI solicitada: <b>crea o actualiza</b>. Si el objeto existe, lo sobrescribe.</td></tr>
-          <tr><td class="m">DELETE</td><td><span class="req o">Opcional</span></td><td>Elimina el objeto en la URI dada.</td></tr>
-          <tr><td class="m">TRACE</td><td><span class="req o">Opcional</span></td><td>Diagnóstico remoto: el servidor hace <b>eco</b> de la misma solicitud en su respuesta.</td></tr>
-          <tr><td class="m">OPTIONS</td><td><span class="req o">Opcional</span></td><td>Recopila qué métodos HTTP soporta el servidor, <b>sin pedir datos ni objetos</b>.</td></tr>
-          <tr><td class="m">CONNECT</td><td><span class="req o">Opcional</span></td><td>Reservado para proxies y firewalls. Permite la <b>tunelización</b> sobre HTTP (túneles SSL).</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="trap">
-      <b>Requerido u opcional no es decoración:</b> por requisito del estándar, <b>GET y HEAD siempre deben existir y funcionar</b>. TRACE, OPTIONS, DELETE, PUT y POST son funcionalidades opcionales que pueden estar permitidas o no. Ejemplo: una web de solo lectura como un blog — el cliente puede pedir recursos, pero no modificarlos ni borrarlos.
-    </div>
-  </section>
-
-  <!-- ---------- 3.2 HTTPS ---------- -->
-  <section>
-    <h2>HTTPS</h2>
-    <p class="sub">HTTP modificado para usar <b>TLS</b> (o SSL en aplicaciones antiguas) para la seguridad de los datos. TLS cifra la comunicación entre cliente y servidor. Lo importante: <b>TLS encapsula el tráfico HTTP normal dentro de sí</b>, así que cifra toda la conversación, no solo los datos.</p>
-    <p class="sub">Antes de TLS éramos vulnerables a ataques de intermediario (man-in-the-middle) y secuestro de sesión: <b>cualquiera en la misma LAN podía ver el tráfico web si estaba escuchando en el cable.</b></p>
-
-    <div class="ports">
-      <div class="pcard">
-        <div class="pn">80</div>
-        <div class="pt">HTTP — texto plano</div>
-        <div class="pd">Todo lo que envías es legible: usuario, contraseña, sesión, búsqueda. Cualquiera en el camino lo ve.</div>
-        <div class="alt">alternativo: 8000</div>
-      </div>
-      <div class="pcard safe">
-        <div class="pn">443</div>
-        <div class="pt">HTTPS — cifrado</div>
-        <div class="pd">Todo lo que envías es ilegible sin las claves. Hábitos de navegación, transacciones bancarias, sesiones.</div>
-        <div class="alt">alternativo: 8443</div>
-      </div>
-    </div>
-
-    <h2 style="margin-top:34px">Qué se ve en el tráfico HTTPS</h2>
-    <p class="sub">Primero el cliente establece sesión TCP con el <b>puerto 443</b> — eso le dice al servidor que quiere usar HTTPS. Luego empieza el handshake de TLS. Cuando la sesión está establecida, los datos viajan dentro de TLS.</p>
-    <div class="card nest">
-      <div class="nbox n-tls">TLS Application Data<small>El HTTP real: el GET, el POST, el contenido. Aquí ya no puedes leer nada.</small></div>
-      <div class="nbox n-hs">Handshake de TLS — ClientHello, certificados x.509, master secret<small>Antes de cifrar datos, ambos acuerdan parámetros y se autentican. El master secret son 48 bytes compartidos.</small></div>
-      <div class="nbox n-tcp">Segmento TCP con sus números de secuencia y ACK<small>TLS sigue usando TCP como transporte. Por eso <b>todavía verás los ACK del flujo por el puerto 443</b> — el cifrado no oculta el handshake TCP.</small></div>
-      <div class="nbox n-mac">Trama Ethernet con MACs<small>La capa 2 sigue igual: el cifrado de TLS no cambia nada por debajo.</small></div>
-    </div>
-
-    <div class="sub" style="margin-top:22px"><b>El handshake de TLS resumido:</b> (1) se intercambian saludos para acordar parámetros; (2) se intercambian los parámetros criptográficos para establecer el <b>secreto pre-maestro</b>; (3) se intercambian <b>certificados x.509</b> que permiten la autenticación; (4) se genera un <b>secreto maestro</b> a partir del pre-maestro y los valores aleatorios; (5) ambos emiten los parámetros de seguridad a la capa de registro; (6) <b>verifican que el otro calculó los mismos parámetros</b> y que nadie manipuló el handshake.</div>
-    <p class="sub">Los parámetros que se acuerdan incluyen: identificador de sesión, certificado x509 del par, algoritmo de compresión, cipher spec, si la sesión es reanudable, y el <b>master secret de 48 bytes</b>.</p>
-  </section>
-
-  <!-- ---------- 3.3 FTP ---------- -->
-  <section>
-    <h2>FTP</h2>
-    <p class="sub">Permite transferir datos rápido entre dispositivos. Se usa desde la línea de comandos, el navegador web, o un cliente gráfico como FileZilla. <b>Se considera un protocolo inseguro</b> — la mayoría ha migrado a SFTP. Los navegadores modernos fueron retirando su soporte a partir de 2020.</p>
-    <p class="sub"><b>FTP es único en esto:</b> cuando pensamos en comunicación entre hosts, normalmente imaginamos un cliente y un servidor hablando por <b>un único socket</b>, con comandos y datos por el mismo enlace. FTP usa <b>varios puertos a la vez</b>.</p>
-
-    <div class="card" style="padding:0 22px">
-      <div class="chan">
-        <span class="cp">21</span>
-        <span class="cd"><b>Canal de comandos</b>El cliente emite comandos aquí y el servidor responde. Es donde verás USER, PASS, LIST y RETR en texto plano.</span>
-      </div>
-      <div class="chan">
-        <span class="cp">20</span>
-        <span class="cd"><b>Canal de datos en modo activo</b>Por aquí viajan los archivos y los listados de directorios cuando el servidor inicia la conexión de datos. En modo pasivo se negocia otro puerto del servidor.</span>
-      </div>
-    </div>
-
-    <h2 style="margin-top:34px">Activo vs pasivo — la diferencia que importa</h2>
-    <p class="sub">FTP admite autenticación de usuario y también <b>acceso anónimo</b> si está configurado. Los dos modos no cambian los puertos, cambian <b>quién inicia la conexión de datos</b>.</p>
-    <div class="modes">
-      <div class="mode">
-        <div class="mode-h"><span class="t">Activo</span><span class="def">Por defecto</span></div>
-        <div class="mbody">
-          El servidor escucha un comando <code>PORT</code> del cliente, que indica qué puerto usar para los datos. Luego <b>el servidor se conecta hacia el cliente</b>.
-          <div class="flow">C --&gt; PORT 5000 --&gt; S<br>S --&gt; 5000 --&gt; C  &nbsp;· el servidor va hacia ti</div>
-          <div class="ft"><b>Problema:</b> detrás de un NAT o un firewall el servidor no puede alcanzarte. Así que el modo pasivo existe justamente para eso.</div>
-        </div>
-      </div>
-      <div class="mode">
-        <div class="mode-h"><span class="t">Pasivo</span><span class="s">con <code>PASV</code></span></div>
-        <div class="mbody">
-          El cliente envía <code>PASV</code> y espera que el servidor le informe qué IP y puerto usar para el canal de datos.
-          <div class="flow">C --&gt; PASV --&gt; S<br>S --&gt; 227 (IP, puerto) --&gt; C<br>C --&gt; puerto --&gt; S  &nbsp;· tú vas hacia él</div>
-          <div class="ft"><b>Ventaja:</b> permite acceder a servidores FTP detrás de firewalls o enlaces con NAT, donde las conexiones TCP directas son imposibles.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:18px">
-      <table>
-        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
-        <tbody>
-          <tr><td class="m">USER</td><td>Especifica el usuario con el que iniciar sesión.</td></tr>
-          <tr><td class="m">PASS</td><td>Envía la contraseña del usuario que intenta iniciar sesión.</td></tr>
-          <tr><td class="m">PORT</td><td>En <b>modo activo</b>, cambia el puerto de datos que se utilizará.</td></tr>
-          <tr><td class="m">PASV</td><td>Cambia la conexión de <b>activo a pasivo</b>.</td></tr>
-          <tr><td class="m">LIST</td><td>Muestra la lista de archivos del directorio actual.</td></tr>
-          <tr><td class="m">CWD</td><td>Cambia el directorio de trabajo al especificado.</td></tr>
-          <tr><td class="m">PWD</td><td>Imprime el directorio en el que estás trabajando.</td></tr>
-          <tr><td class="m">SIZE</td><td>Devuelve el tamaño de un archivo especificado.</td></tr>
-          <tr><td class="m">RETR</td><td>Recupera el archivo del servidor FTP.</td></tr>
-          <tr><td class="m">QUIT</td><td>Finaliza la sesión.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="sub" style="margin-top:16px">No es una lista exhaustiva: pueden variar según la aplicación o el shell de FTP en uso. Por eso conviene distinguir el puerto de control fijo (<b>21</b>) del puerto de datos: <b>20</b> es el valor tradicional del modo activo, mientras que el modo pasivo anuncia un puerto negociado.</p>
-  </section>
-
-  <!-- ---------- 3.4 SMB ---------- -->
-  <section>
-    <h2>SMB</h2>
-    <p class="sub">Se ve sobre todo en entornos empresariales de Windows. Permite <b>compartir recursos entre hosts</b>: impresoras, unidades compartidas, servidores de autenticación. Es <b>orientado a conexión</b> y <b>requiere autenticación del usuario</b> para garantizar permisos correctos sobre el recurso.</p>
-
-    <div class="card" style="padding:20px 22px">
-      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Antes</b>NetBIOS</span><span class="val">Mecanismo de transporte vía <b>UDP 137 y 138</b>.</span></div>
-      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Moderno</b>TCP directo</span><span class="val"><b>Puerto 445</b> — transporte directo sobre TCP.</span></div>
-      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>También</b>NetBIOS/TCP</span><span class="val"><b>Puerto 139</b> — NetBIOS sobre TCP.</span></div>
-      <div class="visrow"><span class="lbl"><b>E incluso</b>QUIC</span><span class="val">También soporta el protocolo <b>QUIC</b>.</span></div>
-    </div>
-
-    <p class="sub" style="margin-top:22px">Como cualquier otra aplicación que usa TCP, hace su <b>handshake de tres vías</b> y acusa los paquetes recibidos. En la captura del módulo se ven los handshakes TCP en cada sesión y el <b>puerto 445</b> en origen y destino, indicativo de SMB sobre TCP.</p>
-
-    <div class="trap">
-      <b>La lectura de seguridad, que es lo que te van a preguntar:</b> uno o dos fallos de autenticación son relativamente comunes. <b>Un gran grupo de ellos repetidos puede indicar que alguien no autorizado intenta acceder a una cuenta o usar credenciales robadas para moverse lateralmente.</b> Es la táctica clásica: tomar un usuario autenticado, robar sus credenciales y usarlas para moverse o acceder a recursos donde normalmente sería denegado. Y ojo: ver que un host accede a archivos compartidos en <b>otros</b> hosts no es común — fíjate en quién pide las conexiones, a dónde va y qué hace.
-    </div>
-  </section>
-
-  <!-- ============================================================
-       RESPUESTAS
-       ============================================================ -->
-  <div class="part" id="respuestas">Respuestas <span>Secciones 2 y 3 · 17 preguntas</span></div>
-
   <div class="reviewbar">
     <span class="rb-info">Dominadas <span class="rb-track"><i id="rbfill"></i></span><b id="rbcount">0 / 17</b></span>
     <button id="btnQuiz" type="button" class="pri">Ocultar respuestas</button>
     <button id="btnReset" type="button">Reiniciar progreso</button>
   </div>
-
-  <section>
-    <div class="qempty">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-      <span><b>Sección 1 — Fundamentos de NTA: sin preguntas.</b> El módulo no incluye un quiz para esta sección, así que aquí no hay nada que responder. Todo su contenido teórico está desarrollado arriba, del apartado «Qué es NTA» al de «Sintaxis BPF». En cuanto HTB añada preguntas, se incorporan aquí con el mismo formato.</span>
-    </div>
 
     <h2 id="quiz-sec2-title" style="margin-top:44px">Sección 2 — Capas 1-4 (9 preguntas)</h2>
     <p class="sub">Cada tarjeta sigue el mismo orden: <b>pregunta en inglés</b> → <b>su traducción</b> → <b>respuesta</b> → <b>por qué es esa respuesta</b>. HTB pide responder <b>en inglés</b> aunque el módulo esté en español. Tres piden números y una exige un formato exacto de guion.</p>
@@ -917,6 +762,161 @@
         </div>
       </div>
 
+    </div>
+
+  <!-- ============================================================
+       SECCIÓN 3
+       ============================================================ -->
+  <div class="part" id="sec3">Sección 3 <span>Manual básico: Capas 5-7</span></div>
+
+  <!-- ---------- 3.1 HTTP ---------- -->
+  <section>
+    <h2>HTTP</h2>
+    <p class="sub">Protocolo de capa de aplicación <b>sin estado (stateless)</b> en uso desde 1990. Permite transferir datos <b>en texto plano</b> entre cliente y servidor a través de TCP. El cliente pide un recurso, se establece la sesión, y el servidor responde con HTML, imágenes, hipervínculos o vídeo.</p>
+    <p class="sub">Usa los puertos <b>80</b> o <b>8000</b> sobre TCP en operaciones normales. En circunstancias excepcionales puede usar puertos alternativos o, incluso, UDP.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Método</th><th>Estado</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">HEAD</td><td><span class="req r">Requerido</span></td><td>Método <b>seguro</b>: pide una respuesta similar a GET pero <b>sin el cuerpo del mensaje</b>. Excelente para averiguar información y estado del servidor.</td></tr>
+          <tr><td class="m">GET</td><td><span class="req r">Requerido</span></td><td>El más utilizado. Solicita información y contenido. <code>GET http://10.1.1.1/Webserver/index.html</code> pide esa página concreta.</td></tr>
+          <tr><td class="m">POST</td><td><span class="req o">Opcional</span></td><td>Envía información basándose en los campos de la solicitud: publicar en un foro, enviar un mensaje a una red social. Ojo a los <b>códigos de respuesta</b> para validar la acción.</td></tr>
+          <tr><td class="m">PUT</td><td><span class="req o">Opcional</span></td><td>Coloca los datos adjuntos bajo la URI solicitada: <b>crea o actualiza</b>. Si el objeto existe, lo sobrescribe.</td></tr>
+          <tr><td class="m">DELETE</td><td><span class="req o">Opcional</span></td><td>Elimina el objeto en la URI dada.</td></tr>
+          <tr><td class="m">TRACE</td><td><span class="req o">Opcional</span></td><td>Diagnóstico remoto: el servidor hace <b>eco</b> de la misma solicitud en su respuesta.</td></tr>
+          <tr><td class="m">OPTIONS</td><td><span class="req o">Opcional</span></td><td>Recopila qué métodos HTTP soporta el servidor, <b>sin pedir datos ni objetos</b>.</td></tr>
+          <tr><td class="m">CONNECT</td><td><span class="req o">Opcional</span></td><td>Reservado para proxies y firewalls. Permite la <b>tunelización</b> sobre HTTP (túneles SSL).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="trap">
+      <b>Requerido u opcional no es decoración:</b> por requisito del estándar, <b>GET y HEAD siempre deben existir y funcionar</b>. TRACE, OPTIONS, DELETE, PUT y POST son funcionalidades opcionales que pueden estar permitidas o no. Ejemplo: una web de solo lectura como un blog — el cliente puede pedir recursos, pero no modificarlos ni borrarlos.
+    </div>
+  </section>
+
+  <!-- ---------- 3.2 HTTPS ---------- -->
+  <section>
+    <h2>HTTPS</h2>
+    <p class="sub">HTTP modificado para usar <b>TLS</b> (o SSL en aplicaciones antiguas) para la seguridad de los datos. TLS cifra la comunicación entre cliente y servidor. Lo importante: <b>TLS encapsula el tráfico HTTP normal dentro de sí</b>, así que cifra toda la conversación, no solo los datos.</p>
+    <p class="sub">Antes de TLS éramos vulnerables a ataques de intermediario (man-in-the-middle) y secuestro de sesión: <b>cualquiera en la misma LAN podía ver el tráfico web si estaba escuchando en el cable.</b></p>
+
+    <div class="ports">
+      <div class="pcard">
+        <div class="pn">80</div>
+        <div class="pt">HTTP — texto plano</div>
+        <div class="pd">Todo lo que envías es legible: usuario, contraseña, sesión, búsqueda. Cualquiera en el camino lo ve.</div>
+        <div class="alt">alternativo: 8000</div>
+      </div>
+      <div class="pcard safe">
+        <div class="pn">443</div>
+        <div class="pt">HTTPS — cifrado</div>
+        <div class="pd">Todo lo que envías es ilegible sin las claves. Hábitos de navegación, transacciones bancarias, sesiones.</div>
+        <div class="alt">alternativo: 8443</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Qué se ve en el tráfico HTTPS</h2>
+    <p class="sub">Primero el cliente establece sesión TCP con el <b>puerto 443</b> — eso le dice al servidor que quiere usar HTTPS. Luego empieza el handshake de TLS. Cuando la sesión está establecida, los datos viajan dentro de TLS.</p>
+    <div class="card nest">
+      <div class="nbox n-tls">TLS Application Data<small>El HTTP real: el GET, el POST, el contenido. Aquí ya no puedes leer nada.</small></div>
+      <div class="nbox n-hs">Handshake de TLS — ClientHello, certificados x.509, master secret<small>Antes de cifrar datos, ambos acuerdan parámetros y se autentican. El master secret son 48 bytes compartidos.</small></div>
+      <div class="nbox n-tcp">Segmento TCP con sus números de secuencia y ACK<small>TLS sigue usando TCP como transporte. Por eso <b>todavía verás los ACK del flujo por el puerto 443</b> — el cifrado no oculta el handshake TCP.</small></div>
+      <div class="nbox n-mac">Trama Ethernet con MACs<small>La capa 2 sigue igual: el cifrado de TLS no cambia nada por debajo.</small></div>
+    </div>
+
+    <div class="sub" style="margin-top:22px"><b>El handshake de TLS resumido:</b> (1) se intercambian saludos para acordar parámetros; (2) se intercambian los parámetros criptográficos para establecer el <b>secreto pre-maestro</b>; (3) se intercambian <b>certificados x.509</b> que permiten la autenticación; (4) se genera un <b>secreto maestro</b> a partir del pre-maestro y los valores aleatorios; (5) ambos emiten los parámetros de seguridad a la capa de registro; (6) <b>verifican que el otro calculó los mismos parámetros</b> y que nadie manipuló el handshake.</div>
+    <p class="sub">Los parámetros que se acuerdan incluyen: identificador de sesión, certificado x509 del par, algoritmo de compresión, cipher spec, si la sesión es reanudable, y el <b>master secret de 48 bytes</b>.</p>
+  </section>
+
+  <!-- ---------- 3.3 FTP ---------- -->
+  <section>
+    <h2>FTP</h2>
+    <p class="sub">Permite transferir datos rápido entre dispositivos. Se usa desde la línea de comandos, el navegador web, o un cliente gráfico como FileZilla. <b>Se considera un protocolo inseguro</b> — la mayoría ha migrado a SFTP. Los navegadores modernos fueron retirando su soporte a partir de 2020.</p>
+    <p class="sub"><b>FTP es único en esto:</b> cuando pensamos en comunicación entre hosts, normalmente imaginamos un cliente y un servidor hablando por <b>un único socket</b>, con comandos y datos por el mismo enlace. FTP usa <b>varios puertos a la vez</b>.</p>
+
+    <div class="card" style="padding:0 22px">
+      <div class="chan">
+        <span class="cp">21</span>
+        <span class="cd"><b>Canal de comandos</b>El cliente emite comandos aquí y el servidor responde. Es donde verás USER, PASS, LIST y RETR en texto plano.</span>
+      </div>
+      <div class="chan">
+        <span class="cp">20</span>
+        <span class="cd"><b>Canal de datos en modo activo</b>Por aquí viajan los archivos y los listados de directorios cuando el servidor inicia la conexión de datos. En modo pasivo se negocia otro puerto del servidor.</span>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Activo vs pasivo — la diferencia que importa</h2>
+    <p class="sub">FTP admite autenticación de usuario y también <b>acceso anónimo</b> si está configurado. Los dos modos no cambian los puertos, cambian <b>quién inicia la conexión de datos</b>.</p>
+    <div class="modes">
+      <div class="mode">
+        <div class="mode-h"><span class="t">Activo</span><span class="def">Por defecto</span></div>
+        <div class="mbody">
+          El servidor escucha un comando <code>PORT</code> del cliente, que indica qué puerto usar para los datos. Luego <b>el servidor se conecta hacia el cliente</b>.
+          <div class="flow">C --&gt; PORT 5000 --&gt; S<br>S --&gt; 5000 --&gt; C  &nbsp;· el servidor va hacia ti</div>
+          <div class="ft"><b>Problema:</b> detrás de un NAT o un firewall el servidor no puede alcanzarte. Así que el modo pasivo existe justamente para eso.</div>
+        </div>
+      </div>
+      <div class="mode">
+        <div class="mode-h"><span class="t">Pasivo</span><span class="s">con <code>PASV</code></span></div>
+        <div class="mbody">
+          El cliente envía <code>PASV</code> y espera que el servidor le informe qué IP y puerto usar para el canal de datos.
+          <div class="flow">C --&gt; PASV --&gt; S<br>S --&gt; 227 (IP, puerto) --&gt; C<br>C --&gt; puerto --&gt; S  &nbsp;· tú vas hacia él</div>
+          <div class="ft"><b>Ventaja:</b> permite acceder a servidores FTP detrás de firewalls o enlaces con NAT, donde las conexiones TCP directas son imposibles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">USER</td><td>Especifica el usuario con el que iniciar sesión.</td></tr>
+          <tr><td class="m">PASS</td><td>Envía la contraseña del usuario que intenta iniciar sesión.</td></tr>
+          <tr><td class="m">PORT</td><td>En <b>modo activo</b>, cambia el puerto de datos que se utilizará.</td></tr>
+          <tr><td class="m">PASV</td><td>Cambia la conexión de <b>activo a pasivo</b>.</td></tr>
+          <tr><td class="m">LIST</td><td>Muestra la lista de archivos del directorio actual.</td></tr>
+          <tr><td class="m">CWD</td><td>Cambia el directorio de trabajo al especificado.</td></tr>
+          <tr><td class="m">PWD</td><td>Imprime el directorio en el que estás trabajando.</td></tr>
+          <tr><td class="m">SIZE</td><td>Devuelve el tamaño de un archivo especificado.</td></tr>
+          <tr><td class="m">RETR</td><td>Recupera el archivo del servidor FTP.</td></tr>
+          <tr><td class="m">QUIT</td><td>Finaliza la sesión.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:16px">No es una lista exhaustiva: pueden variar según la aplicación o el shell de FTP en uso. Por eso conviene distinguir el puerto de control fijo (<b>21</b>) del puerto de datos: <b>20</b> es el valor tradicional del modo activo, mientras que el modo pasivo anuncia un puerto negociado.</p>
+  </section>
+
+  <!-- ---------- 3.4 SMB ---------- -->
+  <section>
+    <h2>SMB</h2>
+    <p class="sub">Se ve sobre todo en entornos empresariales de Windows. Permite <b>compartir recursos entre hosts</b>: impresoras, unidades compartidas, servidores de autenticación. Es <b>orientado a conexión</b> y <b>requiere autenticación del usuario</b> para garantizar permisos correctos sobre el recurso.</p>
+
+    <div class="card" style="padding:20px 22px">
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Antes</b>NetBIOS</span><span class="val">Mecanismo de transporte vía <b>UDP 137 y 138</b>.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Moderno</b>TCP directo</span><span class="val"><b>Puerto 445</b> — transporte directo sobre TCP.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>También</b>NetBIOS/TCP</span><span class="val"><b>Puerto 139</b> — NetBIOS sobre TCP.</span></div>
+      <div class="visrow"><span class="lbl"><b>E incluso</b>QUIC</span><span class="val">También soporta el protocolo <b>QUIC</b>.</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:22px">Como cualquier otra aplicación que usa TCP, hace su <b>handshake de tres vías</b> y acusa los paquetes recibidos. En la captura del módulo se ven los handshakes TCP en cada sesión y el <b>puerto 445</b> en origen y destino, indicativo de SMB sobre TCP.</p>
+
+    <div class="trap">
+      <b>La lectura de seguridad, que es lo que te van a preguntar:</b> uno o dos fallos de autenticación son relativamente comunes. <b>Un gran grupo de ellos repetidos puede indicar que alguien no autorizado intenta acceder a una cuenta o usar credenciales robadas para moverse lateralmente.</b> Es la táctica clásica: tomar un usuario autenticado, robar sus credenciales y usarlas para moverse o acceder a recursos donde normalmente sería denegado. Y ojo: ver que un host accede a archivos compartidos en <b>otros</b> hosts no es común — fíjate en quién pide las conexiones, a dónde va y qué hace.
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RESPUESTAS
+       ============================================================ -->
+  <div class="part" id="respuestas">Respuestas <span>Secciones 2 y 3 · 17 preguntas</span></div>
+
+
+
+  <section>
+    <div class="qempty">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span><b>Sección 1 — Fundamentos de NTA: sin preguntas.</b> El módulo no incluye un quiz para esta sección, así que aquí no hay nada que responder. Todo su contenido teórico está desarrollado arriba, del apartado «Qué es NTA» al de «Sintaxis BPF». En cuanto HTB añada preguntas, se incorporan aquí con el mismo formato.</span>
     </div>
 
     <h2 style="margin-top:48px">Sección 3 — Capas 5-7 (8 preguntas)</h2>

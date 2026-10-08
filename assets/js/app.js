@@ -255,15 +255,6 @@
     return 'htb-progreso-' + (mod || 'general');
   }
 
-  function placeSectionQuiz() {
-    const slot = document.getElementById('quiz-sec2-slot');
-    const title = document.getElementById('quiz-sec2-title');
-    const quiz = document.getElementById('quiz-sec2');
-    const reviewbar = document.querySelector('.reviewbar');
-    if (!slot || !title || !quiz || !reviewbar) return;
-    slot.append(reviewbar, title, quiz);
-  }
-
   function initQuestions() {
     const cards = [...document.querySelectorAll('.qb')];
     if (!cards.length) return;
@@ -506,7 +497,6 @@
     initMenu();
     initWorkflow();
     initEncapsulation();
-    placeSectionQuiz();
     initQuestions();
     initNav();
     respectMotionPreference();
