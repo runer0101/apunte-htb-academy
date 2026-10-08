@@ -240,15 +240,27 @@
 
   /* ---------------------------------------------------------------
      5. Tarjetas de preguntas: modo repaso, progreso y copiar
+     La clave de almacenamiento incluye el módulo (data-module en el
+     <body>) para que el progreso de un módulo no pise el de otro.
      --------------------------------------------------------------- */
-  const PROGRESS_KEY = 'htb-nta-progreso';
+  function progressKey() {
+    const mod = document.body.getAttribute('data-module');
+    return 'htb-progreso-' + (mod || 'general');
+  }
 
   function initQuestions() {
     const cards = [...document.querySelectorAll('.qb')];
     if (!cards.length) return;
 
+    const KEY = progressKey();
     let done = new Set();
-    try { done = new Set(JSON.parse(safeGet(PROGRESS_KEY) || '[]')); } catch (e) { done = new Set(); }
+
+    // Migración: antes de separar por módulo el progreso se guardaba en una
+    // única clave. Se copia para no perder lo ya marcado.
+    const LEGACY_KEY = 'htb-nta-progreso';
+    if (!safeGet(KEY) && safeGet(LEGACY_KEY)) safeSet(KEY, safeGet(LEGACY_KEY));
+
+    try { done = new Set(JSON.parse(safeGet(KEY) || '[]')); } catch (e) { done = new Set(); }
 
     const countEl = document.getElementById('rbcount');
     const fillEl = document.getElementById('rbfill');
@@ -302,7 +314,7 @@
       if (done.has(i)) card.classList.add('done');
     });
 
-    function save() { safeSet(PROGRESS_KEY, JSON.stringify([...done])); }
+    function save() { safeSet(KEY, JSON.stringify([...done])); }
 
     function paint() {
       let n = 0;
@@ -366,21 +378,37 @@
      6. Navegación: enlace activo + botón volver arriba
      --------------------------------------------------------------- */
   function initNav() {
-    const links = [...document.querySelectorAll('.navlinks a[href^="#"]')];
-    const sections = links
-      .map((a) => document.querySelector(a.getAttribute('href')))
-      .filter(Boolean);
+    // Enlaces internos de todas las listas de navegación (barra superior y
+    // menú lateral). Se descartan los href="#" —secciones pendientes— porque
+    // '#' no es un selector válido.
+    const links = [...document.querySelectorAll('.navlinks a, .sidenav a')]
+      .filter((a) => {
+        const h = a.getAttribute('href');
+        return h && h.length > 1 && h.startsWith('#') && document.querySelector(h);
+      });
 
-    if (sections.length) {
+    // Deduplica: un mismo destino puede aparecer en la barra y en el lateral.
+    const byHref = new Map();
+    links.forEach((a) => {
+      const h = a.getAttribute('href');
+      if (!byHref.has(h)) byHref.set(h, []);
+      byHref.get(h).push(a);
+    });
+
+    const pairs = [...byHref.entries()].map(([href, els]) => ({
+      href,
+      els,
+      target: document.querySelector(href)
+    }));
+
+    if (pairs.length) {
       const spy = new IntersectionObserver((entries) => {
         entries.forEach((en) => {
           if (!en.isIntersecting) return;
-          links.forEach((l) =>
-            l.classList.toggle('on', l.getAttribute('href') === '#' + en.target.id)
-          );
+          pairs.forEach((p) => p.els.forEach((el) => el.classList.toggle('on', p.href === '#' + en.target.id)));
         });
-      }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
-      sections.forEach((s) => spy.observe(s));
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      pairs.forEach((p) => spy.observe(p.target));
     }
 
     const top = document.getElementById('totop');
