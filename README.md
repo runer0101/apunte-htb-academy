@@ -176,13 +176,17 @@ El sitio queda en <https://runer0101.github.io/apunte-htb-academy/> en unos segu
 Puedes seguir el progreso en la pestaña **Actions** del repo, y relanzar el despliegue a
 mano con el botón *Run workflow*.
 
-> **Habilitar Pages (una sola vez):** ve a **Settings → Pages → Build and deployment →
-> Source** y ponlo en **GitHub Actions**. Sin ese ajuste el workflow falla con
-> `Resource not accessible by integration`, porque el token del workflow puede publicar
-> en un sitio existente pero no tiene permiso para crearlo.
+> **Pages ya está habilitado** en este repositorio con la fuente *GitHub Actions*, así que
+> cada `push` a `main` publica el sitio sin más pasos. Por eso el último run debe salir en
+> verde.
 >
-> La fuente de Pages y el workflow son excluyentes: si en algún momento cambias la fuente
-> en *Settings → Pages*, el workflow deja de ejecutarse, y viceversa.
+> En un clon o fork nuevo habría que activarlo una sola vez en **Settings → Pages → Build
+> and deployment → Source → GitHub Actions**. Sin ese ajuste el workflow falla con
+> `Resource not accessible by integration`, porque el token del workflow puede publicar
+> en un sitio existente pero no tiene permiso administrativo para crearlo desde cero.
+>
+> Ojo: la fuente de Pages y el workflow son excluyentes. Si en algún momento cambias la
+> fuente en *Settings → Pages*, el workflow deja de ejecutarse, y viceversa.
 
 ---
 
