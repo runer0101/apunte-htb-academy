@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Manual básico: Capas 5-7 — Intro to Network Traffic Analysis — Apunte HTB Academy</title>
+
+<!-- SEO / redes sociales -->
+<meta name="description" content="Apunte en español del módulo Intro to Network Traffic Analysis de HTB Academy. Secciones 1 a 3 de 15, con las 17 preguntas del quiz, respuesta en inglés, traducción al español y explicación de por qué cada respuesta es correcta.">
+<meta name="author" content="apunte-htb-academy">
+<meta name="keywords" content="HTB Academy, network traffic analysis, NTA, BPF, OSI, TCP/IP, Wireshark, tcpdump, TShark, examen HTB, apunte, networking">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e11" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://runer0101.github.io/apunte-htb-academy/modulos/intro-to-network-traffic-analysis-seccion-3.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="apunte-htb-academy">
+<meta property="og:url" content="https://runer0101.github.io/apunte-htb-academy/modulos/intro-to-network-traffic-analysis-seccion-3.html">
+<meta property="og:title" content="Manual básico: Capas 5-7 — Apunte HTB Academy">
+<meta property="og:description" content="Secciones 1 a 3 de 15 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Intro to Network Traffic Analysis — Apunte HTB Academy">
+<meta name="twitter:description" content="Secciones 1 a 3 de 15 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body data-module="nta" data-question-offset="9">
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy <span class="bs">NTA</span>
+    </span>
+
+    <nav class="navlinks" id="navlinks" aria-label="Secciones">
+      <a href="intro-to-network-traffic-analysis-seccion-1.html">Sección 1</a>
+      <a href="intro-to-network-traffic-analysis-seccion-2.html">Sección 2</a>
+      <a href="intro-to-network-traffic-analysis-seccion-3.html" aria-current="page">Sección 3</a>
+    </nav>
+
+    <div class="tools">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Abrir menú">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="iconbtn theme-toggle" data-theme-toggle title="Activar tema oscuro" aria-label="Activar tema oscuro">
+        <span class="theme-icon" aria-hidden="true"><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
+        <span class="theme-label">Oscuro</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="contenido">
+  <!-- ============ Portada ============ -->
+  <div class="hero">
+    <div class="eyebrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy · Intro to Network Traffic Analysis
+    </div>
+    <h1>Análisis de Tráfico de Red</h1>
+    <p class="lede">La idea que atraviesa todo el módulo: <b>para detectar algo raro necesitas primero saber qué es lo normal.</b> Por eso todo empieza estableciendo una línea base.</p>
+
+    <div class="hero-meta">
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 9v11"/></svg>
+        Módulo de <b>15 secciones</b>
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <b>3</b> secciones documentadas
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        <b>17</b> preguntas con explicación
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+        Respuestas en <b>inglés</b>, explicación en español
+      </span>
+    </div>
+
+    <div class="track">
+      <div class="track-h">
+        <span class="tt">Progreso del módulo</span>
+        <span class="tn">3 / 15 secciones</span>
+      </div>
+      <div class="track-bar" role="img" aria-label="Sección 3 de 15">
+        <i style="width:20.00%"></i><i class="todo" style="width:80.00%"></i>
+      </div>
+      <div class="track-legend">Esta es la sección 3 de 15. Las demás secciones se irán añadiendo a medida que se publiquen en HTB Academy.</div>
+    </div>
+  </div>
+
+
+
+  <div class="layout">
+
+  <aside class="sidenav" aria-label="Navegación del módulo">
+    <a class="sn-back" href="../index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Todos los módulos
+    </a>
+    <div class="sn-title">Secciones del módulo</div>
+    <ol>
+      <li><a href="intro-to-network-traffic-analysis-seccion-1.html"><span class="n">1</span><span class="t">Fundamentos de NTA</span></a></li>
+      <li><a href="intro-to-network-traffic-analysis-seccion-2.html"><span class="n">2</span><span class="t">Manual básico: Capas 1-4</span></a></li>
+      <li><a href="intro-to-network-traffic-analysis-seccion-3.html" class="on" aria-current="page"><span class="n">3</span><span class="t">Manual básico: Capas 5-7</span></a></li>
+      <li><a href="#" class="todo" aria-disabled="true"><span class="n">4–15</span><span class="t">Próximamente</span><span class="dot-sep">·</span></a></li>
+    </ol>
+    <div class="sn-foot">Sección actual: <b>3 / 15</b></div>
+  </aside>
+
+  <div>
+
+<div class="part" id="sec3">Sección 3 <span>Manual básico: Capas 5-7</span></div>
+
+  <!-- ---------- 3.1 HTTP ---------- -->
+  <section>
+    <h2>HTTP</h2>
+    <p class="sub">Protocolo de capa de aplicación <b>sin estado (stateless)</b> en uso desde 1990. Permite transferir datos <b>en texto plano</b> entre cliente y servidor a través de TCP. El cliente pide un recurso, se establece la sesión, y el servidor responde con HTML, imágenes, hipervínculos o vídeo.</p>
+    <p class="sub">Usa los puertos <b>80</b> o <b>8000</b> sobre TCP en operaciones normales. En circunstancias excepcionales puede usar puertos alternativos o, incluso, UDP.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Método</th><th>Estado</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">HEAD</td><td><span class="req r">Requerido</span></td><td>Método <b>seguro</b>: pide una respuesta similar a GET pero <b>sin el cuerpo del mensaje</b>. Excelente para averiguar información y estado del servidor.</td></tr>
+          <tr><td class="m">GET</td><td><span class="req r">Requerido</span></td><td>El más utilizado. Solicita información y contenido. <code>GET http://10.1.1.1/Webserver/index.html</code> pide esa página concreta.</td></tr>
+          <tr><td class="m">POST</td><td><span class="req o">Opcional</span></td><td>Envía información basándose en los campos de la solicitud: publicar en un foro, enviar un mensaje a una red social. Ojo a los <b>códigos de respuesta</b> para validar la acción.</td></tr>
+          <tr><td class="m">PUT</td><td><span class="req o">Opcional</span></td><td>Coloca los datos adjuntos bajo la URI solicitada: <b>crea o actualiza</b>. Si el objeto existe, lo sobrescribe.</td></tr>
+          <tr><td class="m">DELETE</td><td><span class="req o">Opcional</span></td><td>Elimina el objeto en la URI dada.</td></tr>
+          <tr><td class="m">TRACE</td><td><span class="req o">Opcional</span></td><td>Diagnóstico remoto: el servidor hace <b>eco</b> de la misma solicitud en su respuesta.</td></tr>
+          <tr><td class="m">OPTIONS</td><td><span class="req o">Opcional</span></td><td>Recopila qué métodos HTTP soporta el servidor, <b>sin pedir datos ni objetos</b>.</td></tr>
+          <tr><td class="m">CONNECT</td><td><span class="req o">Opcional</span></td><td>Reservado para proxies y firewalls. Permite la <b>tunelización</b> sobre HTTP (túneles SSL).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="trap">
+      <b>Requerido u opcional no es decoración:</b> por requisito del estándar, <b>GET y HEAD siempre deben existir y funcionar</b>. TRACE, OPTIONS, DELETE, PUT y POST son funcionalidades opcionales que pueden estar permitidas o no. Ejemplo: una web de solo lectura como un blog — el cliente puede pedir recursos, pero no modificarlos ni borrarlos.
+    </div>
+  </section>
+
+  <!-- ---------- 3.2 HTTPS ---------- -->
+  <section>
+    <h2>HTTPS</h2>
+    <p class="sub">HTTP modificado para usar <b>TLS</b> (o SSL en aplicaciones antiguas) para la seguridad de los datos. TLS cifra la comunicación entre cliente y servidor. Lo importante: <b>TLS encapsula el tráfico HTTP normal dentro de sí</b>, así que cifra toda la conversación, no solo los datos.</p>
+    <p class="sub">Antes de TLS éramos vulnerables a ataques de intermediario (man-in-the-middle) y secuestro de sesión: <b>cualquiera en la misma LAN podía ver el tráfico web si estaba escuchando en el cable.</b></p>
+
+    <div class="ports">
+      <div class="pcard">
+        <div class="pn">80</div>
+        <div class="pt">HTTP — texto plano</div>
+        <div class="pd">Todo lo que envías es legible: usuario, contraseña, sesión, búsqueda. Cualquiera en el camino lo ve.</div>
+        <div class="alt">alternativo: 8000</div>
+      </div>
+      <div class="pcard safe">
+        <div class="pn">443</div>
+        <div class="pt">HTTPS — cifrado</div>
+        <div class="pd">Todo lo que envías es ilegible sin las claves. Hábitos de navegación, transacciones bancarias, sesiones.</div>
+        <div class="alt">alternativo: 8443</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Qué se ve en el tráfico HTTPS</h2>
+    <p class="sub">Primero el cliente establece sesión TCP con el <b>puerto 443</b> — eso le dice al servidor que quiere usar HTTPS. Luego empieza el handshake de TLS. Cuando la sesión está establecida, los datos viajan dentro de TLS.</p>
+    <div class="card nest">
+      <div class="nbox n-tls">TLS Application Data<small>El HTTP real: el GET, el POST, el contenido. Aquí ya no puedes leer nada.</small></div>
+      <div class="nbox n-hs">Handshake de TLS — ClientHello, certificados x.509, master secret<small>Antes de cifrar datos, ambos acuerdan parámetros y se autentican. El master secret son 48 bytes compartidos.</small></div>
+      <div class="nbox n-tcp">Segmento TCP con sus números de secuencia y ACK<small>TLS sigue usando TCP como transporte. Por eso <b>todavía verás los ACK del flujo por el puerto 443</b> — el cifrado no oculta el handshake TCP.</small></div>
+      <div class="nbox n-mac">Trama Ethernet con MACs<small>La capa 2 sigue igual: el cifrado de TLS no cambia nada por debajo.</small></div>
+    </div>
+
+    <div class="sub" style="margin-top:22px"><b>El handshake de TLS resumido:</b> (1) se intercambian saludos para acordar parámetros; (2) se intercambian los parámetros criptográficos para establecer el <b>secreto pre-maestro</b>; (3) se intercambian <b>certificados x.509</b> que permiten la autenticación; (4) se genera un <b>secreto maestro</b> a partir del pre-maestro y los valores aleatorios; (5) ambos emiten los parámetros de seguridad a la capa de registro; (6) <b>verifican que el otro calculó los mismos parámetros</b> y que nadie manipuló el handshake.</div>
+    <p class="sub">Los parámetros que se acuerdan incluyen: identificador de sesión, certificado x509 del par, algoritmo de compresión, cipher spec, si la sesión es reanudable, y el <b>master secret de 48 bytes</b>.</p>
+  </section>
+
+  <!-- ---------- 3.3 FTP ---------- -->
+  <section>
+    <h2>FTP</h2>
+    <p class="sub">Permite transferir datos rápido entre dispositivos. Se usa desde la línea de comandos, el navegador web, o un cliente gráfico como FileZilla. <b>Se considera un protocolo inseguro</b> — la mayoría ha migrado a SFTP. Los navegadores modernos fueron retirando su soporte a partir de 2020.</p>
+    <p class="sub"><b>FTP es único en esto:</b> cuando pensamos en comunicación entre hosts, normalmente imaginamos un cliente y un servidor hablando por <b>un único socket</b>, con comandos y datos por el mismo enlace. FTP usa <b>varios puertos a la vez</b>.</p>
+
+    <div class="card" style="padding:0 22px">
+      <div class="chan">
+        <span class="cp">21</span>
+        <span class="cd"><b>Canal de comandos</b>El cliente emite comandos aquí y el servidor responde. Es donde verás USER, PASS, LIST y RETR en texto plano.</span>
+      </div>
+      <div class="chan">
+        <span class="cp">20</span>
+        <span class="cd"><b>Canal de datos en modo activo</b>Por aquí viajan los archivos y los listados de directorios cuando el servidor inicia la conexión de datos. En modo pasivo se negocia otro puerto del servidor.</span>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Activo vs pasivo — la diferencia que importa</h2>
+    <p class="sub">FTP admite autenticación de usuario y también <b>acceso anónimo</b> si está configurado. Los dos modos no cambian los puertos, cambian <b>quién inicia la conexión de datos</b>.</p>
+    <div class="modes">
+      <div class="mode">
+        <div class="mode-h"><span class="t">Activo</span><span class="def">Por defecto</span></div>
+        <div class="mbody">
+          El servidor escucha un comando <code>PORT</code> del cliente, que indica qué puerto usar para los datos. Luego <b>el servidor se conecta hacia el cliente</b>.
+          <div class="flow">C --&gt; PORT 5000 --&gt; S<br>S --&gt; 5000 --&gt; C  &nbsp;· el servidor va hacia ti</div>
+          <div class="ft"><b>Problema:</b> detrás de un NAT o un firewall el servidor no puede alcanzarte. Así que el modo pasivo existe justamente para eso.</div>
+        </div>
+      </div>
+      <div class="mode">
+        <div class="mode-h"><span class="t">Pasivo</span><span class="s">con <code>PASV</code></span></div>
+        <div class="mbody">
+          El cliente envía <code>PASV</code> y espera que el servidor le informe qué IP y puerto usar para el canal de datos.
+          <div class="flow">C --&gt; PASV --&gt; S<br>S --&gt; 227 (IP, puerto) --&gt; C<br>C --&gt; puerto --&gt; S  &nbsp;· tú vas hacia él</div>
+          <div class="ft"><b>Ventaja:</b> permite acceder a servidores FTP detrás de firewalls o enlaces con NAT, donde las conexiones TCP directas son imposibles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td class="m">USER</td><td>Especifica el usuario con el que iniciar sesión.</td></tr>
+          <tr><td class="m">PASS</td><td>Envía la contraseña del usuario que intenta iniciar sesión.</td></tr>
+          <tr><td class="m">PORT</td><td>En <b>modo activo</b>, cambia el puerto de datos que se utilizará.</td></tr>
+          <tr><td class="m">PASV</td><td>Cambia la conexión de <b>activo a pasivo</b>.</td></tr>
+          <tr><td class="m">LIST</td><td>Muestra la lista de archivos del directorio actual.</td></tr>
+          <tr><td class="m">CWD</td><td>Cambia el directorio de trabajo al especificado.</td></tr>
+          <tr><td class="m">PWD</td><td>Imprime el directorio en el que estás trabajando.</td></tr>
+          <tr><td class="m">SIZE</td><td>Devuelve el tamaño de un archivo especificado.</td></tr>
+          <tr><td class="m">RETR</td><td>Recupera el archivo del servidor FTP.</td></tr>
+          <tr><td class="m">QUIT</td><td>Finaliza la sesión.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:16px">No es una lista exhaustiva: pueden variar según la aplicación o el shell de FTP en uso. Por eso conviene distinguir el puerto de control fijo (<b>21</b>) del puerto de datos: <b>20</b> es el valor tradicional del modo activo, mientras que el modo pasivo anuncia un puerto negociado.</p>
+  </section>
+
+  <!-- ---------- 3.4 SMB ---------- -->
+  <section>
+    <h2>SMB</h2>
+    <p class="sub">Se ve sobre todo en entornos empresariales de Windows. Permite <b>compartir recursos entre hosts</b>: impresoras, unidades compartidas, servidores de autenticación. Es <b>orientado a conexión</b> y <b>requiere autenticación del usuario</b> para garantizar permisos correctos sobre el recurso.</p>
+
+    <div class="card" style="padding:20px 22px">
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Antes</b>NetBIOS</span><span class="val">Mecanismo de transporte vía <b>UDP 137 y 138</b>.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>Moderno</b>TCP directo</span><span class="val"><b>Puerto 445</b> — transporte directo sobre TCP.</span></div>
+      <div class="visrow" style="border-bottom:1px solid var(--line-soft)"><span class="lbl"><b>También</b>NetBIOS/TCP</span><span class="val"><b>Puerto 139</b> — NetBIOS sobre TCP.</span></div>
+      <div class="visrow"><span class="lbl"><b>E incluso</b>QUIC</span><span class="val">También soporta el protocolo <b>QUIC</b>.</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:22px">Como cualquier otra aplicación que usa TCP, hace su <b>handshake de tres vías</b> y acusa los paquetes recibidos. En la captura del módulo se ven los handshakes TCP en cada sesión y el <b>puerto 445</b> en origen y destino, indicativo de SMB sobre TCP.</p>
+
+    <div class="trap">
+      <b>La lectura de seguridad, que es lo que te van a preguntar:</b> uno o dos fallos de autenticación son relativamente comunes. <b>Un gran grupo de ellos repetidos puede indicar que alguien no autorizado intenta acceder a una cuenta o usar credenciales robadas para moverse lateralmente.</b> Es la táctica clásica: tomar un usuario autenticado, robar sus credenciales y usarlas para moverse o acceder a recursos donde normalmente sería denegado. Y ojo: ver que un host accede a archivos compartidos en <b>otros</b> hosts no es común — fíjate en quién pide las conexiones, a dónde va y qué hace.
+    </div>
+  </section>
+
+
+
+
+
+    <h2 style="margin-top:48px">Sección 3 — Capas 5-7 (8 preguntas)</h2>
+    <p class="sub">HTTP, HTTPS, FTP y SMB. Fíjate en que la 2 y la 5 piden números exactos, y la 2 exige un espacio entre ellos.</p>
+
+    <div class="qblock">
+
+      <!-- Q1 -->
+      <div class="qb" id="q3-1">
+        <div class="qtop">
+          <span class="qnum">Q1</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">What is the default operational mode method used by FTP?</p>
+        <p class="qes">¿Cuál es el método del modo operativo por defecto utilizado por FTP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">Active</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>modo activo es el método por defecto</b>. Funciona así: el cliente manda el comando <code>PORT</code> diciendo qué puerto usar para los datos, y es el <b>servidor</b> el que se conecta de vuelta hacia el cliente.<br><br>El modo pasivo (<code>PASV</code>) es la alternativa: ahí es el cliente quien se conecta al servidor. Existe justo para funcionar detrás de NAT y firewalls, donde el servidor no puede alcanzarte.<br><br>Si <code>Active</code> te lo marca mal, prueba <code>active mode</code>.</div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="qb" id="q3-2">
+        <div class="qtop">
+          <span class="qnum">Q2</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">FTP utilizes what two ports for command and data transfer? (separate the two numbers with a space)</p>
+        <p class="qes">¿Qué dos puertos utiliza FTP para la transferencia de comandos y datos? (separa los dos números con un espacio)</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">20 21</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>21</b> es el canal de <b>comandos</b> (USER, PASS, LIST, RETR…) y el <b>20</b> es el puerto tradicional del canal de <b>datos en modo activo</b>. En modo pasivo, el servidor anuncia un puerto de datos negociado, pero la respuesta que pide este quiz sigue siendo <code>20 21</code>.<br><br>La plataforma los pide separados por un espacio y en ese orden: <code>20 21</code>. Si escribes <code>2021</code> sin espacio, lo marca como incorrecto aunque los números sean correctos.</div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="qb" id="q3-3">
+        <div class="qtop">
+          <span class="qnum">Q3</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">Does SMB utilize TCP or UDP as its transport layer protocol?</p>
+        <p class="qes">¿SMB utiliza TCP o UDP como protocolo de capa de transporte?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">TCP</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El SMB moderno se mueve <b>directamente sobre TCP</b>. NetBIOS por UDP 137/138 es el mecanismo <b>antiguo</b>; hoy también existe NetBIOS sobre TCP en el 139 e incluso SMB sobre QUIC.<br><br>En una captura actual verás el <b>puerto 445</b> y un handshake de tres vías normal de TCP. SMB está orientado a conexión y además exige autenticación del usuario antes de dejarle tocar el recurso.</div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="qb" id="q3-4">
+        <div class="qtop">
+          <span class="qnum">Q4</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">SMB has moved to using what TCP port?</p>
+        <p class="qes">¿SMB ha pasado a usar qué puerto TCP?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">445</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El <b>445</b> es SMB directo sobre TCP. Antes SMB depended de NetBIOS: UDP 137 y 138, y 139 por TCP. Con el 445 el tráfico ya no necesita NetBIOS.<br><br>No los confundas: <b>137, 138 y 139 son NetBIOS</b>; el 445 es SMB moderno. Si en una captura ves 139, es SMB legacy.</div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="qb" id="q3-5">
+        <div class="qtop">
+          <span class="qnum">Q5</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">Hypertext Transfer Protocol uses what well known TCP port number?</p>
+        <p class="qes">¿Qué número de puerto TCP bien conocido usa el Protocolo de Transferencia de Hipertexto?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">80</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">HTTP usa el puerto <b>80</b>, y el <b>8000</b> como puerto alternativo no estándar.<br><br>El puerto que más verás en el mundo es el <b>443</b>, pero ese es de HTTPS, no de HTTP. Es la confusión más frecuente del capítulo: si te piden el puerto de HTTP y respondes 443, en realidad estás respondiendo la pregunta de HTTPS.</div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="qb" id="q3-6">
+        <div class="qtop">
+          <span class="qnum">Q6</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">What HTTP method is used to request information and content from the webserver?</p>
+        <p class="qes">¿Qué método HTTP se usa para solicitar información y contenido del servidor web?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">GET</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">GET es el método más utilizado: <b>solicita información y contenido</b> y devuelve el cuerpo del mensaje.<br><br>HEAD es el parecido: mismo tipo de petición pero <b>sin el cuerpo</b> — por eso se considera «seguro» y sirve para averiguar información y estado del servidor sin descargar nada.<br><br>Y para separar los otros dos: <b>POST</b> crea entidades secundarias en la URI (un comentario, un mensaje), mientras que <b>PUT</b> crea o actualiza el objeto en esa misma URI.</div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="qb" id="q3-7">
+        <div class="qtop">
+          <span class="qnum">Q7</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">What web based protocol uses TLS as a security measure?</p>
+        <p class="qes">¿Qué protocolo basado en web usa TLS como medida de seguridad?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">HTTPS</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">HTTPS es HTTP transportado dentro de <b>TLS</b> (SSL es el antecesor). TLS protege la conversación de aplicación: el GET, el POST, la sesión y las cookies ya no viajan legibles por la red.<br><br>Sus puertos habituales son el <b>443</b> y el alternativo <b>8443</b>. Antes de TLS, alguien que pudiera observar la misma LAN podía leer el tráfico web; cifrarlo dificulta esa interceptación y ayuda a detectar modificaciones.</div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="qb" id="q3-8">
+        <div class="qtop">
+          <span class="qnum">Q8</span>
+          <span class="qlab l-en" lang="en">Question</span>
+          <span class="qlab l-es">Traducción</span>
+        </div>
+        <p class="qen" lang="en">True or False: when utilizing HTTPS, all data sent across the session will appear as TLS Application data?</p>
+        <p class="qes">Verdadero o Falso: al utilizar HTTPS, ¿todos los datos enviados a través de la sesión aparecerán como datos de aplicación TLS?</p>
+        <div class="row">
+          <span class="qlab l-an">Answer</span>
+          <span class="ans">True</span>
+        </div>
+        <div class="why-wrap">
+          <span class="qlab l-wy">Por qué</span>
+          <div class="why">El módulo lo dice literal: una vez establecida la sesión, <b>todos los datos y métodos se envían a través de la conexión TLS y aparecen como TLS Application Data</b>. Por eso en Wireshark, dentro de HTTPS solo ves bytes cifrados.<br><br><b>Matiz para tu análisis:</b> los mensajes del handshake (ClientHello, certificados x.509) aparecen como <em>Handshake de TLS</em>, no como Application Data — pero los datos de la aplicación, sí. Y por debajo sigue viéndose el TCP con sus ACK por el 443: el cifrado de TLS no oculta el handshake TCP.</div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="warn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span><b>Resumen de trampas de formato:</b> las preguntas de número piden solo el número (<code>7</code>, <code>4</code>, <code>3</code>, <code>80</code>, <code>445</code>). La de FTP exige <b>espacio</b> entre los dos puertos: <code>20 21</code>. Y la de MAC exige el <b>guion</b> y la palabra exacta: <code>MAC-address</code>.</span>
+    </div>
+
+    <div class="card" style="margin-top:22px;padding:18px 20px">
+      <h2 style="margin-bottom:8px">Fuentes para seguir estudiando</h2>
+      <p class="sub" style="margin-bottom:12px">Las respuestas del quiz se contrastaron con documentación del protocolo. El texto del módulo es la referencia para el formato exacto de las respuestas; estas fuentes ayudan a entender el porqué.</p>
+      <ul style="padding-left:20px;color:var(--muted);font-size:13.5px">
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc959" target="_blank" rel="noopener">RFC 959 — File Transfer Protocol</a>: canales de control/datos y modos activo y pasivo.</li>
+        <li><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" target="_blank" rel="noopener">IANA Service Name and Port Number Registry</a>: puertos registrados como HTTP, HTTPS y FTP.</li>
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-4.3.1" target="_blank" rel="noopener">RFC 7231, sección 4.3.1</a>: el método <code>GET</code> solicita la representación del recurso.</li>
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc2818" target="_blank" rel="noopener">RFC 2818 — HTTP Over TLS</a>: HTTPS es HTTP protegido mediante TLS.</li>
+        <li><a href="https://learn.microsoft.com/en-us/windows/win32/fileio/microsoft-smb-protocol-and-cifs-protocol-overview" target="_blank" rel="noopener">Microsoft — SMB and CIFS overview</a>: SMB directo sobre TCP y el puerto 445.</li>
+      </ul>
+    </div>
+
+    <div class="fix">
+      <div class="fixh">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+        Si una respuesta correcta te sale como incorrecta
+      </div>
+      <p class="sub" style="margin:0 0 16px">El formulario de HTB Academy tiene bugs conocidos: rechaza respuestas que son correctas. No cambies de respuesta, cambia cómo la envías.</p>
+      <ol class="fixol">
+        <li><b>Escríbela a mano, no la pegues.</b> Es la causa nº1. Al pegar se cuelan espacios invisibles, saltos de línea o caracteres raros que el corrector no tolera. Selecciona todo el campo, bórralo del todo y teclea la respuesta.</li>
+        <li><b>Sin espacios ni punto final.</b> Ni un espacio delante ni detrás, y nada de punto al final. Un espacio suelto ya cuenta como incorrecto.</li>
+        <li><b>Prueba en minúscula.</b> Algunas respuestas de HTB distinguen mayúsculas. Si <code>UDP</code> falla, prueba <code>udp</code>.</li>
+        <li><b>Cierra sesión y vuelve a entrar.</b> Es el arreglo que más se repite en el foro de HTB: la respuesta idéntica, rechazada ayer, se acepta después de re-loguearte. La sesión caducada es el motivo más común.</li>
+        <li><b>Recarga fuerte y limpia el campo.</b> Ctrl+Shift+R, borra el contenido del campo con Supr y reenvía. Desactiva bloqueadores de anuncios y gestores de contraseñas: algunos inyectan scripts en la página.</li>
+      </ol>
+    </div>
+  </section>
+
+  <nav class="section-pager" aria-label="Navegación entre secciones"><a class="section-pager-btn" href="intro-to-network-traffic-analysis-seccion-2.html"><span class="pager-arrow" aria-hidden="true">←</span><span><small>Anterior</small><b>Sección 2</b></span></a><span class="section-position">3 <span>/</span> 15 secciones</span><span class="section-pager-btn is-disabled" aria-disabled="true"><span><small>Siguiente</small><b>Próximamente</b></span><span class="pager-arrow" aria-hidden="true">→</span></span></nav>
+
+  <!-- ============ Footer ============ -->
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <p class="foot-note">Fuente: secciones 1, 2 y 3 de <em>Intro to Network Traffic Analysis</em> (HTB Academy), más la referencia oficial <a href="https://www.tcpdump.org/manpages/pcap-filter.7.html" target="_blank" rel="noopener">pcap-filter(7)</a> para la sintaxis BPF y las RFC <a href="https://www.rfc-editor.org/rfc/rfc2616" target="_blank" rel="noopener">2616</a> (HTTP), <a href="https://www.rfc-editor.org/rfc/rfc2246" target="_blank" rel="noopener">2246</a> (TLS) y <a href="https://www.rfc-editor.org/rfc/rfc959" target="_blank" rel="noopener">959</a> (FTP).</p>
+        <p class="foot-note" style="margin-top:14px"><b>Cómo usar esta página:</b> el botón <b>Ocultar respuestas</b> entra en modo repaso — las respuestas se ocultan y se revelan una a una al pulsar cada tarjeta. El botón <b>copiar</b> pone la respuesta en el portapapeles. El progreso de «dominadas» se guarda en tu navegador, en este dispositivo.</p>
+        <div class="foot-meta">
+          <span class="foot-badge">3 de 15 secciones</span>
+          <span class="foot-badge">17 preguntas</span>
+          <span class="foot-badge">Vanilla HTML + CSS + JS</span>
+        </div>
+      </div>
+      <div>
+        <span class="foot-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+          apunte-htb-academy
+        </span>
+      </div>
+    </div>
+  </footer>
+
+
+
+  </div><!-- /columna de contenido -->
+  </div><!-- /layout -->
+
+</main>
+
+<button class="totop" id="totop" type="button" title="Volver arriba" aria-label="Volver arriba">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+</button>
+
+<script src="../assets/js/app.js" defer></script>
+</body>
+</html>

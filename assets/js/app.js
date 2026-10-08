@@ -260,6 +260,7 @@
     if (!cards.length) return;
 
     const KEY = progressKey();
+    const questionOffset = Number(document.body.getAttribute('data-question-offset') || 0);
     let done = new Set();
 
     // Migración: antes de separar por módulo el progreso se guardaba en una
@@ -287,7 +288,8 @@
 
         mark.addEventListener('click', (ev) => {
           ev.stopPropagation();
-          done.has(i) ? done.delete(i) : done.add(i);
+          const questionIndex = i + questionOffset;
+          done.has(questionIndex) ? done.delete(questionIndex) : done.add(questionIndex);
           save();
           paint();
         });
@@ -318,7 +320,7 @@
         if (document.body.classList.contains('quiz')) card.classList.toggle('rev');
       });
 
-      if (done.has(i)) card.classList.add('done');
+      if (done.has(i + questionOffset)) card.classList.add('done');
     });
 
     function save() { safeSet(KEY, JSON.stringify([...done])); }
@@ -326,7 +328,7 @@
     function paint() {
       let n = 0;
       cards.forEach((card, i) => {
-        const on = done.has(i);
+        const on = done.has(i + questionOffset);
         card.classList.toggle('done', on);
         if (on) n++;
       });

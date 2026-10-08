@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Fundamentos de NTA — Intro to Network Traffic Analysis — Apunte HTB Academy</title>
+
+<!-- SEO / redes sociales -->
+<meta name="description" content="Apunte en español del módulo Intro to Network Traffic Analysis de HTB Academy. Secciones 1 a 3 de 15, con las 17 preguntas del quiz, respuesta en inglés, traducción al español y explicación de por qué cada respuesta es correcta.">
+<meta name="author" content="apunte-htb-academy">
+<meta name="keywords" content="HTB Academy, network traffic analysis, NTA, BPF, OSI, TCP/IP, Wireshark, tcpdump, TShark, examen HTB, apunte, networking">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e11" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://runer0101.github.io/apunte-htb-academy/modulos/intro-to-network-traffic-analysis-seccion-1.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="apunte-htb-academy">
+<meta property="og:url" content="https://runer0101.github.io/apunte-htb-academy/modulos/intro-to-network-traffic-analysis-seccion-1.html">
+<meta property="og:title" content="Fundamentos de NTA — Apunte HTB Academy">
+<meta property="og:description" content="Secciones 1 a 3 de 15 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Intro to Network Traffic Analysis — Apunte HTB Academy">
+<meta name="twitter:description" content="Secciones 1 a 3 de 15 del módulo de HTB Academy, con las 17 preguntas del quiz bilingües y la explicación de cada respuesta.">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body data-module="nta" data-question-offset="0">
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy <span class="bs">NTA</span>
+    </span>
+
+    <nav class="navlinks" id="navlinks" aria-label="Secciones">
+      <a href="intro-to-network-traffic-analysis-seccion-1.html" aria-current="page">Sección 1</a>
+      <a href="intro-to-network-traffic-analysis-seccion-2.html">Sección 2</a>
+      <a href="intro-to-network-traffic-analysis-seccion-3.html">Sección 3</a>
+    </nav>
+
+    <div class="tools">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Abrir menú">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="iconbtn theme-toggle" data-theme-toggle title="Activar tema oscuro" aria-label="Activar tema oscuro">
+        <span class="theme-icon" aria-hidden="true"><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
+        <span class="theme-label">Oscuro</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="contenido">
+  <!-- ============ Portada ============ -->
+  <div class="hero">
+    <div class="eyebrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy · Intro to Network Traffic Analysis
+    </div>
+    <h1>Análisis de Tráfico de Red</h1>
+    <p class="lede">La idea que atraviesa todo el módulo: <b>para detectar algo raro necesitas primero saber qué es lo normal.</b> Por eso todo empieza estableciendo una línea base.</p>
+
+    <div class="hero-meta">
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 9v11"/></svg>
+        Módulo de <b>15 secciones</b>
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <b>3</b> secciones documentadas
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        <b>17</b> preguntas con explicación
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+        Respuestas en <b>inglés</b>, explicación en español
+      </span>
+    </div>
+
+    <div class="track">
+      <div class="track-h">
+        <span class="tt">Progreso del módulo</span>
+        <span class="tn">1 / 15 secciones</span>
+      </div>
+      <div class="track-bar" role="img" aria-label="Sección 1 de 15">
+        <i style="width:6.67%"></i><i class="todo" style="width:93.33%"></i>
+      </div>
+      <div class="track-legend">Esta es la sección 1 de 15. Las demás secciones se irán añadiendo a medida que se publiquen en HTB Academy.</div>
+    </div>
+  </div>
+
+
+
+  <div class="layout">
+
+  <aside class="sidenav" aria-label="Navegación del módulo">
+    <a class="sn-back" href="../index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Todos los módulos
+    </a>
+    <div class="sn-title">Secciones del módulo</div>
+    <ol>
+      <li><a href="intro-to-network-traffic-analysis-seccion-1.html" class="on" aria-current="page"><span class="n">1</span><span class="t">Fundamentos de NTA</span></a></li>
+      <li><a href="intro-to-network-traffic-analysis-seccion-2.html"><span class="n">2</span><span class="t">Manual básico: Capas 1-4</span></a></li>
+      <li><a href="intro-to-network-traffic-analysis-seccion-3.html"><span class="n">3</span><span class="t">Manual básico: Capas 5-7</span></a></li>
+      <li><a href="#" class="todo" aria-disabled="true"><span class="n">4–15</span><span class="t">Próximamente</span><span class="dot-sep">·</span></a></li>
+    </ol>
+    <div class="sn-foot">Sección actual: <b>1 / 15</b></div>
+  </aside>
+
+  <div>
+
+<div class="part" id="sec1">Sección 1 <span>Fundamentos de NTA</span></div>
+
+  <!-- ---------- 1.1 Qué es NTA ---------- -->
+  <section>
+    <h2>Qué es NTA</h2>
+    <p class="sub">Examinar el tráfico de red para <b>caracterizar los puertos y protocolos comunes</b>, establecer una <b>línea base</b>, monitorear y responder a amenazas, y asegurar la mayor visibilidad posible de tu red.</p>
+    <p class="sub">El problema: los atacantes usan herramientas y credenciales legítimas que la mayoría de las empresas ya permiten en su red. Si algo ya está permitido, filtrarlo por política no sirve. <b>NTA lo detecta por comportamiento, no por permiso.</b></p>
+
+    <div class="card" style="margin:20px 0;padding:20px 22px">
+      <h3 style="margin-bottom:8px">Antes de empezar: cuatro palabras básicas</h3>
+      <p class="sub" style="margin-bottom:14px">Cuando leas «analizar tráfico», piensa en observar conversaciones entre dispositivos. No necesitas memorizarlo todo todavía; estas cuatro ideas aparecen en todo el módulo.</p>
+      <div class="visrow" style="border-top:1px solid var(--line-soft)">
+        <span class="lbl"><b>Host</b></span>
+        <span class="val">Cualquier dispositivo que participa en la red: un portátil, un servidor, un router o un teléfono.</span>
+      </div>
+      <div class="visrow" style="border-top:1px solid var(--line-soft)">
+        <span class="lbl"><b>Paquete</b></span>
+        <span class="val">Un fragmento de datos que viaja por la red junto con información de control, como origen, destino y protocolo.</span>
+      </div>
+      <div class="visrow" style="border-top:1px solid var(--line-soft)">
+        <span class="lbl"><b>Puerto</b></span>
+        <span class="val">Un número que identifica el servicio dentro de un host. Por ejemplo, HTTP suele usar el 80 y HTTPS el 443.</span>
+      </div>
+      <div class="visrow" style="border-top:1px solid var(--line-soft)">
+        <span class="lbl"><b>Protocolo</b></span>
+        <span class="val">El conjunto de reglas que define cómo se comunican los dispositivos, como TCP, UDP, DNS o HTTP.</span>
+      </div>
+    </div>
+
+    <div class="uses">
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+        <p><b>Recolectar tráfico</b> en tiempo real dentro de la red para analizar amenazas futuras.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 9 4-18 3 9h4"/></svg></span>
+        <p><b>Establecer una línea base</b> para las comunicaciones de red diarias.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <p><b>Identificar puertos no estándar</b>, hosts sospechosos y problemas de protocolo: errores HTTP, problemas de TCP, configuraciones incorrectas.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg></span>
+        <p><b>Detectar malware</b>: ransomware, exploits e interacciones no estándar.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v3l2 2"/></svg></span>
+        <p><b>Investigar incidentes pasados</b> y durante la caza de amenazas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.2 Conocimientos previos ---------- -->
+  <section>
+    <h2>Qué necesitas saber antes de analizar tráfico</h2>
+    <p class="sub">No hace falta memorizar cada detalle. Lo importante es reconocer qué estás viendo y saber dónde buscar cuando algo no te resulte familiar. Estas son las cinco bases que el módulo utiliza constantemente.</p>
+
+    <div class="uses">
+      <div class="use">
+        <span class="ic"><span class="mono">OSI</span></span>
+        <p><b>TCP/IP y OSI.</b> Te ayudan a ubicar cada dato: una MAC pertenece al enlace, una IP a la red y un puerto a la conversación de transporte.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><span class="mono">LAN</span></span>
+        <p><b>Conceptos de red.</b> Switching entrega tramas dentro de una red; routing decide hacia qué otra red debe viajar un paquete. Un punto de captura en un troncal verá mucho más tráfico que uno en un puerto de oficina.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><span class="mono">:80</span></span>
+        <p><b>Puertos y protocolos.</b> Reconocer HTTP/80, HTTPS/443, DNS/53 o SMB/445 permite detectar rápidamente tráfico inesperado o mal formado.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><span class="mono">TCP</span></span>
+        <p><b>Paquetes y transporte.</b> TCP mantiene una conversación ordenada y permite seguir un flujo; UDP envía datagramas con menos control, por lo que una captura puede ser más difícil de reconstruir.</p>
+      </div>
+      <div class="use">
+        <span class="ic"><span class="mono">PDU</span></span>
+        <p><b>Encapsulación.</b> Cada capa envuelve los datos anteriores con su propia cabecera. Leer esas cabeceras permite avanzar desde Ethernet hasta IP, TCP/UDP y la aplicación.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;padding:18px 20px">
+      <h3 style="margin-bottom:8px">Una regla práctica</h3>
+      <p class="sub" style="margin:0">Si una captura parece confusa, no intentes entenderla completa de una vez. Empieza por <b>quién habla con quién</b>, continúa con <b>qué protocolo y puerto usa</b>, y después revisa las cabeceras y el contenido de la conversación.</p>
+    </div>
+  </section>
+
+  <!-- ---------- 1.3 Línea base ---------- -->
+  <section>
+    <h2>La línea base, y por qué es la clave de todo</h2>
+    <p class="sub">Para detectar tráfico malicioso necesitas conocer el tráfico típico de tu enclave. Sin esa referencia, un SYN en el puerto 3306 no significa nada. Con ella, significa todo.</p>
+    <p class="sub">El ejemplo del módulo: si ves <b>muchos paquetes SYN en puertos que nunca usáis</b>, lo más probable es que alguien esté intentando determinar qué puertos están abiertos en vuestros hosts. Eso es un <b>portscan</b>.</p>
+
+    <div class="cmp">
+      <div class="pane">
+        <div class="pane-h"><span class="t">Línea base normal</span><span class="s">80 % del tráfico</span></div>
+        <div class="strip">
+          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:70%"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:55%"></div></div>
+          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:40%"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:22</span><div class="bar" style="width:24%"></div></div>
+          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:18%"></div></div>
+        </div>
+        <div class="verdict">Pocos puertos, muy repetidos. Es lo que tu red hace siempre.</div>
+      </div>
+      <div class="pane bad">
+        <div class="pane-h"><span class="t">Posible portscan</span><span class="s">mismo origen · 30 s</span></div>
+        <div class="strip">
+          <div class="pk"><span class="f">SYN</span><span class="p">:21</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:23</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:25</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:445</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:3306</span><div class="bar"></div></div>
+          <div class="pk"><span class="f">SYN</span><span class="p">:3389</span><div class="bar"></div></div>
+        </div>
+        <div class="verdict"><b>Muchos puertos distintos, casi ninguno habitual.</b> Nadie necesita 6 conexiones en 30 segundos. Un humano no abre eso.</div>
+      </div>
+    </div>
+
+    <div class="trap">
+      <b>La pregunta que guía todo el módulo:</b> ¿había <b>muchos paquetes SYN</b> (con y sin respuesta ACK) en puertos que nunca o rara vez usáis? Si sí, hay alguien mapeando la red. Requiere conocimiento concreto: no basta con tener la teoría, hay que saber <b>qué buscar</b>.
+    </div>
+  </section>
+
+  <!-- ---------- 1.4 Herramientas ---------- -->
+  <section>
+    <h2>Herramientas de análisis</h2>
+    <p class="sub">Cada una aporta una forma distinta de capturar o disecar tráfico. Ojo a la nota del módulo: <b>no son solo para administradores</b> — muchas se pueden usar con fines maliciosos.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-h"><span class="n">1</span><span class="t">Analizadores de paquetes — leen y decodifican</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">tcpdump</td><td>Utilidad de línea de comandos. Con ayuda de <b>LibPcap</b> captura e interpreta tráfico desde una interfaz de red o desde un archivo de captura.</td></tr>
+            <tr><td class="tool">TShark</td><td>Muy parecido a tcpdump. Captura en vivo o lee y decodifica desde un archivo. Es la <b>variante de línea de comandos de Wireshark</b>.</td></tr>
+            <tr><td class="tool">Wireshark</td><td>Analizador <b>gráfico</b>. Ejecuta muchos disectores contra el tráfico para caracterizar protocolos y aplicaciones. Es el que verás en el módulo.</td></tr>
+            <tr><td class="tool">NGrep</td><td>Como <b>grep</b> pero sobre paquetes de red. Entiende PCAP y regex + sintaxis BPF. Brilla depurando tráfico en claro de HTTP y FTP.</td></tr>
+            <tr><td class="tool">tcpick</td><td>Sniffer que se especializa en <b>rastrear y reensamblar flujos TCP</b>. Excelente para leer un flujo y reensamblarlo en un archivo.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tier">
+        <div class="tier-h"><span class="n">2</span><span class="t">Infraestructura de captura — obtienen copias del tráfico</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">Network Taps</td><td>Dispositivos que toman <b>copias</b> del tráfico y las envían a otro sitio para análisis. En línea o fuera de banda. Activos (analizan) o pasivos (devuelven el paquete original como si nada).</td></tr>
+            <tr><td class="tool">Span Ports</td><td>Copia tramas de dispositivos de <b>capa 2 o 3</b> durante el egreso o ingreso y las envía a un punto de recolección. Un puerto espejado a un servidor de logs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tier">
+        <div class="tier-h"><span class="n">3</span><span class="t">Agregación y análisis — muchos datos, un solo lugar</span></div>
+        <table>
+          <tbody>
+            <tr><td class="tool">Elastic Stack</td><td>Conjunto de herramientas que toman datos de <b>muchas fuentes</b>, los ingieren y los visualizan para permitir búsqueda y análisis.</td></tr>
+            <tr><td class="tool">SIEM</td><td>Punto central donde los datos se analizan y visualizan (como Splunk). Alertas, forense y comprobaciones diarias.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.5 Visibilidad ---------- -->
+  <section>
+    <h2>Dónde te conectas importa más que qué usas</h2>
+    <p class="sub">Para escuchar pasivamente necesitas estar conectado al segmento que quieres escuchar. En un entorno conmutado esto es crítico, porque las VLAN y los puertos del switch <b>no reenvían tráfico fuera de su dominio de difusión</b>.</p>
+    <div class="card vis">
+      <div class="visrow">
+        <span class="lbl"><b>Enlace troncal</b>trunk link</span>
+        <span class="val">Ves <b>todo</b> el tráfico de todas las VLANs mezclado. Mucho más volumen, y muy diferente a lo habitual.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>Puerto de switch</b>de oficina</span>
+        <span class="val">Solo ves el tráfico de <b>esa</b> VLAN. Es lo normal, y por eso es más difícil detectar lo anómalo.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>Consecuencia</b>de no pensarlo</span>
+        <span class="val">Si quieres capturar una VLAN concreta, <b>tu dispositivo debe estar en esa misma red</b>. Si no, no verás nada — no es que no pase, es que no llega a tu interfaz.</span>
+      </div>
+      <div class="visrow">
+        <span class="lbl"><b>La solución</b>taps y span ports</span>
+        <span class="val">Permiten obtener copia de todo el tráfico que atraviesa un enlace concreto, <b>independientemente del segmento o destino</b>. Eso rompe la limitación del dominio de difusión.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.6 Flujo de trabajo ---------- -->
+  <section>
+    <h2>El flujo de trabajo de NTA</h2>
+    <p class="sub">No es ciencia exacta ni un bucle directo. Está muy influenciado por lo que buscas (¿errores de red o acciones maliciosas?) y por dónde tienes visibilidad. Se reduce a cinco principios. Púlsalos en orden.</p>
+    <div class="card wf">
+      <div class="wsteps" id="wsteps"></div>
+      <div class="wbody" id="wbody"></div>
+    </div>
+  </section>
+
+  <!-- ---------- 1.7 BPF ---------- -->
+  <section>
+    <h2>Sintaxis BPF</h2>
+    <p class="sub">Casi todas las herramientas anteriores comparten un lenguaje de filtros: el <b>Berkeley Packet Filter</b>. Es el método principal del módulo. BPF permite que una interfaz <i>raw</i> lea y escriba desde la capa de Enlace de Datos.</p>
+    <p class="sub">Un filtro BPF es una pregunta que le haces a la captura: «enséñame solo el tráfico que cumpla estas condiciones». En lugar de revisar miles de paquetes, reduces la vista a lo que quieres investigar. El filtro de abajo, leído en español, significa: <b>tráfico TCP dirigido al puerto 443 desde el host 10.0.0.5, excepto el puerto 22</b>.</p>
+
+    <div class="card bpf">
+      <p class="mono filt"><span class="t-proto">tcp</span> <span class="t-dir">dst</span> <span class="t-type">port</span> <span class="t-val">443</span> <span class="t-op">and</span> <span class="t-dir">src</span> <span class="t-type">host</span> <span class="t-val">10.0.0.5</span> <span class="t-op">and</span> <span class="t-op">not</span> <span class="t-type">port</span> <span class="t-val">22</span></p>
+
+      <div class="annot">
+        <div class="an"><b>Protocolo</b><p><code>tcp, udp, ip, ip6, arp, icmp, ether</code> — restringe a ese protocolo. Es el primer calificador.</p></div>
+        <div class="an"><b>Dirección</b><p><code>src, dst, src or dst</code> — si lo omites, coincide en ambos sentidos.</p></div>
+        <div class="an"><b>Tipo</b><p><code>host, net, port, portrange</code> — es el último calificador. Sin tipo, se asume <code>host</code>.</p></div>
+        <div class="an"><b>Operadores</b><p><code>and / or / not</code> — también <code>&amp;&amp; || !</code>. Agrupan con paréntesis.</p></div>
+      </div>
+
+      <div class="trap">
+        <b>La trampa que muerde a los expertos:</b> en BPF <code>and</code> y <code>or</code> tienen <b>la misma precedencia</b> y se leen de izquierda a derecha. Así que <code>host X and port 80 or port 443</code> significa <i>(X y 80) o (443 de cualquiera)</i>. Pon siempre paréntesis: <code>host X and (port 80 or port 443)</code>.
+      </div>
+
+      <div class="annot" style="margin-top:24px">
+        <div class="an"><b>Solo escaneos</b><p><code>'tcp[tcpflags] &amp; tcp-syn != 0 and tcp[tcpflags] &amp; tcp-ack == 0'</code> — intentos de conexión sin respuesta. Es así como ves un portscan en marcha.</p></div>
+        <div class="an"><b>Todo el tráfico de una subred</b><p><code>'net 10.0.0.0/24'</code> — o con <code>src net</code> / <code>dst net</code> para separar salida de entrada.</p></div>
+        <div class="an"><b>Quitar el ruido</b><p><code>'not arp'</code> o <code>'not broadcast'</code> — es el paso 2 del flujo de trabajo.</p></div>
+        <div class="an"><b>Rango de puertos</b><p><code>'portrange 8000-8100'</code> — útil para buscar puertos no estándar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN 2
+       ============================================================ -->
+
+  <nav class="section-pager" aria-label="Navegación entre secciones"><span class="section-pager-btn is-disabled" aria-disabled="true"><span class="pager-arrow" aria-hidden="true">←</span><span><small>Anterior</small><b>Inicio</b></span></span><span class="section-position">1 <span>/</span> 15 secciones</span><a class="section-pager-btn next" href="intro-to-network-traffic-analysis-seccion-2.html"><span><small>Siguiente</small><b>Sección 2</b></span><span class="pager-arrow" aria-hidden="true">→</span></a></nav>
+
+  <!-- ============ Footer ============ -->
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <p class="foot-note">Fuente: secciones 1, 2 y 3 de <em>Intro to Network Traffic Analysis</em> (HTB Academy), más la referencia oficial <a href="https://www.tcpdump.org/manpages/pcap-filter.7.html" target="_blank" rel="noopener">pcap-filter(7)</a> para la sintaxis BPF y las RFC <a href="https://www.rfc-editor.org/rfc/rfc2616" target="_blank" rel="noopener">2616</a> (HTTP), <a href="https://www.rfc-editor.org/rfc/rfc2246" target="_blank" rel="noopener">2246</a> (TLS) y <a href="https://www.rfc-editor.org/rfc/rfc959" target="_blank" rel="noopener">959</a> (FTP).</p>
+        <p class="foot-note" style="margin-top:14px"><b>Cómo usar esta página:</b> el botón <b>Ocultar respuestas</b> entra en modo repaso — las respuestas se ocultan y se revelan una a una al pulsar cada tarjeta. El botón <b>copiar</b> pone la respuesta en el portapapeles. El progreso de «dominadas» se guarda en tu navegador, en este dispositivo.</p>
+        <div class="foot-meta">
+          <span class="foot-badge">3 de 15 secciones</span>
+          <span class="foot-badge">17 preguntas</span>
+          <span class="foot-badge">Vanilla HTML + CSS + JS</span>
+        </div>
+      </div>
+      <div>
+        <span class="foot-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+          apunte-htb-academy
+        </span>
+      </div>
+    </div>
+  </footer>
+
+
+
+  </div><!-- /columna de contenido -->
+  </div><!-- /layout -->
+
+</main>
+
+<button class="totop" id="totop" type="button" title="Volver arriba" aria-label="Volver arriba">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+</button>
+
+<script src="../assets/js/app.js" defer></script>
+</body>
+</html>
