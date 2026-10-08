@@ -163,8 +163,8 @@ El contenido está pensado para crecer. Para sumar la sección 4 (o la que toque
 
 ## Publicarlo
 
-El sitio ya está configurado para GitHub Pages: cada `push` a `main` dispara
-`.github/workflows/pages.yml`, que publica el contenido sin ningún paso de build.
+El sitio se publica en GitHub Pages con GitHub Actions: cada `push` a `main` dispara
+`.github/workflows/pages.yml`, que sube el contenido sin ningún paso de build.
 
 ```bash
 git add .
@@ -176,9 +176,13 @@ El sitio queda en <https://runer0101.github.io/apunte-htb-academy/> en unos segu
 Puedes seguir el progreso en la pestaña **Actions** del repo, y relanzar el despliegue a
 mano con el botón *Run workflow*.
 
-> La fuente de Pages está configurada como **GitHub Actions**, no como rama. Si en algún
-> momento la cambias en *Settings → Pages*, el workflow deja de ejecutarse y viceversa:
-> son excluyentes.
+> **Habilitar Pages (una sola vez):** ve a **Settings → Pages → Build and deployment →
+> Source** y ponlo en **GitHub Actions**. Sin ese ajuste el workflow falla con
+> `Resource not accessible by integration`, porque el token del workflow puede publicar
+> en un sitio existente pero no tiene permiso para crearlo.
+>
+> La fuente de Pages y el workflow son excluyentes: si en algún momento cambias la fuente
+> en *Settings → Pages*, el workflow deja de ejecutarse, y viceversa.
 
 ---
 

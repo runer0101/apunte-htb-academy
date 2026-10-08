@@ -32,11 +32,10 @@ jobs:
 
       - name: Configurar Pages
         uses: actions/configure-pages@v5
-        with:
-          # Habilita GitHub Pages si todavía no lo está. Así el repo funciona
-          # sin pasos manuales previos, también en clones y forks nuevos.
-          # Requiere el permiso `pages: write` en el token.
-          enablement: true
+        # Nota: GitHub Pages debe estar habilitado una vez en
+        # Settings → Pages → Source: GitHub Actions. El token del workflow
+        # puede publicar en un sitio existente, pero no tiene permiso
+        # administrativo para crearlo desde cero.
 
       - name: Subir el sitio
         uses: actions/upload-pages-artifact@v3
