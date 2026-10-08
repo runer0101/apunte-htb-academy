@@ -259,8 +259,9 @@
     const slot = document.getElementById('quiz-sec2-slot');
     const title = document.getElementById('quiz-sec2-title');
     const quiz = document.getElementById('quiz-sec2');
-    if (!slot || !title || !quiz) return;
-    slot.append(title, quiz);
+    const reviewbar = document.querySelector('.reviewbar');
+    if (!slot || !title || !quiz || !reviewbar) return;
+    slot.append(reviewbar, title, quiz);
   }
 
   function initQuestions() {
