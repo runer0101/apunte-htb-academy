@@ -282,16 +282,25 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
   text-transform:uppercase;letter-spacing:.1em;font-weight:600;
 }
 .section-pager-btn b{display:block;margin-top:3px;color:var(--ink);font-size:13px;font-weight:600}
-.pager-arrow{
-  display:grid;place-items:center;width:34px;height:34px;flex:none;
-  font-size:0;line-height:1;color:var(--accent-ink);
-  border:1px solid var(--accent-line);border-radius:10px;
+.pager-arrow,.link-arrow{
+  position:relative;display:grid;place-items:center;flex:none;
+  width:clamp(34px,5vw,56px);height:clamp(34px,5vw,56px);
+  color:var(--accent-ink);border:1px solid var(--accent-line);border-radius:clamp(9px,1.2vw,15px);
+  transition:background .18s,border-color .18s,transform .18s;
 }
-.pager-arrow::before{
-  font-family:'Symbols Nerd Font';font-size:18px;font-weight:400;line-height:1;
+.pager-arrow::before,.link-arrow::before{
+  content:"";display:block;width:clamp(8px,1.3vw,13px);height:clamp(8px,1.3vw,13px);
+  border-top:2px solid currentColor;border-right:2px solid currentColor;
+  transition:transform .18s;
 }
-.pager-arrow.icon-prev::before{content:'\f053'}
-.pager-arrow.icon-next::before{content:'\f054'}
+.pager-arrow.icon-prev::before,.link-arrow.icon-prev::before{transform:rotate(-135deg)}
+.pager-arrow.icon-next::before,.link-arrow.icon-next::before{transform:rotate(45deg)}
+.section-pager-btn:hover .pager-arrow,.modcard:hover .link-arrow{
+  background:var(--accent-soft);border-color:var(--accent);transform:translateX(2px);
+}
+.section-pager-btn:hover .pager-arrow.icon-prev,.modcard:hover .link-arrow.icon-prev{transform:translateX(-2px)}
+.modcard .link-arrow{width:34px;height:34px;border-radius:10px}
+.modcard .link-arrow::before{width:8px;height:8px}
 .section-position{
   color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;
   white-space:nowrap;text-align:center;padding:8px 11px;border:1px solid var(--line);
@@ -789,7 +798,7 @@ footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--line)}
   font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);
 }
 .modcard .mgo{
-  display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+  display:inline-flex;align-items:center;gap:9px;margin-top:14px;
   font-size:13px;font-weight:600;color:var(--accent-ink);
 }
 .modcard.todo-file{opacity:.92}
