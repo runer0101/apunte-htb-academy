@@ -110,6 +110,7 @@
       const b = document.createElement('button');
       b.className = 'ws';
       b.type = 'button';
+      b.setAttribute('aria-label', `Mostrar paso ${i + 1}: ${w.t}`);
       b.innerHTML =
         '<span class="wn">Paso ' + (i + 1) + (w.off ? ' · fuera del bucle' : '') + '</span>' +
         '<span class="wt">' + w.t + '</span>';
@@ -120,6 +121,7 @@
     function draw() {
       const w = WORKFLOW[current];
       [...steps.children].forEach((c, i) => c.classList.toggle('on', i === current));
+      [...steps.children].forEach((c, i) => c.setAttribute('aria-current', i === current ? 'step' : 'false'));
 
       let html =
         '<div class="wt2"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
@@ -217,7 +219,8 @@
           '<div class="steptitle"><span class="lay">Application · datos sueltos</span>' +
           '<span class="tag">TCP/IP 4</span></div>' +
           '<div class="jt">Un bloque de bytes sin ninguna etiqueta. Todavía no sabe a dónde va. ' +
-          'Pulsa <b>Bajar</b> para empezar a envolverlo.</div></div>';
+          'Pulsa <b>Bajar</b> para empezar a envolverlo.</div></div>' +
+          '<p class="interaction-status">Estado: datos de aplicación sin encapsular.</p>';
       } else {
         const s = ENCAPSULATION[cur];
         box.innerHTML =
@@ -225,11 +228,14 @@
           '<div class="steptitle"><span class="lay">' + s.name + '</span>' +
           '<span class="tag">TCP/IP ' + s.tcp + '</span></div>' +
           '<div class="jt">' + s.job + '</div>' +
-          '<div class="res">' + s.res + '</div></div>';
+          '<div class="res">' + s.res + '</div></div>' +
+          '<p class="interaction-status">Paso ' + (cur + 1) + ' de ' + ENCAPSULATION.length + ': se ha añadido <b>' + s.label + '</b>.</p>';
       }
 
       prev.disabled = cur < 0;
       next.disabled = cur >= ENCAPSULATION.length - 1;
+      prev.setAttribute('aria-label', cur < 0 ? 'Subir: inicio' : 'Subir a la capa anterior');
+      next.setAttribute('aria-label', next.disabled ? 'Bajar: encapsulación completa' : 'Bajar y añadir la siguiente cabecera');
     }
 
     next.addEventListener('click', () => { if (cur < ENCAPSULATION.length - 1) { cur++; draw(); } });
@@ -339,10 +345,16 @@
     // Toggle modo repaso
     const bq = document.getElementById('btnQuiz');
     if (bq) {
+      bq.setAttribute('aria-pressed', 'false');
+      bq.title = 'Ocultar respuestas para practicar y revelarlas al pulsar cada tarjeta';
       bq.addEventListener('click', () => {
         document.body.classList.toggle('quiz');
         const on = document.body.classList.contains('quiz');
         bq.textContent = on ? 'Mostrar respuestas' : 'Ocultar respuestas';
+        bq.setAttribute('aria-pressed', String(on));
+        bq.title = on
+          ? 'Mostrar de nuevo las respuestas de todas las preguntas'
+          : 'Ocultar respuestas para practicar y revelarlas al pulsar cada tarjeta';
         bq.classList.toggle('pri', !on);
         cards.forEach((c) => c.classList.remove('rev'));
       });

@@ -182,6 +182,20 @@ h2{
   background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);box-shadow:var(--shadow);
 }
+.interaction-tip{
+  display:flex;align-items:flex-start;gap:10px;margin:0 0 14px;padding:11px 13px;
+  border:1px solid var(--accent-line);border-radius:10px;background:var(--accent-soft);
+  color:var(--muted);font-size:13px;line-height:1.5;
+}
+.interaction-tip::before{
+  content:'i';display:grid;place-items:center;flex:none;width:20px;height:20px;
+  border:1px solid currentColor;border-radius:50%;color:var(--accent-ink);
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;
+}
+.interaction-tip b{color:var(--ink)}
+.interaction-status{
+  margin-top:12px;color:var(--faint);font-size:12px;
+}
 .eyebrow{
   display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;

@@ -179,6 +179,7 @@
   <section>
     <h2>Encapsulación y PDU</h2>
     <p class="sub">Una PDU es una unidad de datos con información de control y datos encapsulados de cada capa. A medida que los datos <b>descienden</b> por la pila, cada capa envuelve los de la anterior en una burbuja nueva y pega su información en la cabecera. Pulsa <b>Bajar</b> — también funciona con las flechas del teclado.</p>
+    <div class="interaction-tip" role="note"><span><b>Qué debes observar:</b> cada clic en <b>Bajar</b> añade una cabecera. Fíjate en cómo cambia el nombre de la PDU: datos → segmento → paquete → trama. Usa <b>Subir</b> para quitar la última capa y comparar el antes y el después.</span></div>
     <div class="card enc">
       <div class="wire" id="wire"></div>
       <div class="bar" id="bar"></div>
@@ -287,6 +288,7 @@
     </div>
   </section>
 
+  <div class="interaction-tip" role="note"><span><b>Cómo practicar:</b> pulsa <b>Ocultar respuestas</b> para convertir las tarjetas en modo repaso. Después haz clic en una tarjeta para revelar su explicación, usa <b>copiar</b> para llevar la respuesta al formulario de HTB y marca <b>dominada</b> cuando ya puedas responderla sin mirar.</span></div>
   <div class="reviewbar">
     <span class="rb-info">Dominadas <span class="rb-track"><i id="rbfill"></i></span><b id="rbcount">0 / 17</b></span>
     <button id="btnQuiz" type="button" class="pri">Ocultar respuestas</button>
