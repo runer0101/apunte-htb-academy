@@ -56,6 +56,14 @@
   --maxw:1000px;
 }
 
+@font-face{
+  font-family:'Symbols Nerd Font';
+  src:url('../fonts/SymbolsNerdFont-Regular.ttf') format('truetype');
+  font-display:swap;
+  font-weight:400;
+  font-style:normal;
+}
+
 /* Modo oscuro — se activa con data-theme="dark" o prefers-color-scheme */
 [data-theme="dark"]{
   --bg:#0c0e11;
@@ -272,7 +280,18 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
   text-transform:uppercase;letter-spacing:.1em;font-weight:600;
 }
 .section-pager-btn b{display:block;margin-top:3px;color:var(--ink);font-size:13px;font-weight:600}
-.pager-arrow{display:grid;place-items:center;width:30px;height:30px;flex:none;font-size:24px;line-height:1;color:var(--accent-ink);border:1px solid var(--accent-line);border-radius:50%}
+.pager-arrow{
+  display:grid;place-items:center;width:34px;height:34px;flex:none;
+  font-size:0;line-height:1;color:var(--accent-ink);
+  border:1px solid var(--accent-line);border-radius:10px;
+}
+.pager-arrow::before{
+  font-family:'Symbols Nerd Font';font-size:20px;font-weight:400;
+  line-height:1;
+}
+.section-pager-btn:not(.next) .pager-arrow::before{content:'\f060'}
+.section-pager-btn.next .pager-arrow::before,
+.section-pager > .section-pager-btn:last-child .pager-arrow::before{content:'\f061'}
 .section-position{
   color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;
   white-space:nowrap;text-align:center;padding:8px 11px;border:1px solid var(--line);
