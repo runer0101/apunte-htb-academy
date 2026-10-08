@@ -282,7 +282,7 @@
         const mark = document.createElement('button');
         mark.className = 'mark';
         mark.type = 'button';
-        mark.innerHTML = '<span class="tick" aria-hidden="true"></span> dominada';
+        mark.innerHTML = '<span class="tick">✓</span> dominada';
         mark.title = 'Marcar esta pregunta como dominada';
         row.appendChild(mark);
 
@@ -307,7 +307,7 @@
         copy.addEventListener('click', (ev) => {
           ev.stopPropagation();
           copyText(ans.textContent.trim()).then((ok) => {
-            copy.textContent = ok ? 'copiado' : 'error';
+            copy.textContent = ok ? '✓ copiado' : 'error';
             copy.classList.toggle('ok', ok);
             setTimeout(() => { copy.textContent = 'copiar'; copy.classList.remove('ok'); }, 1600);
           });
