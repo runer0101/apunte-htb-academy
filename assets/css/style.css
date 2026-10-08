@@ -56,6 +56,14 @@
   --maxw:1000px;
 }
 
+@font-face{
+  font-family:'Symbols Nerd Font';
+  src:url('../fonts/SymbolsNerdFont-Regular.ttf') format('truetype');
+  font-display:swap;
+  font-weight:400;
+  font-style:normal;
+}
+
 /* Modo oscuro — se activa con data-theme="dark" o prefers-color-scheme */
 [data-theme="dark"]{
   --bg:#0c0e11;
@@ -253,8 +261,10 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 /* Navegación de sección, inspirada en el flujo de HTB Academy */
 .section-pager{
   display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:20px;
+  width:100%;min-width:0;max-width:100%;box-sizing:border-box;
   margin:46px 0 12px;padding:22px 0 0;border-top:1px solid var(--line);
 }
+.layout > *{min-width:0}
 .section-pager-btn{
   display:flex;align-items:center;gap:13px;min-width:0;width:min(100%,230px);
   min-height:62px;padding:12px 15px;border:1px solid var(--line);border-radius:12px;
@@ -274,9 +284,14 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 .section-pager-btn b{display:block;margin-top:3px;color:var(--ink);font-size:13px;font-weight:600}
 .pager-arrow{
   display:grid;place-items:center;width:34px;height:34px;flex:none;
-  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:23px;line-height:1;color:var(--accent-ink);
+  font-size:0;line-height:1;color:var(--accent-ink);
   border:1px solid var(--accent-line);border-radius:10px;
 }
+.pager-arrow::before{
+  font-family:'Symbols Nerd Font';font-size:18px;font-weight:400;line-height:1;
+}
+.pager-arrow.icon-prev::before{content:'\f053'}
+.pager-arrow.icon-next::before{content:'\f054'}
 .section-position{
   color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;
   white-space:nowrap;text-align:center;padding:8px 11px;border:1px solid var(--line);
@@ -828,6 +843,11 @@ footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--line)}
   .gprog{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
 }
 @media(max-width:760px){
+  .section-pager{grid-template-columns:1fr 1fr;gap:10px;width:100%}
+  .section-position{grid-column:1 / -1;grid-row:1;order:-1}
+  .section-pager-btn{width:100%;min-height:58px;padding:10px 11px}
+  .section-pager-btn.next{justify-self:end}
+
   h1{font-size:clamp(24px,6.4vw,30px)}
   .hero{padding-bottom:24px}
   .eyebrow{font-size:11px;letter-spacing:.12em}
