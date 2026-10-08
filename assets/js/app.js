@@ -33,6 +33,13 @@
       document.documentElement.setAttribute('data-theme', theme);
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', theme === 'dark' ? '#0c0e11' : '#fafafa');
+      const nextTheme = theme === 'dark' ? 'claro' : 'oscuro';
+      document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+        btn.setAttribute('aria-label', `Activar tema ${nextTheme}`);
+        btn.setAttribute('title', `Activar tema ${nextTheme}`);
+        const label = btn.querySelector('.theme-label');
+        if (label) label.textContent = nextTheme[0].toUpperCase() + nextTheme.slice(1);
+      });
       if (persist) safeSet(THEME_KEY, theme);
     }
   };
@@ -421,14 +428,78 @@
   }
 
   /* ---------------------------------------------------------------
+     6.5 Menú móvil (hamburguesa)
+     --------------------------------------------------------------- */
+  function initMenu() {
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.navlinks');
+    if (!toggle || !nav) return;
+
+    const open = () => {
+      nav.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Cerrar menú');
+    };
+    const close = () => {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Abrir menú');
+    };
+    const isOpen = () => nav.classList.contains('is-open');
+
+    toggle.addEventListener('click', () => (isOpen() ? close() : open()));
+
+    // Cerrar al tocar un enlace (es un ancla: lleva a la sección)
+    nav.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => { if (isOpen()) close(); })
+    );
+
+    // Cerrar al pulsar Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) close();
+    });
+
+    // Cerrar al hacer click fuera del menú
+    document.addEventListener('click', (e) => {
+      if (!isOpen()) return;
+      if (e.target.closest('.navlinks') || e.target.closest('.menu-toggle')) return;
+      close();
+    });
+
+    // Si el viewport crece y deja de ser móvil, asegurar que el menú esté cerrado
+    const mq = window.matchMedia('(min-width: 861px)');
+    const onChange = (e) => { if (e.matches) close(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else mq.addListener(onChange); // Safari viejos
+  }
+
+  /* ---------------------------------------------------------------
+     6.6 prefers-reduced-motion
+     Cambia el scroll de "suave" a "instantáneo" si la persona
+     pidió reducir movimiento, y desactiva el "scroll suave" de
+     los anchors en HTML.
+     --------------------------------------------------------------- */
+  function respectMotionPreference() {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = (e) => {
+      document.documentElement.style.scrollBehavior = e.matches ? 'auto' : '';
+    };
+    apply(mq);
+    if (mq.addEventListener) mq.addEventListener('change', apply);
+    else mq.addListener(apply);
+  }
+
+  /* ---------------------------------------------------------------
      7. Arranque
      --------------------------------------------------------------- */
   function boot() {
     Theme.init();
+    initMenu();
     initWorkflow();
     initEncapsulation();
     initQuestions();
     initNav();
+    respectMotionPreference();
   }
 
   if (document.readyState === 'loading') {
