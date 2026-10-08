@@ -250,6 +250,37 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 }
 .part span{opacity:.65;font-weight:400}
 
+/* Navegación de sección, inspirada en el flujo de HTB Academy */
+.section-pager{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;
+  margin:42px 0 8px;padding-top:18px;border-top:1px solid var(--line);
+}
+.section-pager-btn{
+  display:flex;align-items:center;gap:12px;min-width:0;width:max-content;
+  padding:11px 14px;border:1px solid var(--line);border-radius:9px;
+  color:var(--muted);background:var(--surface);text-decoration:none;
+  transition:border-color .18s,background .18s,color .18s,transform .18s;
+}
+.section-pager-btn.next{justify-self:end;text-align:right}
+.section-pager-btn:hover{
+  border-color:var(--accent-line);background:var(--accent-soft);
+  color:var(--accent-ink);text-decoration:none;transform:translateY(-1px);
+}
+.section-pager-btn small{
+  display:block;font-size:10.5px;line-height:1.2;color:var(--faint);
+  text-transform:uppercase;letter-spacing:.08em;
+}
+.section-pager-btn b{display:block;margin-top:3px;color:var(--ink);font-size:13px;font-weight:600}
+.pager-arrow{font-size:23px;line-height:1;color:var(--ink)}
+.section-position{
+  color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;
+  white-space:nowrap;text-align:center;
+}
+.section-position span{color:var(--faint);padding:0 3px}
+.section-pager-btn.is-disabled{opacity:.48;cursor:default}
+.section-pager-btn.is-disabled:hover{border-color:var(--line);background:var(--surface);color:var(--muted);transform:none}
+.section-pager-btn.is-disabled b{color:var(--muted)}
+
 /* enlace de salto (accesibilidad) */
 .sr-only{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
@@ -834,6 +865,11 @@ footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--line)}
   .mark{padding:6px 10px}
 }
 @media(max-width:560px){
+  .section-pager{grid-template-columns:1fr 1fr;gap:10px}
+  .section-position{grid-column:1 / -1;grid-row:1;order:-1}
+  .section-pager-btn{padding:10px 11px}
+  .section-pager-btn.next{justify-self:end}
+
   :root{--maxw:100%}
   body{font-size:15.5px}
   h1{font-size:clamp(22px,7vw,27px);letter-spacing:-.02em}
