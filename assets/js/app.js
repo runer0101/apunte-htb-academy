@@ -144,6 +144,11 @@
     if (!demo) return;
     const panel = demo.querySelector('[data-baseline-panel]');
     const tabs = [...demo.querySelectorAll('[data-baseline-tab]')];
+    const next = demo.querySelector('[data-baseline-next]');
+    const reset = demo.querySelector('[data-baseline-reset]');
+    const progress = demo.querySelector('[data-baseline-progress]');
+    let current = 'normal';
+    let revealed = 0;
     const scenarios = {
       normal: {
         kind: 'normal',
@@ -170,23 +175,45 @@
 
     function draw(name) {
       const s = scenarios[name];
+      current = name;
+      const visible = Math.min(revealed, s.rows.length);
       panel.className = 'baseline-panel ' + s.kind;
       panel.innerHTML =
         '<div class="baseline-panel-head"><span class="case-status ' + (s.kind === 'normal' ? 'normal' : 'suspicious') + '">' +
         (s.kind === 'normal' ? 'Comportamiento esperado' : 'Revisar') + '</span><h3>' + s.title + '</h3><p>' + s.intro + '</p></div>' +
-        '<div class="baseline-events">' + s.rows.map((r) =>
-          '<div class="baseline-event"><span class="event-number">' + r[0] + '</span><span class="event-host">' + r[1] +
+        '<div class="baseline-events">' + s.rows.map((r, i) =>
+          '<div class="baseline-event ' + (i < visible ? 'is-visible' : '') + '"><span class="event-number">' + r[0] + '</span><span class="event-host">' + r[1] +
           '</span><span class="event-action">' + r[2] + '</span><span class="event-target">' + r[3] +
           '</span><span class="event-port">' + r[4] + '</span></div>').join('') + '</div>' +
-        '<div class="baseline-result"><b>Interpretación:</b> ' + s.result + '</div>';
+        '<div class="baseline-result ' + (visible === s.rows.length ? 'is-ready' : '') + '"><b>' +
+        (visible === s.rows.length ? 'Interpretación:' : 'Observa antes de concluir:') + '</b> ' +
+        (visible === s.rows.length ? s.result : 'todavía faltan eventos por observar.') + '</div>';
       tabs.forEach((tab) => {
         const active = tab.dataset.baselineTab === name;
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', String(active));
       });
+      if (progress) progress.textContent = 'Paso ' + visible + ' de ' + s.rows.length;
+      if (next) {
+        next.disabled = visible === s.rows.length;
+        next.textContent = visible === s.rows.length ? 'Escenario completo' : 'Ver siguiente evento';
+      }
     }
 
-    tabs.forEach((tab) => tab.addEventListener('click', () => draw(tab.dataset.baselineTab)));
+    tabs.forEach((tab) => tab.addEventListener('click', () => {
+      revealed = 0;
+      draw(tab.dataset.baselineTab);
+    }));
+    if (next) next.addEventListener('click', () => {
+      if (revealed < scenarios[current].rows.length) {
+        revealed++;
+        draw(current);
+      }
+    });
+    if (reset) reset.addEventListener('click', () => {
+      revealed = 0;
+      draw(current);
+    });
     draw('normal');
   }
 
