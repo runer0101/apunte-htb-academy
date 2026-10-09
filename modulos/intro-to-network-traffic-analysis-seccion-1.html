@@ -213,38 +213,26 @@
   <!-- ---------- 1.3 Línea base ---------- -->
   <section>
     <h2>La línea base, y por qué es la clave de todo</h2>
-    <p class="sub">Para detectar tráfico malicioso necesitas conocer el tráfico típico de tu enclave. Sin esa referencia, un SYN en el puerto 3306 no significa nada. Con ella, significa todo.</p>
-    <p class="sub">El ejemplo del módulo: si ves <b>muchos paquetes SYN en puertos que nunca usáis</b>, lo más probable es que alguien esté intentando determinar qué puertos están abiertos en vuestros hosts. Eso es un <b>portscan</b>.</p>
-
-    <div class="cmp">
-      <div class="pane">
-        <div class="pane-h"><span class="t">Línea base normal</span><span class="s">80 % del tráfico</span></div>
-        <div class="strip">
-          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:70%"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:443</span><div class="bar" style="width:55%"></div></div>
-          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:40%"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:22</span><div class="bar" style="width:24%"></div></div>
-          <div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:18%"></div></div>
-        </div>
-        <div class="verdict">Pocos puertos, muy repetidos. Es lo que tu red hace siempre.</div>
+    <p class="sub">Para detectar algo extraño, primero observa cómo se comporta normalmente la red. Un paquete <b>SYN</b> solo significa “quiero iniciar una conexión”; se vuelve importante cuando aparece muchas veces, desde el mismo equipo y hacia puertos que normalmente no se usan.</p>
+    <div class="baseline-demo" aria-label="Ejemplo visual de una línea base y un posible escaneo de puertos">
+      <div class="baseline-intro"><span class="baseline-step">Ejemplo</span><b>La misma pregunta en dos situaciones:</b> ¿qué está intentando hacer el equipo?</div>
+      <div class="baseline-cases">
+        <article class="baseline-case">
+          <header><span class="case-status normal">Comportamiento esperado</span><span>PC-07 · durante el trabajo</span></header>
+          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">solicita una página web</span><span class="case-target">Servidor web :443</span></div>
+          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">resuelve un nombre</span><span class="case-target">DNS interno :53</span></div>
+          <div class="case-result"><b>Qué vemos:</b> las conexiones van a servicios conocidos y se repiten de forma normal.</div>
+        </article>
+        <article class="baseline-case alert">
+          <header><span class="case-status suspicious">Investigar</span><span>PC-19 · en 30 segundos</span></header>
+          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">envía SYN a</span><span class="case-target">:21 · :23 · :25</span></div>
+          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">continúa probando</span><span class="case-target">:445 · :3306 · :3389</span></div>
+          <div class="case-result"><b>Qué vemos:</b> un mismo equipo prueba muchos puertos distintos. Ese patrón puede ser un <b>escaneo de puertos</b>.</div>
+        </article>
       </div>
-      <div class="pane bad">
-        <div class="pane-h"><span class="t">Posible portscan</span><span class="s">mismo origen · 30 s</span></div>
-        <div class="strip">
-          <div class="pk"><span class="f">SYN</span><span class="p">:21</span><div class="bar"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:23</span><div class="bar"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:25</span><div class="bar"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:445</span><div class="bar"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:3306</span><div class="bar"></div></div>
-          <div class="pk"><span class="f">SYN</span><span class="p">:3389</span><div class="bar"></div></div>
-        </div>
-        <div class="verdict"><b>Muchos puertos distintos, casi ninguno habitual.</b> Nadie necesita 6 conexiones en 30 segundos. Un humano no abre eso.</div>
-      </div>
+      <div class="baseline-reading"><span class="reading-title">Cómo se llega a la conclusión</span><span><b>1.</b> mismo origen</span><span><b>2.</b> muchos puertos</span><span><b>3.</b> poco tiempo</span><strong>→ merece investigación</strong></div>
     </div>
-
-    <div class="trap">
-      <b>La pregunta que guía todo el módulo:</b> ¿había <b>muchos paquetes SYN</b> (con y sin respuesta ACK) en puertos que nunca o rara vez usáis? Si sí, hay alguien mapeando la red. Requiere conocimiento concreto: no basta con tener la teoría, hay que saber <b>qué buscar</b>.
-    </div>
+    <div class="trap"><b>Importante:</b> no declares un ataque por ver un solo SYN. Compara el origen, el destino, los puertos, la frecuencia y la línea base de tu red. La línea base convierte una lista de paquetes en un comportamiento que puedes interpretar.</div>
   </section>
 
   <!-- ---------- 1.4 Herramientas ---------- -->
