@@ -139,6 +139,57 @@
     draw();
   }
 
+  function initBaselineDemo() {
+    const demo = document.querySelector('[data-baseline-demo]');
+    if (!demo) return;
+    const panel = demo.querySelector('[data-baseline-panel]');
+    const tabs = [...demo.querySelectorAll('[data-baseline-tab]')];
+    const scenarios = {
+      normal: {
+        kind: 'normal',
+        title: 'PC-07 está realizando una tarea normal',
+        intro: 'Una persona abre una página web. El equipo necesita consultar el DNS y después conectarse al servidor web.',
+        rows: [
+          ['1', 'PC-07', 'consulta el nombre', 'DNS interno', 'UDP 53'],
+          ['2', 'PC-07', 'solicita la página', 'Servidor web', 'TCP 443']
+        ],
+        result: 'Esto coincide con la línea base: equipo conocido, servicios conocidos y conexiones que esperamos ver.'
+      },
+      scan: {
+        kind: 'scan',
+        title: 'PC-19 está probando muchos puertos',
+        intro: 'En solo 30 segundos, el mismo equipo intenta conectarse a puertos diferentes para descubrir qué servicios están disponibles.',
+        rows: [
+          ['1', 'PC-19', 'intenta conectarse', 'Servidor', 'TCP 21 · FTP'],
+          ['2', 'PC-19', 'intenta conectarse', 'Servidor', 'TCP 445 · SMB'],
+          ['3', 'PC-19', 'intenta conectarse', 'Servidor', 'TCP 3389 · RDP']
+        ],
+        result: 'Esto no confirma un ataque por sí solo, pero sí es un patrón que debe investigarse: mismo origen, muchos puertos y poco tiempo.'
+      }
+    };
+
+    function draw(name) {
+      const s = scenarios[name];
+      panel.className = 'baseline-panel ' + s.kind;
+      panel.innerHTML =
+        '<div class="baseline-panel-head"><span class="case-status ' + (s.kind === 'normal' ? 'normal' : 'suspicious') + '">' +
+        (s.kind === 'normal' ? 'Comportamiento esperado' : 'Revisar') + '</span><h3>' + s.title + '</h3><p>' + s.intro + '</p></div>' +
+        '<div class="baseline-events">' + s.rows.map((r) =>
+          '<div class="baseline-event"><span class="event-number">' + r[0] + '</span><span class="event-host">' + r[1] +
+          '</span><span class="event-action">' + r[2] + '</span><span class="event-target">' + r[3] +
+          '</span><span class="event-port">' + r[4] + '</span></div>').join('') + '</div>' +
+        '<div class="baseline-result"><b>Interpretación:</b> ' + s.result + '</div>';
+      tabs.forEach((tab) => {
+        const active = tab.dataset.baselineTab === name;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+      });
+    }
+
+    tabs.forEach((tab) => tab.addEventListener('click', () => draw(tab.dataset.baselineTab)));
+    draw('normal');
+  }
+
   /* ---------------------------------------------------------------
      4. Stepper de encapsulación (PDU)
      --------------------------------------------------------------- */
@@ -510,6 +561,7 @@
     Theme.init();
     initMenu();
     initWorkflow();
+    initBaselineDemo();
     initEncapsulation();
     initQuestions();
     initNav();
