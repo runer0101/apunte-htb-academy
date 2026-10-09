@@ -702,7 +702,7 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
   padding:2px 8px;border-radius:6px;
 }
 
-/* etiquetas de bloque: Question / Traducción / Answer / Por qué */
+/* etiquetas de bloque: Question / Traducción / Respuesta / Por qué */
 .qlab{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
   letter-spacing:.09em;text-transform:uppercase;
@@ -710,7 +710,7 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
 }
 .qlab.l-en{color:var(--blue-ink);background:var(--slate-soft);border:1px solid var(--slate-line);background:color-mix(in srgb,var(--blue-ink) 10%,transparent);border-color:color-mix(in srgb,var(--blue-ink) 25%,transparent)}
 .qlab.l-es{color:var(--slate-ink);background:var(--slate-soft);border:1px solid var(--slate-line)}
-.qlab.l-an{color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
+.qlab.l-an{color:var(--amber-ink);background:var(--amber-soft);border:1px solid var(--amber-line)}
 .qlab.l-wy{color:var(--amber-mid);background:var(--amber-soft);border:1px solid var(--amber-line)}
 .qtop .qlab.l-en,.qtop .qlab.l-es{display:none}
 
