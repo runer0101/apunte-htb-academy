@@ -654,17 +654,27 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
 .qlab.l-es{color:var(--slate-ink);background:var(--slate-soft);border:1px solid var(--slate-line)}
 .qlab.l-an{color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line)}
 .qlab.l-wy{color:var(--amber-mid);background:var(--amber-soft);border:1px solid var(--amber-line)}
+.qtop .qlab.l-en,.qtop .qlab.l-es{display:none}
 
 .qen{
   font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.5;
-  padding-left:13px;border-left:3px solid var(--blue-ink);margin:9px 0 10px;
+  padding:13px 15px 13px 16px;border:1px solid color-mix(in srgb,var(--blue-ink) 20%,var(--line));
+  border-left:3px solid var(--blue-ink);border-radius:0 10px 10px 0;margin:9px 0 10px;
 }
+.qen::before{content:"Pregunta (English)";display:block;margin-bottom:5px;color:var(--blue-ink);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
 .qes{
   font-size:14.5px;color:var(--muted);line-height:1.55;
-  padding-left:13px;border-left:3px solid var(--slate-line);margin-bottom:14px;
+  padding:11px 15px 11px 16px;border:1px solid var(--line-soft);
+  border-left:3px solid var(--slate-line);border-radius:0 10px 10px 0;margin-bottom:14px;
 }
+.qes::before{content:"Traducción";display:block;margin-bottom:4px;color:var(--slate-ink);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
 
-.qb .row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.qb .row{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  padding:12px 13px;border:1px solid var(--accent-line);border-radius:10px;
+  background:var(--accent-soft);
+}
+.qb .row .l-an{font-size:10px}
 .ans{
   font-family:'JetBrains Mono',monospace;font-size:14.5px;font-weight:500;
   color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);
@@ -688,7 +698,10 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
 .qb.done .mark{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .qb.done .mark .tick{display:inline}
 
-.why-wrap{margin-top:14px;padding-top:13px;border-top:1px dashed var(--line)}
+.why-wrap{
+  margin-top:14px;padding:14px 15px 15px;border:1px solid var(--amber-line);
+  border-radius:10px;background:var(--amber-soft);
+}
 .why{font-size:14px;color:var(--muted);line-height:1.62;margin-top:8px}
 .why b{color:var(--ink);font-weight:600}
 .why code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--code-bg-2);padding:1.5px 6px;border-radius:5px;color:var(--ink)}

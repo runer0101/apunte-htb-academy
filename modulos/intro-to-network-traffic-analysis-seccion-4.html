@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>El proceso de análisis — Intro to Network Traffic Analysis — Apunte HTB Academy</title>
+<meta name="description" content="Sección 4 de 15: el proceso de análisis de tráfico, dependencias de captura activa y pasiva, permisos, visibilidad y línea base.">
+<meta name="author" content="apunte-htb-academy">
+<meta name="theme-color" content="#f5f8f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e11" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-module="nta">
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+      HTB Academy <span class="bs">NTA</span>
+    </a>
+    <nav class="navlinks" id="navlinks" aria-label="Secciones">
+      <a href="intro-to-network-traffic-analysis-seccion-1.html">Sección 1</a>
+      <a href="intro-to-network-traffic-analysis-seccion-2.html">Sección 2</a>
+      <a href="intro-to-network-traffic-analysis-seccion-3.html">Sección 3</a>
+      <a href="intro-to-network-traffic-analysis-seccion-4.html" aria-current="page">Sección 4</a>
+    </nav>
+    <div class="tools">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Abrir menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <button class="iconbtn theme-toggle" data-theme-toggle title="Activar tema oscuro" aria-label="Activar tema oscuro"><span class="theme-icon" aria-hidden="true"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span><span class="theme-label">Oscuro</span></button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="contenido">
+  <div class="hero">
+    <div class="eyebrow">HTB Academy · Intro to Network Traffic Analysis</div>
+    <h1>El proceso de análisis</h1>
+    <p class="lede">El análisis de tráfico es un proceso dinámico: depende de las herramientas, los permisos y la visibilidad que tengamos. La meta es convertir una captura en decisiones repetibles y defendibles.</p>
+    <div class="hero-meta"><span class="pill"><b>Sección 4</b> de 15</span><span class="pill">Captura activa y pasiva</span><span class="pill">Visibilidad y línea base</span></div>
+    <div class="track"><div class="track-h"><span class="tt">Progreso del módulo</span><span class="tn">4 / 15 secciones</span></div><div class="track-bar" role="img" aria-label="Sección 4 de 15"><i style="width:26.67%"></i><i class="todo" style="width:73.33%"></i></div><div class="track-legend">Esta es la sección 4 de 15. Las siguientes secciones se añadirán cuando estén documentadas.</div></div>
+  </div>
+  <div class="layout">
+    <aside class="sidenav" aria-label="Navegación del módulo">
+      <a class="sn-back" href="../index.html">← Todos los módulos</a>
+      <div class="sn-title">Secciones del módulo</div>
+      <ol>
+        <li><a href="intro-to-network-traffic-analysis-seccion-1.html"><span class="n">1</span><span class="t">Fundamentos de NTA</span></a></li>
+        <li><a href="intro-to-network-traffic-analysis-seccion-2.html"><span class="n">2</span><span class="t">Manual básico: Capas 1-4</span></a></li>
+        <li><a href="intro-to-network-traffic-analysis-seccion-3.html"><span class="n">3</span><span class="t">Manual básico: Capas 5-7</span></a></li>
+        <li><a href="intro-to-network-traffic-analysis-seccion-4.html" class="on" aria-current="page"><span class="n">4</span><span class="t">El proceso de análisis</span></a></li>
+        <li><a href="#" class="todo" aria-disabled="true"><span class="n">5–15</span><span class="t">Próximamente</span></a></li>
+      </ol>
+      <div class="sn-foot">Sección actual: <b>4 / 15</b></div>
+    </aside>
+    <div>
+      <div class="part">Sección 4 <span>El proceso de análisis</span></div>
+      <section>
+        <h2>Qué significa analizar tráfico</h2>
+        <p class="sub">El análisis de tráfico es el examen detallado de un evento o proceso para entender su origen, su impacto y las acciones necesarias. En una red, consiste en dividir los datos en partes comprensibles y buscar desviaciones respecto al comportamiento normal.</p>
+        <div class="uses">
+          <div class="use"><span class="ic">01</span><p><b>Observar tendencias.</b> Identifica los hosts que más hablan, los servidores más utilizados y las comunicaciones internas habituales.</p></div>
+          <div class="use"><span class="ic">02</span><p><b>Encontrar desviaciones.</b> Busca conexiones remotas no autorizadas, protocolos inesperados o actividad justo antes de un problema.</p></div>
+          <div class="use"><span class="ic">03</span><p><b>Corregir antes.</b> La visibilidad permite solucionar fallos de conectividad y detectar acciones maliciosas con menos impacto.</p></div>
+        </div>
+        <div class="interaction-tip" role="note"><span><b>Idea clave:</b> las herramientas ayudan, pero no sustituyen la revisión manual. Un atacante puede evadir firmas; el contexto de la red y el criterio del analista siguen siendo necesarios.</span></div>
+      </section>
+      <section>
+        <h2>Dependencias de captura</h2>
+        <p class="sub">La captura puede ser <b>pasiva</b> (copiar lo que ya podemos ver) o <b>activa</b> (colocarnos en línea y participar en el camino del tráfico). Ambas pueden analizarse en tiempo real o después de guardar el PCAP.</p>
+        <div class="card" style="overflow:auto">
+          <table>
+            <thead><tr><th>Dependencia</th><th>Pasiva</th><th>Activa</th><th>Para qué sirve</th></tr></thead>
+            <tbody>
+              <tr><td><b>Permiso</b></td><td>✓</td><td>✓</td><td>Obtén autorización escrita: capturar tráfico puede estar restringido por política o ley.</td></tr>
+              <tr><td><b>Puerto espejo</b></td><td>✓</td><td>—</td><td>El switch copia tráfico de otros enlaces a tu interfaz; necesitas visibilidad y modo promiscuo.</td></tr>
+              <tr><td><b>Herramienta</b></td><td>✓</td><td>✓</td><td>TCPDump, Wireshark, TShark u otra herramienta para ingerir y revisar el tráfico.</td></tr>
+              <tr><td><b>Colocación inline</b></td><td>—</td><td>✓</td><td>Un TAP o equipo en línea se convierte en el siguiente salto invisible del enlace.</td></tr>
+              <tr><td><b>Recursos</b></td><td>✓</td><td>✓</td><td>Una captura grande exige almacenamiento, memoria y capacidad de procesamiento.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warn"><span aria-hidden="true">!</span><span><b>Antes de capturar:</b> confirma el alcance, el segmento, la duración y la autorización. No captures “todo” por defecto: el volumen puede ocultar el evento que buscas.</span></div>
+      </section>
+      <section>
+        <h2>Visibilidad y línea base</h2>
+        <p class="sub">Una captura sin línea base contiene mucha información, pero no dice qué es normal. La línea base permite apartar comunicaciones conocidas y dedicar tiempo a los outliers.</p>
+        <div class="cmp">
+          <div class="pane"><div class="pane-h"><span class="t">Con línea base</span><span class="s">menos ruido</span></div><div class="strip"><div class="pk"><span class="f">HTTPS</span><span class="p">:443</span><div class="bar" style="width:78%"></div></div><div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:55%"></div></div><div class="verdict">El analista reconoce lo habitual y concentra la revisión en lo distinto.</div></div></div>
+          <div class="pane bad"><div class="pane-h"><span class="t">Sin línea base</span><span class="s">mucho contexto</span></div><div class="strip"><div class="pk"><span class="f">SMB</span><span class="p">:445</span><div class="bar"></div></div><div class="pk"><span class="f">HTTP</span><span class="p">:8080</span><div class="bar"></div></div><div class="verdict">Dos PCs de usuario hablando por 445 o 8080 pueden pasar desapercibidas entre todo el ruido.</div></div></div>
+        </div>
+        <div class="trap"><b>Escenario:</b> si varios equipos tienen alta latencia y aparecen archivos nuevos, revisa los top talkers, los puertos y las relaciones entre hosts. El puerto no es malicioso por sí solo; el contexto —quién habla con quién y con qué frecuencia— es lo que cambia la lectura.</div>
+      </section>
+      <div class="interaction-tip" role="note"><span><b>Preguntas de comprobación:</b> ¿tienes permiso?, ¿desde qué segmento ves el tráfico?, ¿la captura es pasiva o activa?, ¿qué comportamiento pertenece a la línea base y qué se sale de ella?</span></div>
+      <nav class="section-pager" aria-label="Navegación entre secciones"><a class="section-pager-btn" href="intro-to-network-traffic-analysis-seccion-3.html"><span class="pager-arrow icon-prev" aria-hidden="true"></span><span><small>Anterior sección</small><b>Sección 3</b></span></a><span class="section-position">4 <span>/</span> 15 secciones</span><span class="section-pager-btn is-disabled" aria-disabled="true"><span><small>Siguiente sección</small><b>Próximamente</b></span><span class="pager-arrow icon-next" aria-hidden="true"></span></span></nav>
+    </div>
+  </div>
+</main>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>
