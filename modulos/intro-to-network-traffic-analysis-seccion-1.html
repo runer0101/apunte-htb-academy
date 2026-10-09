@@ -215,22 +215,22 @@
     <h2>La línea base, y por qué es la clave de todo</h2>
     <p class="sub">Para detectar algo extraño, primero observa cómo se comporta normalmente la red. Un paquete <b>SYN</b> solo significa “quiero iniciar una conexión”; se vuelve importante cuando aparece muchas veces, desde el mismo equipo y hacia puertos que normalmente no se usan.</p>
     <div class="baseline-demo" aria-label="Ejemplo visual de una línea base y un posible escaneo de puertos">
-      <div class="baseline-intro"><span class="baseline-step">Ejemplo</span><b>La misma pregunta en dos situaciones:</b> ¿qué está intentando hacer el equipo?</div>
+      <div class="baseline-intro"><span class="baseline-step">Ejemplo</span><div><b>Compara el comportamiento</b><small>SYN significa “intento de iniciar una conexión”. Un SYN aislado no es una alerta.</small></div></div>
       <div class="baseline-cases">
         <article class="baseline-case">
-          <header><span class="case-status normal">Comportamiento esperado</span><span>PC-07 · durante el trabajo</span></header>
-          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">solicita una página web</span><span class="case-target">Servidor web :443</span></div>
-          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">resuelve un nombre</span><span class="case-target">DNS interno :53</span></div>
+          <header><span class="case-status normal">Caso A · normal</span><span>PC-07 · actividad habitual</span></header>
+          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">abre una página web</span><span class="case-target">Servidor web<br><b>puerto 443</b></span></div>
+          <div class="case-story"><span class="case-device">PC-07</span><span class="case-action">busca el nombre del sitio</span><span class="case-target">DNS interno<br><b>puerto 53</b></span></div>
           <div class="case-result"><b>Qué vemos:</b> las conexiones van a servicios conocidos y se repiten de forma normal.</div>
         </article>
         <article class="baseline-case alert">
-          <header><span class="case-status suspicious">Investigar</span><span>PC-19 · en 30 segundos</span></header>
-          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">envía SYN a</span><span class="case-target">:21 · :23 · :25</span></div>
-          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">continúa probando</span><span class="case-target">:445 · :3306 · :3389</span></div>
-          <div class="case-result"><b>Qué vemos:</b> un mismo equipo prueba muchos puertos distintos. Ese patrón puede ser un <b>escaneo de puertos</b>.</div>
+          <header><span class="case-status suspicious">Caso B · investigar</span><span>PC-19 · 30 segundos</span></header>
+          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">intenta conectarse a</span><span class="case-target">puertos 21 · 23 · 25</span></div>
+          <div class="case-story"><span class="case-device">PC-19</span><span class="case-action">sigue intentando</span><span class="case-target">445 · 3306 · 3389</span></div>
+          <div class="case-result"><b>Qué vemos:</b> el mismo equipo prueba muchos puertos en muy poco tiempo. Puede estar buscando qué servicios están disponibles: eso se llama <b>escaneo de puertos</b>.</div>
         </article>
       </div>
-      <div class="baseline-reading"><span class="reading-title">Cómo se llega a la conclusión</span><span><b>1.</b> mismo origen</span><span><b>2.</b> muchos puertos</span><span><b>3.</b> poco tiempo</span><strong>→ merece investigación</strong></div>
+      <div class="baseline-reading"><span class="reading-title">¿Por qué el caso B llama la atención?</span><span><b>1</b> mismo equipo</span><span><b>2</b> muchos puertos</span><span><b>3</b> poco tiempo</span><strong>→ comparar con la línea base</strong></div>
     </div>
     <div class="trap"><b>Importante:</b> no declares un ataque por ver un solo SYN. Compara el origen, el destino, los puertos, la frecuencia y la línea base de tu red. La línea base convierte una lista de paquetes en un comportamiento que puedes interpretar.</div>
   </section>
