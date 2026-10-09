@@ -354,7 +354,7 @@
         copy.addEventListener('click', (ev) => {
           ev.stopPropagation();
           copyText(ans.textContent.trim()).then((ok) => {
-            copy.textContent = ok ? '✓ copiado' : 'error';
+            copy.textContent = ok ? 'copiado' : 'error';
             copy.classList.toggle('ok', ok);
             card.classList.toggle('copy-complete', ok);
             card.classList.toggle('copy-success', ok);
