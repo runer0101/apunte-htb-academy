@@ -427,6 +427,8 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 .terminal-group>div{min-width:0}
 .terminal-group .terminal{margin-top:0}
 .terminal-caption{margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600}
+.terminal-inline{margin-top:12px;box-shadow:none}
+.terminal-inline .terminal-body{padding:10px 12px;font-size:11px;line-height:1.55}
 .pill-action{color:var(--accent-ink);text-decoration:none;transition:transform .2s ease,background .2s ease}
 .pill-action:hover{transform:translateY(-1px);background:var(--accent-soft)}
 .pill-action span{font-size:14px}
