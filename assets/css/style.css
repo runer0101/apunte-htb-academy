@@ -874,7 +874,7 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
 }
 .ans.f{color:var(--amber-ink);background:var(--amber-soft);border-color:var(--amber-line)}
 .copy{
-  font-size:11.5px;font-weight:500;padding:5px 10px;border-radius:7px;
+  font-size:13px;font-weight:600;padding:7px 14px;min-height:34px;border-radius:8px;
   border:1px solid var(--line);background:var(--surface);color:var(--faint);
 }
 .copy:hover{color:var(--accent-ink);border-color:var(--accent-line)}
@@ -1247,7 +1247,7 @@ body.quiz .qb.rev{border-color:var(--accent-line);background:var(--surface)}
   .steptitle .lay{font-size:16px}
   .qb .row{font-size:13px}
   .ans{font-size:13.5px;padding:5px 10px}
-  .copy{font-size:11px;padding:4px 9px}
+  .copy{font-size:12.5px;padding:6px 12px;min-height:32px}
   .mark{font-size:11px;padding:5px 10px}
   .wbody .wt2{font-size:17px}
   .visrow{padding:10px 0}
@@ -1288,7 +1288,7 @@ body.quiz .qb.rev{border-color:var(--accent-line);background:var(--surface)}
   .card{padding:18px}
   .qb{padding:14px 14px}
   .qb .ans{font-size:13px;padding:5px 9px}
-  .qb .copy{font-size:10.5px;padding:4px 8px}
+  .qb .copy{font-size:12px;padding:6px 10px;min-height:32px}
   .qb .mark{font-size:10.5px;padding:5px 9px}
   .modcard .mtitle{font-size:15px}
   .gprog{grid-template-columns:1fr 1fr}
