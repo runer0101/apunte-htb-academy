@@ -356,10 +356,13 @@
           copyText(ans.textContent.trim()).then((ok) => {
             copy.textContent = ok ? '✓ copiado' : 'error';
             copy.classList.toggle('ok', ok);
+            card.classList.toggle('copy-complete', ok);
             card.classList.toggle('copy-success', ok);
             setTimeout(() => {
-              copy.textContent = 'copiar';
-              copy.classList.remove('ok');
+              if (!card.classList.contains('copy-complete')) {
+                copy.textContent = 'copiar';
+                copy.classList.remove('ok');
+              }
               card.classList.remove('copy-success');
             }, 1600);
           });

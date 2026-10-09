@@ -814,6 +814,12 @@ td code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(-
   border-color:var(--accent);
   animation:copy-card-glow 1.6s ease-out;
 }
+.qb.copy-complete{
+  border-color:var(--accent-line);
+  background:color-mix(in srgb,var(--accent-soft) 42%,var(--surface));
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 18%,transparent),0 5px 18px color-mix(in srgb,var(--accent) 12%,transparent);
+}
+.qb.copy-complete .qnum{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 @keyframes copy-card-glow{
   0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 65%,transparent)}
   35%{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 22%,transparent),0 0 26px color-mix(in srgb,var(--accent) 32%,transparent)}
