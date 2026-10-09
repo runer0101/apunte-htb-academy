@@ -402,6 +402,21 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 .traffic-state.normal{color:var(--accent-ink);background:var(--surface);border:1px solid var(--accent-line)}
 .traffic-state.alert{color:var(--rose-ink);background:var(--surface);border:1px solid var(--rose-line)}
 .traffic-caption{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
+.traffic-intro{margin:0;padding:14px 15px 4px;color:var(--muted);font-size:13px;line-height:1.5}
+.traffic-intro b{color:var(--ink)}
+.traffic-list{padding:8px 14px 12px}
+.traffic-item{display:grid;grid-template-columns:22px minmax(66px,1fr) 18px minmax(66px,1fr) auto;gap:7px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:11px}
+.traffic-item:last-child{border-bottom:0}
+.traffic-item>div{min-width:0}
+.traffic-item b{display:block;overflow:hidden;text-overflow:ellipsis;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap}
+.traffic-item small{display:block;overflow:hidden;text-overflow:ellipsis;color:var(--faint);font-size:10px;white-space:nowrap}
+.traffic-number{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--accent-soft);color:var(--accent-ink);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700}
+.suspicious .traffic-number{background:var(--rose-soft);color:var(--rose-ink)}
+.traffic-arrow{color:var(--accent);font-size:17px;text-align:center}
+.suspicious .traffic-arrow{color:var(--rose)}
+.traffic-item strong{grid-column:2 / 3;color:var(--accent-ink);font-family:'JetBrains Mono',monospace;font-size:10px}
+.traffic-item em{grid-column:4 / 6;justify-self:start;padding:3px 6px;border-radius:4px;background:var(--accent-soft);color:var(--accent-ink);font-size:10px;font-style:normal}
+.suspicious .traffic-item em{background:var(--rose-soft);color:var(--rose-ink)}
 .network-map{padding:13px 14px 11px}
 .network-legend{display:flex;gap:13px;margin-bottom:12px;color:var(--faint);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
 .network-legend span{display:inline-flex;align-items:center;gap:5px}

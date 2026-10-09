@@ -88,28 +88,28 @@
         <h2>Visibilidad y línea base</h2>
         <p class="sub">Una captura sin línea base contiene mucha información, pero no dice qué es normal. La línea base permite apartar comunicaciones conocidas y dedicar tiempo a los outliers.</p>
         <div class="traffic-compare" aria-label="Comparación entre tráfico normal y tráfico anómalo">
-          <div class="traffic-card">
-            <div class="traffic-card-head"><span class="traffic-state normal">Patrón habitual</span><span class="traffic-caption">lo que esperamos ver</span></div>
-            <div class="network-map">
-              <div class="network-legend"><span><i class="legend-dot user"></i>equipo</span><span><i class="legend-dot service"></i>servicio conocido</span></div>
-              <div class="network-row"><span class="network-node user-node"><i aria-hidden="true">▣</i>PC-07</span><span class="network-link"><b>TCP 443</b><small>frecuente</small><i></i></span><span class="network-node service-node"><i aria-hidden="true">◆</i>web-interno</span></div>
-              <div class="network-row"><span class="network-node user-node"><i aria-hidden="true">▣</i>PC-07</span><span class="network-link"><b>UDP 53</b><small>frecuente</small><i></i></span><span class="network-node service-node"><i aria-hidden="true">◆</i>dns-interno</span></div>
-              <div class="network-row"><span class="network-node user-node"><i aria-hidden="true">▣</i>PC-12</span><span class="network-link"><b>TCP 445</b><small>esperado</small><i></i></span><span class="network-node service-node"><i aria-hidden="true">◆</i>archivos</span></div>
+          <article class="traffic-card">
+            <div class="traffic-card-head"><span class="traffic-state normal">1. Tráfico esperado</span><span class="traffic-caption">la línea base</span></div>
+            <p class="traffic-intro">Estos equipos se conectan con <b>servidores conocidos</b> y repiten un comportamiento habitual.</p>
+            <div class="traffic-list">
+              <div class="traffic-item"><span class="traffic-number">A</span><div><b>PC-07</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>web-interno</b><small>servidor conocido</small></div><strong>TCP 443</strong><em>frecuente</em></div>
+              <div class="traffic-item"><span class="traffic-number">B</span><div><b>PC-07</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>dns-interno</b><small>servidor conocido</small></div><strong>UDP 53</strong><em>frecuente</em></div>
+              <div class="traffic-item"><span class="traffic-number">C</span><div><b>PC-12</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>archivos</b><small>servidor conocido</small></div><strong>TCP 445</strong><em>esperado</em></div>
             </div>
-            <div class="traffic-reading"><span class="reading-icon" aria-hidden="true">✓</span><p><b>Lectura:</b> los equipos hablan con servicios conocidos y usan puertos esperados para su función.</p></div>
-          </div>
-          <div class="traffic-card suspicious">
-            <div class="traffic-card-head"><span class="traffic-state alert">Hallazgo</span><span class="traffic-caption">rompe el patrón</span></div>
-            <div class="network-map">
-              <div class="network-legend"><span><i class="legend-dot user"></i>equipo</span><span><i class="legend-dot unknown"></i>destino nuevo</span></div>
-              <div class="network-row"><span class="network-node user-node"><i aria-hidden="true">▣</i>PC-07</span><span class="network-link alert-link"><b>TCP 445</b><small>nuevo</small><i></i></span><span class="network-node unknown-node"><i aria-hidden="true">?</i>PC-19</span></div>
-              <div class="network-row"><span class="network-node user-node"><i aria-hidden="true">▣</i>PC-12</span><span class="network-link alert-link"><b>TCP 8080</b><small>repetido</small><i></i></span><span class="network-node unknown-node"><i aria-hidden="true">?</i>PC-19</span></div>
-              <div class="network-row"><span class="network-node unknown-node"><i aria-hidden="true">?</i>PC-19</span><span class="network-link alert-link"><b>TCP 445</b><small>inusual</small><i></i></span><span class="network-node internet-node"><i aria-hidden="true">◎</i>internet</span></div>
+            <div class="traffic-reading"><span class="reading-icon" aria-hidden="true">✓</span><p><b>Conclusión:</b> nada destaca porque la relación, el puerto y la frecuencia coinciden con la línea base.</p></div>
+          </article>
+          <article class="traffic-card suspicious">
+            <div class="traffic-card-head"><span class="traffic-state alert">2. Tráfico para investigar</span><span class="traffic-caption">fuera de la línea base</span></div>
+            <p class="traffic-intro">Ahora aparecen conexiones entre <b>equipos de usuario</b> y un destino que antes no estaba.</p>
+            <div class="traffic-list">
+              <div class="traffic-item"><span class="traffic-number">A</span><div><b>PC-07</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>PC-19</b><small>otro equipo</small></div><strong>TCP 445</strong><em>nuevo</em></div>
+              <div class="traffic-item"><span class="traffic-number">B</span><div><b>PC-12</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>PC-19</b><small>otro equipo</small></div><strong>TCP 8080</strong><em>repetido</em></div>
+              <div class="traffic-item"><span class="traffic-number">C</span><div><b>PC-19</b><small>equipo de usuario</small></div><span class="traffic-arrow">→</span><div><b>Internet</b><small>destino externo</small></div><strong>TCP 445</strong><em>inusual</em></div>
             </div>
-            <div class="traffic-reading"><span class="reading-icon alert-reading" aria-hidden="true">!</span><p><b>Lectura:</b> el contexto cambió: equipos de usuario se conectan entre ellos y aparece un destino nuevo.</p></div>
-          </div>
+            <div class="traffic-reading"><span class="reading-icon alert-reading" aria-hidden="true">!</span><p><b>Conclusión:</b> se investiga porque cambió quién habla con quién, aunque los puertos puedan ser válidos.</p></div>
+          </article>
         </div>
-        <div class="traffic-howto"><strong>Cómo leer el mapa</strong><span><b>1</b> compara la relación entre equipos</span><span><b>2</b> revisa puerto y frecuencia</span><span><b>3</b> investiga lo que no encaja</span></div>
+        <div class="traffic-howto"><strong>Regla rápida:</strong><span><b>¿Quién?</b> origen y destino</span><span><b>¿Por dónde?</b> puerto</span><span><b>¿Se repite?</b> frecuencia y momento</span></div>
         <div class="trap"><b>Idea clave:</b> un puerto permitido no es automáticamente normal. Lo importante es quién habla con quién, si esa relación ya existía y si la frecuencia coincide con la línea base.</div>
       </section>
       <div class="interaction-tip" role="note"><span><b>Preguntas de comprobación:</b> ¿tienes permiso?, ¿desde qué segmento ves el tráfico?, ¿la captura es pasiva o activa?, ¿qué comportamiento pertenece a la línea base y qué se sale de ella?</span></div>
