@@ -393,6 +393,32 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
   color:var(--muted);background:var(--surface-2);
 }
 .verdict b{color:var(--ink);font-weight:600}
+.analysis-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.analysis-phase{position:relative;padding:16px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.phase-number{display:grid;place-items:center;width:28px;height:28px;margin-bottom:13px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);font:600 11px 'JetBrains Mono',monospace}
+.analysis-phase h3{margin:0 0 7px;font-size:15px;color:var(--ink)}
+.analysis-phase p{margin:0 0 13px;color:var(--muted);font-size:12.5px;line-height:1.5}
+.phase-tag{display:inline-block;padding:4px 7px;border-radius:5px;background:var(--surface-2);color:var(--faint);font:10px 'JetBrains Mono',monospace}
+.case-board{overflow:hidden;border:1px solid var(--accent-line);border-radius:13px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.case-board-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--accent-soft);color:var(--ink);font-size:14px}
+.case-label{padding:4px 7px;border:1px solid var(--accent-line);border-radius:5px;color:var(--accent-ink);font:10px 'JetBrains Mono',monospace;text-transform:uppercase}
+.case-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.case-facts div{padding:13px;background:var(--surface)}
+.case-facts span{display:block;margin-bottom:5px;color:var(--faint);font:10px 'JetBrains Mono',monospace;text-transform:uppercase}
+.case-facts b{display:block;color:var(--ink);font:11px 'JetBrains Mono',monospace;overflow-wrap:anywhere}
+.analysis-timeline{display:grid;gap:0;margin-top:16px;padding-left:16px;border-left:2px solid var(--accent-line)}
+.analysis-timeline article{position:relative;display:flex;gap:13px;padding:0 0 18px}
+.analysis-timeline article:last-child{padding-bottom:0}
+.timeline-dot{position:relative;left:-29px;display:grid;place-items:center;width:25px;height:25px;flex:none;margin-right:-25px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 11px 'JetBrains Mono',monospace}
+.analysis-timeline h3{margin:2px 0 4px;color:var(--ink);font-size:15px}
+.analysis-timeline p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.analysis-timeline code{font-size:11px}
+.notes-grid,.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.notes-grid>div,.quick-grid>div{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.notes-grid b,.quick-grid b{display:block;margin-bottom:5px;color:var(--ink);font-size:14px}
+.notes-grid span,.quick-grid p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.quick-grid{grid-template-columns:repeat(4,1fr)}
+.quick-grid>div{border-top:3px solid var(--accent-line)}
 .baseline-demo{overflow:hidden;margin-top:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-sm)}
 .baseline-intro{display:flex;align-items:center;gap:9px;padding:14px 17px;border-bottom:1px solid var(--line);background:var(--surface-2);font-size:13px;color:var(--muted)}
 .baseline-intro b{color:var(--ink)}
@@ -1068,6 +1094,8 @@ body.quiz .qb.rev{border-color:var(--accent-line);background:var(--surface)}
   .eyebrow{font-size:11px;letter-spacing:.12em}
   .lede{font-size:clamp(15px,4vw,17px)}
   .cmp,.modes,.grid2,.traffic-compare{grid-template-columns:1fr}
+  .analysis-phases,.quick-grid{grid-template-columns:repeat(2,1fr)}
+  .case-facts{grid-template-columns:repeat(2,1fr)}
   .baseline-cases{grid-template-columns:1fr}
   .baseline-intro{align-items:flex-start;flex-direction:column}
   .baseline-tabs{flex-direction:column}
@@ -1134,6 +1162,8 @@ body.quiz .qb.rev{border-color:var(--accent-line);background:var(--surface)}
   .section-position{grid-column:1 / -1;grid-row:1;order:-1}
   .section-pager-btn{width:100%;min-height:58px;padding:10px 11px}
   .section-pager-btn.next{justify-self:end}
+  .analysis-phases,.notes-grid,.quick-grid,.case-facts{grid-template-columns:1fr}
+  .case-board-head{align-items:flex-start;flex-direction:column}
 
   :root{--maxw:100%}
   body{font-size:15.5px}

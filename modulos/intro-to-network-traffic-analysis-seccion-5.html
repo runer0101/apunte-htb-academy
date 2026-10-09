@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Analysis in Practice — Intro to Network Traffic Analysis — Apunte HTB Academy</title>
+<meta name="description" content="Sección 5 de 15: aplicar un flujo de análisis de tráfico con análisis descriptivo, diagnóstico, predictivo y prescriptivo.">
+<meta name="theme-color" content="#f5f8f7">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-module="nta">
+<header class="topbar"><div class="topbar-in">
+  <a class="brand" href="../index.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>HTB Academy <span class="bs">NTA</span></a>
+  <nav class="navlinks" id="navlinks" aria-label="Secciones">
+    <a href="intro-to-network-traffic-analysis-seccion-1.html">Sección 1</a><a href="intro-to-network-traffic-analysis-seccion-2.html">Sección 2</a><a href="intro-to-network-traffic-analysis-seccion-3.html">Sección 3</a><a href="intro-to-network-traffic-analysis-seccion-4.html">Sección 4</a><a href="intro-to-network-traffic-analysis-seccion-5.html" aria-current="page">Sección 5</a>
+  </nav>
+  <div class="tools"><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Abrir menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><button class="iconbtn theme-toggle" data-theme-toggle title="Activar tema oscuro" aria-label="Activar tema oscuro"><span class="theme-icon" aria-hidden="true"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></span><span class="theme-label">Oscuro</span></button></div>
+</div></header>
+<main class="wrap" id="contenido">
+  <div class="hero">
+    <div class="eyebrow">HTB Academy · Intro to Network Traffic Analysis</div>
+    <h1>Analysis in Practice</h1>
+    <p class="lede">Aquí convertimos una captura en un proceso repetible: definir el problema, encontrar evidencias, explicar la causa y recomendar una acción.</p>
+    <div class="hero-meta"><span class="pill"><b>Sección 5</b> de 15</span><span class="pill">Caso práctico</span><span class="pill">Flujo de investigación</span></div>
+    <div class="track"><div class="track-h"><span class="tt">Progreso del módulo</span><span class="tn">5 / 15 secciones</span></div><div class="track-bar" role="img" aria-label="Sección 5 de 15"><i style="width:33.33%"></i><i class="todo" style="width:66.67%"></i></div><div class="track-legend">Esta es la sección 5 de 15. Las siguientes secciones se añadirán cuando estén documentadas.</div></div>
+  </div>
+  <div class="layout">
+    <aside class="sidenav" aria-label="Navegación del módulo"><a class="sn-back" href="../index.html">← Todos los módulos</a><div class="sn-title">Secciones del módulo</div><ol>
+      <li><a href="intro-to-network-traffic-analysis-seccion-1.html"><span class="n">1</span><span class="t">Fundamentos de NTA</span></a></li><li><a href="intro-to-network-traffic-analysis-seccion-2.html"><span class="n">2</span><span class="t">Manual básico: Capas 1-4</span></a></li><li><a href="intro-to-network-traffic-analysis-seccion-3.html"><span class="n">3</span><span class="t">Manual básico: Capas 5-7</span></a></li><li><a href="intro-to-network-traffic-analysis-seccion-4.html"><span class="n">4</span><span class="t">El proceso de análisis</span></a></li><li><a href="intro-to-network-traffic-analysis-seccion-5.html" class="on" aria-current="page"><span class="n">5</span><span class="t">Analysis in Practice</span></a></li><li><a href="#" class="todo" aria-disabled="true"><span class="n">6–15</span><span class="t">Próximamente</span></a></li>
+    </ol><div class="sn-foot">Sección actual: <b>5 / 15</b></div></aside>
+    <div>
+      <div class="part">Sección 5 <span>Analysis in Practice</span></div>
+      <section>
+        <h2>Un proceso, cuatro preguntas</h2>
+        <p class="sub">El análisis no es una receta rígida. Cambia según busquemos un error de red o una acción maliciosa, y según el punto donde tengamos visibilidad. Aun así, podemos ordenar el trabajo con cuatro preguntas.</p>
+        <div class="analysis-phases">
+          <article class="analysis-phase"><span class="phase-number">01</span><h3>¿Qué ocurrió?</h3><p>Describe los datos: hosts, protocolos, puertos, tiempos y volumen.</p><span class="phase-tag">Descriptivo</span></article>
+          <article class="analysis-phase"><span class="phase-number">02</span><h3>¿Por qué ocurrió?</h3><p>Relaciona las evidencias para encontrar la causa y sus efectos.</p><span class="phase-tag">Diagnóstico</span></article>
+          <article class="analysis-phase"><span class="phase-number">03</span><h3>¿Qué puede pasar?</h3><p>Compara con la línea base y busca señales de repetición o propagación.</p><span class="phase-tag">Predictivo</span></article>
+          <article class="analysis-phase"><span class="phase-number">04</span><h3>¿Qué hacemos?</h3><p>Propón una acción concreta, documenta el resultado y aprende del proceso.</p><span class="phase-tag">Prescriptivo</span></article>
+        </div>
+      </section>
+      <section>
+        <h2>Caso práctico: una descarga sospechosa</h2>
+        <p class="sub">Varias máquinas podrían estar descargando un archivo malicioso desde <code>bad.example.com</code>. El objetivo es descubrir qué ocurrió sin capturar ni revisar datos sin relación.</p>
+        <div class="case-board">
+          <div class="case-board-head"><span class="case-label">Objetivo de la investigación</span><b>Encontrar quién descargó el archivo y decidir qué hacer después.</b></div>
+          <div class="case-facts"><div><span>Red</span><b>192.168.100.0/24</b></div><div><span>Periodo</span><b>Últimas 48 h + 2 h actuales</b></div><div><span>Protocolos</span><b>HTTP y FTP</b></div><div><span>Indicadores</span><b>superbad.exe · new-crypto-miner.exe</b></div></div>
+        </div>
+        <div class="analysis-timeline">
+          <article><span class="timeline-dot">1</span><div><h3>Definir el alcance</h3><p>Especifica el problema, la red, el periodo, los protocolos y los nombres de archivo. Sin alcance, la captura será demasiado grande.</p></div></article>
+          <article><span class="timeline-dot">2</span><div><h3>Obtener los datos</h3><p>Captura tráfico en un punto con acceso a la subred o solicita PCAP y NetFlow históricos al SIEM.</p></div></article>
+          <article><span class="timeline-dot">3</span><div><h3>Reducir el ruido</h3><p>Descarta tráfico que coincide con la línea base y conserva HTTP/FTP de la subred y las solicitudes relacionadas con los archivos.</p></div></article>
+          <article><span class="timeline-dot">4</span><div><h3>Validar la causa</h3><p>Busca transferencias FTP, filtra solicitudes HTTP <code>http.request.method == "GET"</code> y relaciona host, hora y archivo.</p></div></article>
+          <article><span class="timeline-dot">5</span><div><h3>Documentar y decidir</h3><p>Anota intervalos, hosts, números de paquete, conversaciones y resumen. Esa evidencia permite decidir si aislar equipos o escalar la respuesta.</p></div></article>
+        </div>
+      </section>
+      <section>
+        <h2>Qué debes registrar</h2>
+        <div class="notes-grid"><div><b>Tiempo</b><span>Cuándo se capturó y qué ventana se revisó.</span></div><div><b>Activos</b><span>Hosts sospechosos, origen y destino.</span></div><div><b>Evidencia</b><span>Archivo, protocolo, timestamp y número de paquete.</span></div><div><b>Conclusión</b><span>Qué sabemos, qué falta y qué acción se recomienda.</span></div></div>
+        <div class="warn"><span aria-hidden="true">!</span><span><b>Una nota útil debe permitir que otra persona repita tu razonamiento.</b> No escribas solo “parece malicioso”: registra qué observaste, dónde, cuándo y por qué se aparta de la línea base.</span></div>
+      </section>
+      <section>
+        <h2>Componentes que hacen eficaz el análisis</h2>
+        <div class="uses"><div class="use"><span class="ic">01</span><p><b>Conoce tu entorno.</b> Inventario de activos, mapas de red y servicios esperados ayudan a distinguir un equipo legítimo de uno desconocido.</p></div><div class="use"><span class="ic">02</span><p><b>Coloca bien la captura.</b> Acércate al origen del problema: enlace de entrada si viene de Internet o segmento del host afectado si es interno.</p></div><div class="use"><span class="ic">03</span><p><b>Persiste.</b> El C2 puede aparecer una vez cada varias horas. No encontrarlo en una captura no demuestra que no exista.</p></div></div>
+      </section>
+      <section>
+        <h2>Atajos para empezar</h2>
+        <div class="quick-grid"><div><b>1 · Protocolos comunes</b><p>Revisa primero HTTP/S, FTP, correo, TCP y UDP; después SSH, RDP y Telnet según la política de la organización.</p></div><div><b>2 · Patrones</b><p>Busca hosts que se conectan a Internet a la misma hora todos los días: puede ser una señal de C2.</p></div><div><b>3 · Host a host</b><p>Los equipos de usuario suelen hablar con infraestructura, no entre ellos. Una relación nueva merece contexto.</p></div><div><b>4 · Eventos únicos</b><p>User-Agent extraño, puerto que aparece una sola vez o destino externo nuevo: documenta y compara.</p></div></div>
+        <div class="interaction-tip" role="note"><span><b>No trabajes aislado:</b> una segunda persona puede detectar patrones que se vuelven invisibles después de mirar demasiado tiempo la misma captura.</span></div>
+      </section>
+      <nav class="section-pager" aria-label="Navegación entre secciones"><a class="section-pager-btn" href="intro-to-network-traffic-analysis-seccion-4.html"><span class="pager-arrow icon-prev" aria-hidden="true"></span><span><small>Anterior sección</small><b>Sección 4</b></span></a><span class="section-position">5 <span>/</span> 15 secciones</span><span class="section-pager-btn is-disabled" aria-disabled="true"><span><small>Siguiente sección</small><b>Próximamente</b></span><span class="pager-arrow icon-next" aria-hidden="true"></span></span></nav>
+    </div>
+  </div>
+</main>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>
