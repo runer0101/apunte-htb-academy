@@ -334,50 +334,13 @@
      La clave de almacenamiento incluye el módulo (data-module en el
      <body>) para que el progreso de un módulo no pise el de otro.
      --------------------------------------------------------------- */
-  function progressKey() {
-    const mod = document.body.getAttribute('data-module');
-    return 'htb-progreso-' + (mod || 'general');
-  }
-
   function initQuestions() {
     const cards = [...document.querySelectorAll('.qb')];
     if (!cards.length) return;
 
-    const KEY = progressKey();
-    const questionOffset = Number(document.body.getAttribute('data-question-offset') || 0);
-    let done = new Set();
-
-    // Migración: antes de separar por módulo el progreso se guardaba en una
-    // única clave. Se copia para no perder lo ya marcado.
-    const LEGACY_KEY = 'htb-nta-progreso';
-    if (!safeGet(KEY) && safeGet(LEGACY_KEY)) safeSet(KEY, safeGet(LEGACY_KEY));
-
-    try { done = new Set(JSON.parse(safeGet(KEY) || '[]')); } catch (e) { done = new Set(); }
-
-    const countEl = document.getElementById('rbcount');
-    const fillEl = document.getElementById('rbfill');
-
-    cards.forEach((card, i) => {
+    cards.forEach((card) => {
       const row = card.querySelector('.row');
       const ans = card.querySelector('.ans');
-
-      // Botón "dominada"
-      if (row && !row.querySelector('.mark')) {
-        const mark = document.createElement('button');
-        mark.className = 'mark';
-        mark.type = 'button';
-        mark.innerHTML = '<span class="tick">✓</span> dominada';
-        mark.title = 'Marcar esta pregunta como dominada';
-        row.appendChild(mark);
-
-        mark.addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          const questionIndex = i + questionOffset;
-          done.has(questionIndex) ? done.delete(questionIndex) : done.add(questionIndex);
-          save();
-          paint();
-        });
-      }
 
       // Botón "copiar respuesta"
       if (row && ans && !row.querySelector('.copy')) {
@@ -386,7 +349,7 @@
         copy.type = 'button';
         copy.textContent = 'copiar';
         copy.title = 'Copiar la respuesta al portapapeles';
-        row.insertBefore(copy, row.querySelector('.mark'));
+        row.appendChild(copy);
 
         copy.addEventListener('click', (ev) => {
           ev.stopPropagation();
@@ -400,25 +363,10 @@
 
       // Clic en la tarjeta = revelar / ocultar (solo en modo repaso)
       card.addEventListener('click', (ev) => {
-        if (ev.target.closest('.mark, .copy')) return;
+        if (ev.target.closest('.copy')) return;
         if (document.body.classList.contains('quiz')) card.classList.toggle('rev');
       });
-
-      if (done.has(i + questionOffset)) card.classList.add('done');
     });
-
-    function save() { safeSet(KEY, JSON.stringify([...done])); }
-
-    function paint() {
-      let n = 0;
-      cards.forEach((card, i) => {
-        const on = done.has(i + questionOffset);
-        card.classList.toggle('done', on);
-        if (on) n++;
-      });
-      if (countEl) countEl.textContent = n + ' / ' + cards.length;
-      if (fillEl) fillEl.style.width = (cards.length ? (n / cards.length) * 100 : 0) + '%';
-    }
 
     // Toggle modo repaso
     const bq = document.getElementById('btnQuiz');
@@ -438,18 +386,6 @@
       });
     }
 
-    // Reiniciar progreso
-    const br = document.getElementById('btnReset');
-    if (br) {
-      br.addEventListener('click', () => {
-        if (!confirm('¿Borrar el progreso de preguntas dominadas?')) return;
-        done = new Set();
-        save();
-        paint();
-      });
-    }
-
-    paint();
   }
 
   function copyText(text) {
