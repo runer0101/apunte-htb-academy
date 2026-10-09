@@ -393,6 +393,26 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
   color:var(--muted);background:var(--surface-2);
 }
 .verdict b{color:var(--ink);font-weight:600}
+.traffic-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.traffic-card{overflow:hidden;border:1px solid var(--accent-line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.traffic-card.suspicious{border-color:var(--rose-line)}
+.traffic-card-head{display:flex;align-items:center;gap:9px;padding:13px 15px;border-bottom:1px solid var(--line);background:var(--accent-soft)}
+.traffic-card.suspicious .traffic-card-head{background:var(--rose-soft);border-bottom-color:var(--rose-line)}
+.traffic-state{padding:4px 9px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.traffic-state.normal{color:var(--accent-ink);background:var(--surface);border:1px solid var(--accent-line)}
+.traffic-state.alert{color:var(--rose-ink);background:var(--surface);border:1px solid var(--rose-line)}
+.traffic-caption{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
+.traffic-flow{padding:10px 12px}
+.traffic-row{display:grid;grid-template-columns:minmax(52px,1fr) 18px minmax(62px,1.2fr) auto;gap:6px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-soft);font-family:'JetBrains Mono',monospace;font-size:11px}
+.traffic-row:last-child{border-bottom:none}
+.host{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink);font-weight:600}
+.host.server{color:var(--accent-ink)}
+.host.unknown{color:var(--rose-ink)}
+.flow-arrow{text-align:center;color:var(--faint);font-size:15px}
+.port{color:var(--muted);white-space:nowrap}
+.frequency{grid-column:3 / -1;color:var(--faint);font-size:10px}
+.traffic-reading{margin:0;padding:13px 15px;border-top:1px solid var(--line);background:var(--surface-2);font-size:13px;line-height:1.55;color:var(--muted)}
+.traffic-reading b{color:var(--ink)}
 
 /* ---------- 10. Herramientas ---------- */
 .tiers{display:flex;flex-direction:column;gap:16px}
@@ -955,7 +975,7 @@ body.quiz .qb.rev{border-color:var(--accent-line);background:var(--surface)}
   .hero{padding-bottom:24px}
   .eyebrow{font-size:11px;letter-spacing:.12em}
   .lede{font-size:clamp(15px,4vw,17px)}
-  .cmp,.modes,.grid2{grid-template-columns:1fr}
+  .cmp,.modes,.grid2,.traffic-compare{grid-template-columns:1fr}
   .grid2{grid-template-columns:1fr;gap:6px}
   .brace{display:none}
   .t{grid-column:1!important}

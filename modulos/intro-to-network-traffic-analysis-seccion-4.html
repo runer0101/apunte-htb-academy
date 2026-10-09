@@ -87,11 +87,27 @@
       <section>
         <h2>Visibilidad y línea base</h2>
         <p class="sub">Una captura sin línea base contiene mucha información, pero no dice qué es normal. La línea base permite apartar comunicaciones conocidas y dedicar tiempo a los outliers.</p>
-        <div class="cmp">
-          <div class="pane"><div class="pane-h"><span class="t">Con línea base</span><span class="s">menos ruido</span></div><div class="strip"><div class="pk"><span class="f">HTTPS</span><span class="p">:443</span><div class="bar" style="width:78%"></div></div><div class="pk"><span class="f">DNS</span><span class="p">:53</span><div class="bar" style="width:55%"></div></div><div class="verdict">El analista reconoce lo habitual y concentra la revisión en lo distinto.</div></div></div>
-          <div class="pane bad"><div class="pane-h"><span class="t">Sin línea base</span><span class="s">mucho contexto</span></div><div class="strip"><div class="pk"><span class="f">SMB</span><span class="p">:445</span><div class="bar"></div></div><div class="pk"><span class="f">HTTP</span><span class="p">:8080</span><div class="bar"></div></div><div class="verdict">Dos PCs de usuario hablando por 445 o 8080 pueden pasar desapercibidas entre todo el ruido.</div></div></div>
+        <div class="traffic-compare" aria-label="Comparación entre tráfico normal y tráfico anómalo">
+          <div class="traffic-card">
+            <div class="traffic-card-head"><span class="traffic-state normal">Normal</span><span class="traffic-caption">línea base conocida</span></div>
+            <div class="traffic-flow">
+              <div class="traffic-row"><span class="host">PC-07</span><span class="flow-arrow">→</span><span class="host server">web-interno</span><span class="port">TCP 443</span><span class="frequency">frecuente</span></div>
+              <div class="traffic-row"><span class="host">PC-07</span><span class="flow-arrow">→</span><span class="host server">dns-interno</span><span class="port">UDP 53</span><span class="frequency">frecuente</span></div>
+              <div class="traffic-row"><span class="host">PC-12</span><span class="flow-arrow">→</span><span class="host server">archivos</span><span class="port">TCP 445</span><span class="frequency">esperado</span></div>
+            </div>
+            <p class="traffic-reading"><b>Lectura:</b> los equipos hablan con servidores que ya conocemos y usan puertos esperados para su función.</p>
+          </div>
+          <div class="traffic-card suspicious">
+            <div class="traffic-card-head"><span class="traffic-state alert">Investigar</span><span class="traffic-caption">sale de la línea base</span></div>
+            <div class="traffic-flow">
+              <div class="traffic-row"><span class="host">PC-07</span><span class="flow-arrow">→</span><span class="host unknown">PC-19</span><span class="port">TCP 445</span><span class="frequency">nuevo</span></div>
+              <div class="traffic-row"><span class="host">PC-12</span><span class="flow-arrow">→</span><span class="host unknown">PC-19</span><span class="port">TCP 8080</span><span class="frequency">repetido</span></div>
+              <div class="traffic-row"><span class="host">PC-19</span><span class="flow-arrow">→</span><span class="host unknown">internet</span><span class="port">TCP 445</span><span class="frequency">inusual</span></div>
+            </div>
+            <p class="traffic-reading"><b>Lectura:</b> no es el puerto por sí solo. Lo llamativo es que equipos de usuario se conectan entre ellos y aparece un destino nuevo.</p>
+          </div>
         </div>
-        <div class="trap"><b>Escenario:</b> si varios equipos tienen alta latencia y aparecen archivos nuevos, revisa los top talkers, los puertos y las relaciones entre hosts. El puerto no es malicioso por sí solo; el contexto —quién habla con quién y con qué frecuencia— es lo que cambia la lectura.</div>
+        <div class="trap"><b>Cómo leerlo:</b> primero compara la relación <b>origen → destino</b> con la línea base; después revisa el puerto, la frecuencia y el momento. Un puerto permitido puede ser sospechoso cuando lo usa el host equivocado o aparece en una relación nueva.</div>
       </section>
       <div class="interaction-tip" role="note"><span><b>Preguntas de comprobación:</b> ¿tienes permiso?, ¿desde qué segmento ves el tráfico?, ¿la captura es pasiva o activa?, ¿qué comportamiento pertenece a la línea base y qué se sale de ella?</span></div>
       <nav class="section-pager" aria-label="Navegación entre secciones"><a class="section-pager-btn" href="intro-to-network-traffic-analysis-seccion-3.html"><span class="pager-arrow icon-prev" aria-hidden="true"></span><span><small>Anterior sección</small><b>Sección 3</b></span></a><span class="section-position">4 <span>/</span> 15 secciones</span><span class="section-pager-btn is-disabled" aria-disabled="true"><span><small>Siguiente sección</small><b>Próximamente</b></span><span class="pager-arrow icon-next" aria-hidden="true"></span></span></nav>
