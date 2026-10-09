@@ -356,7 +356,12 @@
           copyText(ans.textContent.trim()).then((ok) => {
             copy.textContent = ok ? '✓ copiado' : 'error';
             copy.classList.toggle('ok', ok);
-            setTimeout(() => { copy.textContent = 'copiar'; copy.classList.remove('ok'); }, 1600);
+            card.classList.toggle('copy-success', ok);
+            setTimeout(() => {
+              copy.textContent = 'copiar';
+              copy.classList.remove('ok');
+              card.classList.remove('copy-success');
+            }, 1600);
           });
         });
       }
