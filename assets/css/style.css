@@ -415,6 +415,9 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 .command-label{display:block;margin-bottom:9px;color:var(--accent-ink);font:700 10px 'JetBrains Mono',monospace;text-transform:uppercase}
 .command-cards code{display:block;margin-bottom:10px;padding:9px;overflow-x:auto;border-radius:6px;background:var(--code-bg);color:var(--ink);font:11px 'JetBrains Mono',monospace;white-space:nowrap}
 .command-cards p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.pill-action{color:var(--accent-ink);text-decoration:none;transition:transform .2s ease,background .2s ease}
+.pill-action:hover{transform:translateY(-1px);background:var(--accent-soft)}
+.pill-action span{font-size:14px}
 .analysis-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .analysis-phase{position:relative;padding:16px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-sm)}
 .phase-number{display:grid;place-items:center;width:28px;height:28px;margin-bottom:13px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);font:600 11px 'JetBrains Mono',monospace}
