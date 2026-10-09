@@ -59,6 +59,7 @@
 }
 @media (max-width:560px){
 .tcp-line-parts{grid-template-columns:repeat(2,1fr)}.code-note{display:block}.code-note code{margin-top:7px}
+.terminal-group{grid-template-columns:1fr}.terminal-body{padding:13px 14px;font-size:11px}
 }
 
 @font-face{
@@ -415,6 +416,17 @@ h1{font-size:clamp(28px,5.2vw,42px);font-weight:600;letter-spacing:-.028em;line-
 .command-label{display:block;margin-bottom:9px;color:var(--accent-ink);font:700 10px 'JetBrains Mono',monospace;text-transform:uppercase}
 .command-cards code{display:block;margin-bottom:10px;padding:9px;overflow-x:auto;border-radius:6px;background:var(--code-bg);color:var(--ink);font:11px 'JetBrains Mono',monospace;white-space:nowrap}
 .command-cards p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.terminal{overflow:hidden;margin-top:16px;border:1px solid #26343a;border-radius:12px;background:#101719;box-shadow:0 14px 30px rgba(0,0,0,.16)}
+.terminal-head{display:flex;align-items:center;gap:6px;padding:10px 13px;border-bottom:1px solid #26343a;background:#172124;color:#91a2a3;font:11px 'JetBrains Mono',monospace}
+.terminal-head i{width:8px;height:8px;border-radius:50%;background:#e46e61}.terminal-head i:nth-child(2){background:#e6b85c}.terminal-head i:nth-child(3){background:#63c47a}
+.terminal-title{margin-left:7px}
+.terminal-body{padding:16px 18px;overflow-x:auto;color:#d6e2df;font:12px/1.7 'JetBrains Mono',monospace}
+.terminal-line{display:block;min-width:max-content}
+.terminal-prompt{color:#67d39b}.terminal-command{color:#f3f7f5}.terminal-output{color:#9eb0ae}.terminal-success{color:#78d5a5}.terminal-muted{color:#71817f}
+.terminal-group{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.terminal-group>div{min-width:0}
+.terminal-group .terminal{margin-top:0}
+.terminal-caption{margin:0 0 8px;color:var(--muted);font-size:13px;font-weight:600}
 .pill-action{color:var(--accent-ink);text-decoration:none;transition:transform .2s ease,background .2s ease}
 .pill-action:hover{transform:translateY(-1px);background:var(--accent-soft)}
 .pill-action span{font-size:14px}
